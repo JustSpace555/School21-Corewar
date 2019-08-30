@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheller <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 15:47:15 by cheller           #+#    #+#             */
-/*   Updated: 2019/08/30 15:47:40 by cheller          ###   ########.fr       */
+/*   Updated: 2019/08/30 16:01:01 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		main(int argc, char *argv[])
 	}
 	else
 	{
-		virual_machine(argc - 1, argv);
+		virual_machine(argc, argv);
 	}
 	return (0);
 }
