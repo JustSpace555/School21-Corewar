@@ -4,6 +4,16 @@
 # include "../libft/Headers/libft.h"
 # include "op.h"
 
+typedef struct	s_player
+{
+	int 	identifier;
+	char 	*name;
+	char 	*comment;
+	int 	code_size;
+	char 	*code;
+}				t_player;
+
+int 	virual_machine(int amount_players, char **files_champoins);
 void	print_hex_data(int argc, char **argv);
 
 #endif
