@@ -4,6 +4,12 @@
 # include "../libft/Headers/libft.h"
 # include "op.h"
 
+# define BYTES_AFTER_HEADER 4
+# define BYTES_AFTER_NAME BYTES_AFTER_HEADER + PROG_NAME_LENGTH
+# define NULL_BYTES 4
+# define BYTES_AFTER_CODE_SIZE BYTES_AFTER_NAME + NULL_BYTES + 4
+# define BYTES_AFTER_COMMENT BYTES_AFTER_CODE_SIZE + COMMENT_LENGTH
+
 typedef struct	s_player
 {
 	int			identifier;
@@ -16,6 +22,6 @@ typedef struct	s_player
 t_player		*g_players;
 
 int		virual_machine(int amount_players, char **files_champoins);
-void	print_hex_data(int argc, char **argv);
+void	print_hex_data(char *file);
 
 #endif
