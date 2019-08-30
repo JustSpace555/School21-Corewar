@@ -1,4 +1,4 @@
-SRCS = main.c
+SRCS = main.c print_hex_data.c
 INCLUDE = virtual_header.h
 EXEC = corewar
 
