@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/corewar",
-			"args": ["vm_champs/champs/Gagnant.cor"],
+			"args": ["vm_champs/champs/Gagnant.cor", "vm_champs/champs/ex.cor"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

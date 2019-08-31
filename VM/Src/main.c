@@ -1,4 +1,4 @@
-#include "virtual_header.h"
+#include "../Headers/virtual_header.h"
 
 int		main(int argc, char *argv[])
 {
@@ -14,7 +14,7 @@ int		main(int argc, char *argv[])
 	}
 	else
 	{
-		virual_machine(argc, argv);
+		virtual_machine(argc - 1, argv);
 	}
 	return (0);
 }

@@ -1,9 +1,62 @@
-#include "virtual_header.h"
+#include "../Headers/virtual_header.h"
 
-void	print_zero(char *color, uint8_t buffer)
+void	show_bin_int(unsigned int i)
 {
-	if (buffer / 16 < 1)
-		printf("%s"NORMAL, ft_strjoin(color, "0"));
+	int j;
+
+	j = 0;
+	while (++j <= 32)
+	{
+		if (i & 0x80000000)
+			write(1, "1", 1);
+		else
+			write(1, "0", 1);
+		i = i << 1;
+		if (j % 8 == 0 && j != 0)
+			write(1, " ", 1);
+	}
+	write(1, "\n", 1);
+}
+
+void	show_bin_char(unsigned char c)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 8)
+	{
+		if (c & 0x80)
+			write(1, "1", 1);
+		else
+			write(1, "0", 1);
+		c = c << 1;
+	}
+	write(1, "\n", 1);
+}
+
+void	print_players(int amount_players)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (++i < amount_players)
+	{
+		j = 0;
+		printf("Player number = %d\n", PLAYER(i).identifier);
+		printf("Name = %s\n", PLAYER(i).name);
+		printf("Comment = %s\n", PLAYER(i).comment);
+		printf("Code size = %d\n", PLAYER(i).code_size);
+		printf("Code:\n");
+		while (j < PLAYER(i).code_size)
+		{
+			if (j % 8 == 0 && j != 0)
+				printf("\n");
+			printf("%x ", PLAYER(i).code[j]);
+			j += 4;
+		}
+		printf("\n\n");
+	}
 }
 
 void	print_hex_data(char *file)
