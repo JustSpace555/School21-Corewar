@@ -43,19 +43,19 @@ void	print_players(int amount_players)
 	while (++i < amount_players)
 	{
 		j = 0;
-		printf("Player number = %d\n", PLAYER(i).identifier);
-		printf("Name = %s\n", PLAYER(i).name);
-		printf("Comment = %s\n", PLAYER(i).comment);
-		printf("Code size = %d\n", PLAYER(i).code_size);
+		ft_printf("Player number = %d\n", PLAYER(i).identifier);
+		ft_printf("Name = %s\n", PLAYER(i).name);
+		ft_printf("Comment = %s\n", PLAYER(i).comment);
+		ft_printf("Code size = %d\n", PLAYER(i).code_size);
 		printf("Code:\n");
 		while (j < PLAYER(i).code_size)
 		{
 			if (j % 8 == 0 && j != 0)
 				printf("\n");
-			printf("%x ", PLAYER(i).code[j]);
+			printf("%hhx ", PLAYER(i).code[j]);
 			j += 4;
 		}
-		printf("\n\n");
+		ft_printf("\n\n");
 	}
 }
 
@@ -67,7 +67,7 @@ void	print_hex_data(char *file)
 	int		count = 0;
 
 	fd = open(file, O_RDONLY);
-	printf("Filename = %s\n", file);
+	ft_printf("Filename = %s\n", file);
 	while (read(fd, &buffer, 4))
 	{
 	for (int i = 0; i < 4; i++)
@@ -75,26 +75,29 @@ void	print_hex_data(char *file)
 			if (count < 4 || (count >= PROG_NAME_LENGTH + 12 && count < COMMENT_LENGTH + PROG_NAME_LENGTH + 12))
 			{
 				print_zero(RED, buffer[i]);
-				printf(RED"%x "NORMAL, buffer[i]);
+				ft_printf(RED"%hhx "NORMAL, buffer[i]);
 			}
 			else if (count >= 4 && count < PROG_NAME_LENGTH + 4)
 			{
 				print_zero(YELLOW, buffer[i]);
-				printf(YELLOW"%x "NORMAL, buffer[i]);
+				ft_printf(YELLOW"%hhx "NORMAL, buffer[i]);
 			}
 			else if ((count >= PROG_NAME_LENGTH + 4 && count < PROG_NAME_LENGTH + 8) || (count >= COMMENT_LENGTH + 12 + PROG_NAME_LENGTH && count < COMMENT_LENGTH + 16 + PROG_NAME_LENGTH))
 			{
 				print_zero(BLACK, buffer[i]);
-				printf(BLACK"%x "NORMAL, buffer[i]);
+				ft_printf(BLACK"%hhx "NORMAL, buffer[i]);
 			}
+			/**
+			* ! Последний байт в выводе кода программы лишний
+			*/
 			else if (count >= COMMENT_LENGTH + 16 + PROG_NAME_LENGTH || (count >= PROG_NAME_LENGTH + 8 && count < PROG_NAME_LENGTH + 12))
 			{
 				print_zero(CYAN, buffer[i]);
-				printf(CYAN"%x "NORMAL, buffer[i]);
+				ft_printf(CYAN"%hhx "NORMAL, buffer[i]);
 			}
 			count++;
 		}
-		printf("%d\n", count);
+		ft_printf("%d\n", count);
 	}
 	close(fd);
 }

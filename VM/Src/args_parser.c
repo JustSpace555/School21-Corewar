@@ -91,7 +91,10 @@ int		parsing_arguments(int argc, char **argv, t_vm *vm)
 	{
 		res = check_file(argv[i]);
 		if (res == -1)
-			write(1, "Invalid file name", 17);
+		{
+			ft_printf("%s - invalid file name\n", argv[i]);
+			return (-1);
+		}
 		else if (res == 1)
 		{
 			vm->amount_players++;

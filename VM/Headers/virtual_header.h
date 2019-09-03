@@ -18,22 +18,22 @@ typedef enum
 }	t_bool;
 
 
-typedef struct	s_player_nbr
+typedef struct		s_player_nbr
 {
-	int 	index_file;
-	int 	identifier;
-}				t_plr_nbr;
+	int				index_file;
+	int				identifier;
+}					t_plr_nbr;
 
-typedef struct	s_vm
+typedef struct		s_vm
 {
-	int 		dump;
-	int 		vis;
-	int			*order_idtfrs;
-	int 		amount_players;
-	t_plr_nbr	*plr_nbr;
-}				t_vm;
+	int				dump;
+	int				vis;
+	int				*order_idtfrs;
+	int				amount_players;
+	t_plr_nbr		*plr_nbr;
+}					t_vm;
 
-typedef struct	s_cursor
+typedef struct		s_cursor
 {
 	int 			id;
 	t_bool			carry;
@@ -44,20 +44,28 @@ typedef struct	s_cursor
 	int 			cur_pos;
 	int 			bytes_to_next_op;
 
-}				t_cursor;
+}					t_cursor;
 
-typedef struct	s_player
+typedef struct		s_player
 {
-	int			identifier;
-	char		*name;
-	char		*comment;
-	int			code_size;
-	char		*code;
-}				t_player;
+	int				identifier;
+	char			*name;
+	char			*comment;
+	int				code_size;
+	char			*code;
+}					t_player;
+
+typedef struct		s_battlefield
+{
+	unsigned char	code;
+	char			color;
+}					t_battlefield;
+
 
 t_player		*g_players;
+t_battlefield	*g_battlefield;
 
-void	virtual_machine(int amount_players, char **files_champoins);
+void	virtual_machine(t_vm *vm);
 int		players_parser(int amount_players, char **files_champions, t_vm vm);
 void	print_hex_data(char *file);
 void	print_zero(char *color, uint8_t buffer);
@@ -70,6 +78,8 @@ int		check_for_header(u_int8_t buffer[4]);
 int		get_code_size(u_int8_t buffer[4]);
 int		parsing_arguments(int argc, char **argv, t_vm *flags);
 void	initialize_vm(t_vm *vm);
-int 	ft_is_strdigit(char *str);
+int		ft_is_strdigit(char *str);
+void	free_g_players(int amount_players);
+void	make_new_g_players(int amount_players);
 
 #endif

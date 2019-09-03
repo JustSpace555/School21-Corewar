@@ -53,8 +53,10 @@ int		main(int argc, char *argv[])
 	}
 	else
 	{
+		print_hex_data(argv[1]);
 		initialize_vm(&vm);
-		parsing_arguments(argc, argv, &vm);
+		if (parsing_arguments(argc, argv, &vm) == -1)
+			return (0);
 		if (vm.amount_players > MAX_PLAYERS) {
 			write(1, "Too many champions\n", 19);
 			return (2);
@@ -66,13 +68,10 @@ int		main(int argc, char *argv[])
 			player_files[i] = argv[vm.plr_nbr[i].index_file];
 		if (players_parser(vm.amount_players, player_files, vm) == -1)
 		{
-			//ФУНКЦИЯ ФРИИ
+			free_g_players(vm.amount_players);
+			return (0);
 		}
-		//virual_machine(argc, a);
-		free(vm.plr_nbr);
-		free(vm.order_idtfrs);
-		free(player_files);
-		virtual_machine(argc - 1, argv);
+		// virtual_machine(&vm);
 	}
 	return (0);
 }
