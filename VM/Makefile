@@ -3,7 +3,10 @@ SRC =	$(SRC_FOLDER)main.c \
 		$(SRC_FOLDER)players_parser_help.c \
 		$(SRC_FOLDER)players_parser.c \
 		$(SRC_FOLDER)print_any.c \
-		$(SRC_FOLDER)virtual_machine.c
+		$(SRC_FOLDER)virtual_machine.c \
+		$(SRC_FOLDER)args_parser.c \
+		$(SRC_FOLDER)initializer.c \
+		$(SRC_FOLDER)extra_functions.c
 
 INCLUDE_FOLDER = Headers/
 INCLUDE =	$(INCLUDE_FOLDER)virtual_header.h \

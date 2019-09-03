@@ -1,4 +1,4 @@
-#include "virtual_header.h"
+#include "../Headers/virtual_header.h"
 
 int 	ft_is_strdigit(char *str)
 {

@@ -1,4 +1,4 @@
-#include "virtual_header.h"
+#include "../Headers/virtual_header.h"
 
 int 	check_file(char *argument)
 {

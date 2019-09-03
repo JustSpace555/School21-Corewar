@@ -1,4 +1,4 @@
-#include "virtual_header.h"
+#include "../Headers/virtual_header.h"
 
 int 	*init_int_array(int size, int nbr)
 {
