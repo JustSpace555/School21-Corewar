@@ -7,12 +7,31 @@ int		free_players(int amount_players)
 	i = -1;
 	while (++i < amount_players)
 	{
-		free(g_players[i].code);
-		free(g_players[i].comment);
-		free(g_players[i].name);
+		if (g_players[i].code)
+			free(g_players[i].code);
+		if (g_players[i].comment)
+			free(g_players[i].comment);
+		if (g_players[i].name)
+			free(g_players[i].name);
 	}
 	free(g_players);
 	return (-1);
+}
+
+void	make_new_g_players(int amount_players)
+{
+	int	i;
+
+	g_players = (t_player *)malloc(sizeof(t_player) * amount_players);
+	i = -1;
+	while (++i < amount_players)
+	{
+		g_players[i].code = NULL;
+		g_players[i].code_size = 0;
+		g_players[i].comment = NULL;
+		g_players[i].identifier = 0;
+		g_players[i].name = NULL;
+	}
 }
 
 int		players_parser(int amount_players, char **files_champions, t_vm vm)
@@ -24,7 +43,7 @@ int		players_parser(int amount_players, char **files_champions, t_vm vm)
 	char		*comment;
 	u_int8_t	buffer[4];
 
-	g_players = (t_player *)malloc(sizeof(t_player) * amount_players);
+	make_new_g_players(amount_players);
 	i = -1;
 	while (++i < amount_players)
 	{
@@ -33,7 +52,7 @@ int		players_parser(int amount_players, char **files_champions, t_vm vm)
 		comment = (char *)malloc(sizeof(char) * COMMENT_LENGTH);
 		ft_bzero(name, PROG_NAME_LENGTH);
 		ft_bzero(comment, COMMENT_LENGTH);
-		fd = open(files_champions[i + 1], O_RDONLY);
+		fd = open(files_champions[i], O_RDONLY);
 		PLAYER(i).identifier = vm.plr_nbr[i].identifier;
 		while (read(fd, buffer, 4))
 		{
