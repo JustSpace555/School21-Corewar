@@ -1,4 +1,4 @@
-#include "virtual_header.h"
+#include "../Headers/virtual_header.h"
 
 int 	check_unattached_index(int index, t_plr_nbr *plr_nbr)
 {
@@ -69,6 +69,6 @@ int		main(int argc, char *argv[])
 		free(vm.plr_nbr);
 		free(vm.order_idtfrs);
 		free(player_files);
-	}
+		virtual_machine(argc - 1, argv);
 	return (0);
 }

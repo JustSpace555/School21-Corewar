@@ -1,15 +1,24 @@
-SRCS = main.c print_hex_data.c virtual_machine.c
-INCLUDE = virtual_header.h
+SRC_FOLDER = Src/
+SRC =	$(SRC_FOLDER)main.c \
+		$(SRC_FOLDER)players_parser_help.c \
+		$(SRC_FOLDER)players_parser.c \
+		$(SRC_FOLDER)print_any.c \
+		$(SRC_FOLDER)virtual_machine.c
+
+INCLUDE_FOLDER = Headers/
+INCLUDE =	$(INCLUDE_FOLDER)virtual_header.h \
+			$(INCLUDE_FOLDER)op.h
+
 EXEC = corewar
 
 all:
 	@echo Compiling virtual machine ...
-	@gcc $(SRCS) -I $(INCLUDE) ../libft.a -o $(EXEC)
+	@gcc $(SRC) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
 	@mv $(EXEC) ../$(EXEC)
 
 debug: fclean
 	@echo Compiling virtual machine ...
-	@gcc -g $(SRCS) -I $(INCLUDE) ../libft.a -o $(EXEC)
+	@gcc -g $(SRC) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
 	@mv $(EXEC) ../$(EXEC)
 	@mv $(EXEC).dSYM ../$(EXEC).dSYM
 
