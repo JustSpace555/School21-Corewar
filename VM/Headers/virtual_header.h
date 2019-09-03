@@ -58,7 +58,7 @@ typedef struct	s_player
 t_player		*g_players;
 
 void	virtual_machine(int amount_players, char **files_champoins);
-int		players_parser(int amount_players, char **files_champions);
+int		players_parser(int amount_players, char **files_champions, t_vm vm);
 void	print_hex_data(char *file);
 void	print_zero(char *color, uint8_t buffer);
 void	show_bin_int(unsigned int i);

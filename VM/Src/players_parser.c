@@ -15,7 +15,7 @@ int		free_players(int amount_players)
 	return (-1);
 }
 
-int		players_parser(int amount_players, char **files_champions)
+int		players_parser(int amount_players, char **files_champions, t_vm vm)
 {
 	int			i;
 	int			fd;
@@ -33,11 +33,8 @@ int		players_parser(int amount_players, char **files_champions)
 		comment = (char *)malloc(sizeof(char) * COMMENT_LENGTH);
 		ft_bzero(name, PROG_NAME_LENGTH);
 		ft_bzero(comment, COMMENT_LENGTH);
-		/**
-		* ! Replace i + 1 -> i
-		*/
 		fd = open(files_champions[i + 1], O_RDONLY);
-		PLAYER(i).identifier = i + 1;
+		PLAYER(i).identifier = vm.plr_nbr[i].identifier;
 		while (read(fd, buffer, 4))
 		{
 			amount_bytes += 4;

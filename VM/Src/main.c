@@ -64,7 +64,11 @@ int		main(int argc, char *argv[])
 		i = -1;
 		while (++i < vm.amount_players)
 			player_files[i] = argv[vm.plr_nbr[i].index_file];
-		//virual_machine(argc, argv);
+		if (players_parser(vm.amount_players, player_files, vm) == -1)
+		{
+			//ФУНКЦИЯ ФРИИ
+		}
+		//virual_machine(argc, a);
 		free(vm.plr_nbr);
 		free(vm.order_idtfrs);
 		free(player_files);
