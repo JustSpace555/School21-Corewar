@@ -52,8 +52,8 @@ void	print_players(int amount_players)
 		{
 			if (j % 8 == 0 && j != 0)
 				printf("\n");
-			printf("%hhx ", PLAYER(i).code[j]);
-			j += 4;
+			printf("%02hhx ", PLAYER(i).code[j]);
+			j += 1;
 		}
 		ft_printf("\n\n");
 	}
@@ -87,9 +87,6 @@ void	print_hex_data(char *file)
 				print_zero(BLACK, buffer[i]);
 				ft_printf(BLACK"%hhx "NORMAL, buffer[i]);
 			}
-			/**
-			* ! Последний байт в выводе кода программы лишний
-			*/
 			else if (count >= COMMENT_LENGTH + 16 + PROG_NAME_LENGTH || (count >= PROG_NAME_LENGTH + 8 && count < PROG_NAME_LENGTH + 12))
 			{
 				print_zero(CYAN, buffer[i]);
@@ -100,4 +97,38 @@ void	print_hex_data(char *file)
 		ft_printf("%d\n", count);
 	}
 	close(fd);
+}
+
+void	print_battlefield(void)
+{
+	int	print_bytes;
+	int	c;
+
+	print_bytes = 0;
+	c = -1;
+	while (++c < MEM_SIZE)
+	{
+		if (print_bytes % CODE_PER_LINE == 0)
+			ft_printf("\n0x%04x: ", print_bytes);
+		if (g_battlefield[c].color == 'r')
+			ft_printf("%{red}02hhx ", g_battlefield[c].code);
+		else if (g_battlefield[c].color == 'y')
+			ft_printf("%{yellow}02hhx ", g_battlefield[c].code);
+		else if (g_battlefield[c].color == 'g')
+			ft_printf("%{green}02hhx ", g_battlefield[c].code);
+		else if (g_battlefield[c].color == 'b')
+			ft_printf("%{blue}02hhx ", g_battlefield[c].code);
+		else if (g_battlefield[c].color == 'p')
+			ft_printf("%{purple}02hhx ", g_battlefield[c].code);
+		else if (g_battlefield[c].color == 'c')
+			ft_printf("%{cyans}02hhx ", g_battlefield[c].code);
+		else if (g_battlefield[c].color == 'l')
+			ft_printf("%{black}02hhx ", g_battlefield[c].code);
+		else if (g_battlefield[c].color == 'e')
+			ft_printf("%{grey}02hhx ", g_battlefield[c].code);
+		else
+			ft_printf("%02hhx ", g_battlefield[c].code);
+		print_bytes++;
+	}
+	ft_printf("\n");
 }

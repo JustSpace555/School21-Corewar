@@ -10,6 +10,7 @@
 # define BYTES_AFTER_CODE_SIZE BYTES_AFTER_NAME + NULL_BYTES + 4
 # define BYTES_AFTER_COMMENT BYTES_AFTER_CODE_SIZE + COMMENT_LENGTH
 # define PLAYER(i) g_players[i]
+# define CODE_PER_LINE 32
 
 typedef enum
 {
@@ -61,7 +62,6 @@ typedef struct		s_battlefield
 	char			color;
 }					t_battlefield;
 
-
 t_player		*g_players;
 t_battlefield	*g_battlefield;
 
@@ -73,7 +73,7 @@ void	show_bin_int(unsigned int i);
 void	show_bin_char(unsigned char c);
 void	print_players(int amount_players);
 int		make_4_byte_int(u_int8_t buffer[4]);
-void	copy_bytes_to_string(char **str, u_int8_t buffer[4]);
+void	copy_bytes_to_string(char **str, u_int8_t buffer[4], int amount_of_bytes);
 int		check_for_header(u_int8_t buffer[4]);
 int		get_code_size(u_int8_t buffer[4]);
 int		parsing_arguments(int argc, char **argv, t_vm *flags);
@@ -81,5 +81,6 @@ void	initialize_vm(t_vm *vm);
 int		ft_is_strdigit(char *str);
 void	free_g_players(int amount_players);
 void	make_new_g_players(int amount_players);
+void	print_battlefield(void);
 
 #endif

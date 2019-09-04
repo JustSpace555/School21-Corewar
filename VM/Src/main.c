@@ -53,7 +53,6 @@ int		main(int argc, char *argv[])
 	}
 	else
 	{
-		print_hex_data(argv[1]);
 		initialize_vm(&vm);
 		if (parsing_arguments(argc, argv, &vm) == -1)
 			return (0);
@@ -71,7 +70,7 @@ int		main(int argc, char *argv[])
 			free_g_players(vm.amount_players);
 			return (0);
 		}
-		// virtual_machine(&vm);
+		virtual_machine(&vm);
 	}
 	return (0);
 }

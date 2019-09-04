@@ -12,6 +12,9 @@ INCLUDE_FOLDER = Headers/
 INCLUDE =	$(INCLUDE_FOLDER)virtual_header.h \
 			$(INCLUDE_FOLDER)op.h
 
+LIB_FOLDER = ../libft/SRC/
+SRC_FOR_DEBUG = $(LIB_FOLDER)main_functions/ft_strlen.c
+
 EXEC = corewar
 
 all:
@@ -21,7 +24,7 @@ all:
 
 debug: fclean
 	@echo Compiling virtual machine ...
-	@gcc -g $(SRC) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
+	@gcc -g $(SRC) $(SRC_FOR_DEBUG) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
 	@mv $(EXEC) ../$(EXEC)
 	@mv $(EXEC).dSYM ../$(EXEC).dSYM
 

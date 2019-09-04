@@ -13,15 +13,38 @@ void	initialize_battlefield(void)
 	}
 }
 
+char	choose_color(int i)
+{
+	if (i == 0)
+		return('r');
+	else if (i == 1)
+		return('y');
+	else if (i == 2)
+		return('g');
+	else if (i == 3)
+		return('b');
+	else if (i == 4)
+		return('p');
+	else if (i == 5)
+		return('c');
+	else if (i == 6)
+		return('e');
+	else if (i == 7)
+		return ('l');
+	return ('n');
+}
+
 void	virtual_machine(t_vm *vm)
 {
 	int	diff;
+	int	temp;
 	int	i;
 	int	j;
 	int	b;
 
 	initialize_battlefield();
 	diff = MEM_SIZE / vm->amount_players;
+	temp = diff;
 	i = -1;
 	b = 0;
 	while (++i < vm->amount_players)
@@ -30,57 +53,16 @@ void	virtual_machine(t_vm *vm)
 		while (++j < PLAYER(i).code_size)
 		{
 			g_battlefield[b].code = PLAYER(i).code[j];
-			if (i == 0)
-				g_battlefield[b].color = 'r';
-			else if (i == 1)
-				g_battlefield[b].color = 'y';
-			else if (i == 2)
-				g_battlefield[b].color = 'g';
-			else if (i == 3)
-				g_battlefield[b].color = 'b';
+			g_battlefield[b].color = choose_color(i);
 			b++;
 		}
-		while ((b < diff && i == 0) || (b < MIN(diff * 2, MEM_SIZE) && i == 1) || (b < MIN(diff * 3, MEM_SIZE) && i == 2) || (b < MEM_SIZE && i == 3))
+		while (b < MIN(diff, MEM_SIZE))
 		{
 			g_battlefield[b].code = 0x0;
 			g_battlefield[b].color = '\0';
 			b++;
 		}
+		diff += temp;
 	}
-	int	temp = 0;
-	for (int c = 0; c < MEM_SIZE; c++)
-	{
-		if (temp == 64)
-		{
-			ft_printf("\n");
-			temp = 0;
-		}
-		if (g_battlefield[c].color == 'r')
-		{
-			print_zero(RED, g_battlefield[c].code);
-			ft_printf("%{red}hhx ", g_battlefield[c].code);
-		}
-		else if (g_battlefield[c].color == 'y')
-		{
-			print_zero(YELLOW, g_battlefield[c].code);
-			ft_printf("%{yellow}hhx ", g_battlefield[c].code);
-		}
-		else if (g_battlefield[c].color == 'g')
-		{
-			print_zero(GREEN, g_battlefield[c].code);
-			ft_printf("%{green}hhx ", g_battlefield[c].code);
-		}
-		else if (g_battlefield[c].color == 'b')
-		{
-			print_zero(BLUE, g_battlefield[c].code);
-			ft_printf("%{blue}hhx ", g_battlefield[c].code);
-		}
-		else
-		{
-			print_zero(NORMAL, g_battlefield[c].code);
-			ft_printf("%hhx ", g_battlefield[c].code);
-		}
-		temp++;
-	}
-	ft_printf("\n");
+	print_battlefield();
 }
