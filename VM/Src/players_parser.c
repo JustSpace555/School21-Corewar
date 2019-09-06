@@ -11,7 +11,7 @@ int		players_parser(int amount_players, char **files_champions, t_vm vm)
 	int		amount_memory;
 	u_int8_t	buffer[4];
 
-	make_new_g_players(amount_players);
+	initialize_g_players(amount_players);
 	i = -1;
 	amount_memory = 0;
 	while (++i < amount_players)
