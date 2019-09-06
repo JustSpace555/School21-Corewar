@@ -29,3 +29,19 @@ void	initialize_vm(t_vm *vm)
 		vm->plr_nbr[i].identifier = 0;
 	}
 }
+
+void	make_new_g_players(int amount_players)
+{
+	int	i;
+
+	g_players = (t_player *)malloc(sizeof(t_player) * amount_players);
+	i = -1;
+	while (++i < amount_players)
+	{
+		g_players[i].code = NULL;
+		g_players[i].code_size = 0;
+		g_players[i].comment = NULL;
+		g_players[i].identifier = 0;
+		g_players[i].name = NULL;
+	}
+}

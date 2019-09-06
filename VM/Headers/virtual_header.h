@@ -68,7 +68,6 @@ t_battlefield	*g_battlefield;
 void	virtual_machine(t_vm *vm);
 int		players_parser(int amount_players, char **files_champions, t_vm vm);
 void	print_hex_data(char *file);
-void	print_zero(char *color, uint8_t buffer);
 void	show_bin_int(unsigned int i);
 void	show_bin_char(unsigned char c);
 void	print_players(int amount_players);

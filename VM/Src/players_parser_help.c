@@ -37,39 +37,3 @@ int		get_code_size(u_int8_t buffer[4])
 		return (-1);
 	return (temp);
 }
-
-void	print_zero(char *color, uint8_t buffer)
-{
-	if (buffer / 16 < 1)
-		ft_printf("%s"NORMAL, ft_strjoin(color, "0"));
-}
-
-void	free_g_players(int amount_players)
-{
-	int	i;
-
-	i = -1;
-	while (++i < amount_players)
-	{
-		free(PLAYER(i).code);
-		free(PLAYER(i).comment);
-		free(PLAYER(i).name);
-	}
-	free(g_players);
-}
-
-void	make_new_g_players(int amount_players)
-{
-	int	i;
-
-	g_players = (t_player *)malloc(sizeof(t_player) * amount_players);
-	i = -1;
-	while (++i < amount_players)
-	{
-		g_players[i].code = NULL;
-		g_players[i].code_size = 0;
-		g_players[i].comment = NULL;
-		g_players[i].identifier = 0;
-		g_players[i].name = NULL;
-	}
-}

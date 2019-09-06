@@ -40,27 +40,27 @@ void	virtual_machine(t_vm *vm)
 	int	temp;
 	int	i;
 	int	j;
-	int	b;
+	int	byte;
 
 	initialize_battlefield();
 	diff = MEM_SIZE / vm->amount_players;
 	temp = diff;
 	i = -1;
-	b = 0;
+	byte = 0;
 	while (++i < vm->amount_players)
 	{
 		j = -1;
 		while (++j < PLAYER(i).code_size)
 		{
-			g_battlefield[b].code = PLAYER(i).code[j];
-			g_battlefield[b].color = choose_color(i);
-			b++;
+			g_battlefield[byte].code = PLAYER(i).code[j];
+			g_battlefield[byte].color = choose_color(i);
+			byte++;
 		}
-		while (b < MIN(diff, MEM_SIZE))
+		while (byte < MIN(diff, MEM_SIZE))
 		{
-			g_battlefield[b].code = 0x0;
-			g_battlefield[b].color = '\0';
-			b++;
+			g_battlefield[byte].code = 0x0;
+			g_battlefield[byte].color = '\0';
+			byte++;
 		}
 		diff += temp;
 	}

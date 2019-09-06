@@ -73,25 +73,13 @@ void	print_hex_data(char *file)
 	for (int i = 0; i < 4; i++)
 		{
 			if (count < 4 || (count >= PROG_NAME_LENGTH + 12 && count < COMMENT_LENGTH + PROG_NAME_LENGTH + 12))
-			{
-				print_zero(RED, buffer[i]);
-				ft_printf(RED"%hhx "NORMAL, buffer[i]);
-			}
+				ft_printf(RED"%02hhx "NORMAL, buffer[i]);
 			else if (count >= 4 && count < PROG_NAME_LENGTH + 4)
-			{
-				print_zero(YELLOW, buffer[i]);
-				ft_printf(YELLOW"%hhx "NORMAL, buffer[i]);
-			}
+				ft_printf(YELLOW"%02hhx "NORMAL, buffer[i]);
 			else if ((count >= PROG_NAME_LENGTH + 4 && count < PROG_NAME_LENGTH + 8) || (count >= COMMENT_LENGTH + 12 + PROG_NAME_LENGTH && count < COMMENT_LENGTH + 16 + PROG_NAME_LENGTH))
-			{
-				print_zero(BLACK, buffer[i]);
-				ft_printf(BLACK"%hhx "NORMAL, buffer[i]);
-			}
+				ft_printf(BLACK"%02hhx "NORMAL, buffer[i]);
 			else if (count >= COMMENT_LENGTH + 16 + PROG_NAME_LENGTH || (count >= PROG_NAME_LENGTH + 8 && count < PROG_NAME_LENGTH + 12))
-			{
-				print_zero(CYAN, buffer[i]);
-				ft_printf(CYAN"%hhx "NORMAL, buffer[i]);
-			}
+				ft_printf(CYAN"%02hhx "NORMAL, buffer[i]);
 			count++;
 		}
 		ft_printf("%d\n", count);
