@@ -1,50 +1,19 @@
 #include "../Headers/virtual_header.h"
 
-int		free_players(int amount_players)
-{
-	int	i;
-
-	i = -1;
-	while (++i < amount_players)
-	{
-		if (g_players[i].code)
-			free(g_players[i].code);
-		if (g_players[i].comment)
-			free(g_players[i].comment);
-		if (g_players[i].name)
-			free(g_players[i].name);
-	}
-	free(g_players);
-	return (-1);
-}
-
-void	make_new_g_players(int amount_players)
-{
-	int	i;
-
-	g_players = (t_player *)malloc(sizeof(t_player) * amount_players);
-	i = -1;
-	while (++i < amount_players)
-	{
-		g_players[i].code = NULL;
-		g_players[i].code_size = 0;
-		g_players[i].comment = NULL;
-		g_players[i].identifier = 0;
-		g_players[i].name = NULL;
-	}
-}
-
 int		players_parser(int amount_players, char **files_champions, t_vm vm)
 {
-	int			i;
-	int			fd;
-	int			amount_bytes;
-	char		*name;
-	char		*comment;
+	int		i;
+	int		fd;
+	int		amount_bytes;
+	char	*name;
+	char	*comment;
+	int		temp;
+	int		amount_memory;
 	u_int8_t	buffer[4];
 
-	make_new_g_players(amount_players);
+	initialize_g_players(amount_players);
 	i = -1;
+	amount_memory = 0;
 	while (++i < amount_players)
 	{
 		amount_bytes = 0;
@@ -54,6 +23,7 @@ int		players_parser(int amount_players, char **files_champions, t_vm vm)
 		ft_bzero(comment, COMMENT_LENGTH);
 		fd = open(files_champions[i], O_RDONLY);
 		PLAYER(i).identifier = vm.plr_nbr[i].identifier;
+		int	temp = 0;
 		while (read(fd, buffer, 4))
 		{
 			amount_bytes += 4;
@@ -61,40 +31,59 @@ int		players_parser(int amount_players, char **files_champions, t_vm vm)
 				if (check_for_header(buffer) == -1)
 				{
 					ft_printf("Virtual Machine error: No magic header in file\n");
-					return (free_players(amount_players));
+					return (-1);
 				}
 			if (amount_bytes > BYTES_AFTER_HEADER && amount_bytes <= BYTES_AFTER_NAME)
-				copy_bytes_to_string(&name, buffer);
+			{
+				copy_bytes_to_string(&name, buffer, temp);
+				temp += 4;
+			}
 			if (amount_bytes == BYTES_AFTER_NAME)
 			{
 				PLAYER(i).name = name;
 				name = NULL;
 				free(name);
+				temp = 0;
 			}
 			if (amount_bytes > BYTES_AFTER_NAME + NULL_BYTES && amount_bytes <= BYTES_AFTER_CODE_SIZE)
 			{
-				PLAYER(i).code_size = get_code_size(buffer);
-				if (PLAYER(i).code_size == -1)
+				PLAYER(i).code_size = make_4_byte_int(buffer);
+				if (PLAYER(i).code_size > CHAMP_MAX_SIZE)
 				{
-					ft_printf("Error: %s size bigger than max (%d)\n", PLAYER(i).name, CHAMP_MAX_SIZE);
-					return (free_players(amount_players));
+					ft_printf("Error: %s's players size bigger than permitted (%d bytes > %d bytes)\n", PLAYER(i).name, PLAYER(i).code_size, CHAMP_MAX_SIZE);
+					return (-1);
 				}
-				PLAYER(i).code = (char *)malloc(sizeof(char) * PLAYER(i).code_size);
-				ft_bzero(PLAYER(i).code, PLAYER(i).code_size);
+				amount_memory += PLAYER(i).code_size;
+				if (amount_memory > MEM_SIZE)
+				{
+					printf("Virual machine error: players mem size bigger than permitted (%d > %d)\n", amount_memory, MEM_SIZE);
+					return(-1);
+				}
 			}
 			if (amount_bytes > BYTES_AFTER_CODE_SIZE && amount_bytes <= BYTES_AFTER_COMMENT)
-				copy_bytes_to_string(&comment, buffer);
+			{
+				copy_bytes_to_string(&comment, buffer, temp);
+				temp += 4;
+			}
 			if (amount_bytes == BYTES_AFTER_COMMENT)
 			{
 				PLAYER(i).comment = comment;
 				comment = NULL;
 				free(comment);
+				temp = 0;
 			}
 			if (amount_bytes > BYTES_AFTER_COMMENT + NULL_BYTES)
-				copy_bytes_to_string(&PLAYER(i).code, buffer);
+			{
+				if (!PLAYER(i).code)
+				{
+					PLAYER(i).code = (char *)malloc(sizeof(char) * PLAYER(i).code_size);
+					ft_bzero(PLAYER(i).code, PLAYER(i).code_size);
+				}
+				copy_bytes_to_string(&PLAYER(i).code, buffer, temp);
+				temp += 4;
+			}
 		}
 		close(fd);
 	}
-	print_players(amount_players);
 	return (1);
 }
