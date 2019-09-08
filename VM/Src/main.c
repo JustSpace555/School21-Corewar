@@ -55,12 +55,13 @@ int		main(int argc, char *argv[])
 	{
 		initialize_vm(&vm);
 		parsing_arguments(argc, argv, &vm);
-		if (vm.amount_players > MAX_PLAYERS) {
+		if (vm.amount_players > MAX_PLAYERS)
+		{
 			write(1, "Too many champions\n", 19);
 			return (2);
 		}
 		set_identifiers(&vm, argc, argv);
-		player_files = (char **) malloc(sizeof(char *) * vm.amount_players);
+		player_files = (char **)malloc(sizeof(char *) * vm.amount_players);
 		i = -1;
 		while (++i < vm.amount_players)
 			player_files[i] = argv[vm.plr_nbr[i].index_file];
