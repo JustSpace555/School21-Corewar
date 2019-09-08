@@ -106,56 +106,56 @@ void	print_battlefield(void)
 			ft_printf("\n0x%04x: ", print_bytes);
 		if (g_battlefield[c].color == 'r')
 		{
-			if (g_battlefield[c].coach)
+			if (g_battlefield[c].cursor)
 				ft_printf(RED_BG"%{black}02hhx ", g_battlefield[c].code);
 			else
 				ft_printf("%{red}02hhx ", g_battlefield[c].code);
 		}
 		else if (g_battlefield[c].color == 'y')
 		{
-			if (g_battlefield[c].coach)
+			if (g_battlefield[c].cursor)
 				ft_printf(YELLOW_BG"%{black}02hhx ", g_battlefield[c].code);
 			else
 				ft_printf("%{yellow}02hhx ", g_battlefield[c].code);
 		}
 		else if (g_battlefield[c].color == 'g')
 		{
-			if (g_battlefield[c].coach)
+			if (g_battlefield[c].cursor)
 				ft_printf(GREEN_BG"%{black}02hhx ", g_battlefield[c].code);
 			else
 				ft_printf("%{green}02hhx ", g_battlefield[c].code);
 		}
 		else if (g_battlefield[c].color == 'b')
 		{
-			if (g_battlefield[c].coach)
+			if (g_battlefield[c].cursor)
 				ft_printf(BLUE_BG"%{black}02hhx ", g_battlefield[c].code);
 			else
 				ft_printf("%{blue}02hhx ", g_battlefield[c].code);
 		}
 		else if (g_battlefield[c].color == 'p')
 		{
-			if (g_battlefield[c].coach)
+			if (g_battlefield[c].cursor)
 				ft_printf(PURPLE_BG"%{black}02hhx ", g_battlefield[c].code);
 			else
 				ft_printf("%{purple}02hhx ", g_battlefield[c].code);
 		}
 		else if (g_battlefield[c].color == 'c')
 		{
-			if (g_battlefield[c].coach)
+			if (g_battlefield[c].cursor)
 				ft_printf(CYAN_BG"%{black}02hhx ", g_battlefield[c].code);
 			else
 				ft_printf("%{cyan}02hhx ", g_battlefield[c].code);
 		}
 		else if (g_battlefield[c].color == 'l')
 		{
-			if (g_battlefield[c].coach)
+			if (g_battlefield[c].cursor)
 				ft_printf(BLACK_BG"%{black}02hhx ", g_battlefield[c].code);
 			else
 				ft_printf("%{black}02hhx ", g_battlefield[c].code);
 		}
 		else if (g_battlefield[c].color == 'e')
 		{
-			if (g_battlefield[c].coach)
+			if (g_battlefield[c].cursor)
 				ft_printf(WHITE_BG"%{black}02hhx ", g_battlefield[c].code);
 			else
 				ft_printf("%{grey}02hhx ", g_battlefield[c].code);

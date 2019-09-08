@@ -2,13 +2,13 @@
 
 int		players_parser(int amount_players, char **files_champions, t_vm vm)
 {
-	int		i;
-	int		fd;
-	int		amount_bytes;
-	char	*name;
-	char	*comment;
-	int		temp;
-	int		amount_memory;
+	int			i;
+	int			fd;
+	int			amount_bytes;
+	char		*name;
+	char		*comment;
+	int			temp;
+	int			amount_memory;
 	u_int8_t	buffer[4];
 
 	initialize_g_players(amount_players);

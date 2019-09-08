@@ -38,12 +38,12 @@ void	initialize_g_players(int amount_players)
 	i = -1;
 	while (++i < amount_players)
 	{
-		g_players[i].start_position = 0;
-		g_players[i].code = NULL;
-		g_players[i].code_size = 0;
-		g_players[i].comment = NULL;
-		g_players[i].identifier = 0;
-		g_players[i].name = NULL;
+		PLAYER(i).start_position = 0;
+		PLAYER(i).code = NULL;
+		PLAYER(i).code_size = 0;
+		PLAYER(i).comment = NULL;
+		PLAYER(i).identifier = 0;
+		PLAYER(i).name = NULL;
 	}
 }
 
@@ -57,29 +57,30 @@ void	initialize_battlefield(void)
 	{
 		g_battlefield[i].code = 0x0;
 		g_battlefield[i].color = '\0';
-		g_battlefield[i].coach = false;
+		g_battlefield[i].cursor = false;
 	}
 }
 
-void	initialize_coaches(int amount_players)
+void	initialize_cursors(int amount_players)
 {
 	int	i;
 	int	j;
 
-	g_coaches = (t_cursor *)malloc(sizeof(t_cursor) * amount_players);
+	g_cursors = (t_cursor *)malloc(sizeof(t_cursor) * amount_players);
 	i = -1;
 	while (++i < amount_players)
 	{
-		g_coaches[i].bytes_to_next_op = 0;
-		g_coaches[i].carry = false;
-		g_coaches[i].cur_pos = PLAYER(i).start_position;
-		g_coaches[i].cycle_exec = 0;
-		g_coaches[i].id = PLAYER(i).identifier;
-		g_coaches[i].last_alive = 0;
-		g_coaches[i].operation_code = 0;
-		g_coaches[i].reg[0] = -PLAYER(i).identifier;
+		CURSOR(i).bytes_to_next_op = 0;
+		CURSOR(i).carry = false;
+		CURSOR(i).is_alive = true;
+		CURSOR(i).cur_pos = PLAYER(i).start_position;
+		CURSOR(i).cycle_exec = 0;
+		CURSOR(i).id = PLAYER(i).identifier;
+		CURSOR(i).last_alive = 0;
+		CURSOR(i).operation_code = 0;
+		CURSOR(i).reg[0] = -PLAYER(i).identifier;
 		j = 0;
 		while (++j < 16)
-			g_coaches[i].reg[j] = 0;
+			CURSOR(i).reg[j] = 0;
 	}
 }

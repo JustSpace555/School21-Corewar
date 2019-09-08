@@ -15,7 +15,7 @@ void	fill_battlefield(t_vm *vm)
 	while (++i < vm->amount_players)
 	{
 		g_players[i].start_position = byte;
-		g_battlefield[byte].coach = true;
+		g_battlefield[byte].cursor = true;
 		j = -1;
 		while (++j < PLAYER(i).code_size)
 		{
@@ -36,7 +36,7 @@ void	fill_battlefield(t_vm *vm)
 void	virtual_machine(t_vm *vm)
 {
 	initialize_battlefield();
-	initialize_coaches(vm->amount_players);
+	initialize_cursors(vm->amount_players);
 	fill_battlefield(vm);
 	print_battlefield();
 }

@@ -7,7 +7,10 @@ SRC =	$(SRC_FOLDER)main.c \
 		$(SRC_FOLDER)args_parser.c \
 		$(SRC_FOLDER)initializer.c \
 		$(SRC_FOLDER)extra_functions.c \
-		$(SRC_FOLDER)virtual_machine_help.c
+		$(SRC_FOLDER)virtual_machine_help.c \
+		$(SRC_FOLDER)cursors_commands.c \
+		$(SRC_FOLDER)operations_help_pt1.c \
+		$(SRC_FOLDER)operations_help_pt2.c
 
 INCLUDE_FOLDER = Headers/
 INCLUDE =	$(INCLUDE_FOLDER)virtual_header.h \
