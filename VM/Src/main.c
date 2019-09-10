@@ -13,29 +13,29 @@ int 	check_unattached_index(int index, t_plr_nbr *plr_nbr)
 	return (1);
 }
 
-int 	find_unattached_file(t_vm *flags, char **argv, int argc)
+int 	find_unattached_file(t_vm *vm, char **argv, int argc)
 {
 	static int i = 0;
 
 	while (++i < argc)
 	{
-		if (ft_strstr(argv[i], ".cor") && check_unattached_index(i, flags->plr_nbr))
+		if (ft_strstr(argv[i], ".cor") && check_unattached_index(i, vm->plr_nbr))
 			return (i);
 	}
 	return (0);
 }
 
-void	set_identifiers(t_vm *flags, int argc, char **argv)
+void	set_identifiers(t_vm *vm, int argc, char **argv)
 {
 	int i;
 
 	i = -1;
-	while (++i < flags->amount_players)
+	while (++i < vm->amount_players)
 	{
-		if (flags->order_idtfrs[i] == 0)
+		if (vm->order_idtfrs[i] == 0)
 		{
-			flags->plr_nbr[i].index_file = find_unattached_file(flags, argv, argc);
-			flags->plr_nbr[i].identifier = i + 1;
+			vm->plr_nbr[i].index_file = find_unattached_file(vm, argv, argc);
+			vm->plr_nbr[i].identifier = i + 1;
 		}
 	}
 }

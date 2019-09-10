@@ -35,8 +35,22 @@ void	fill_battlefield(t_vm *vm)
 
 void	virtual_machine(t_vm *vm)
 {
+	int cycle;
+	int cycle_to_die;
+
+	cycle = -1;
+	cycle_to_die = CYCLE_TO_DIE;
 	initialize_battlefield();
-	initialize_coaches(vm->amount_players);
+	initialize_cursor(vm->amount_players);
 	fill_battlefield(vm);
 	print_battlefield();
+	while (cycle_to_die > 0)
+	{
+		int i = -1;
+		while (++i < vm->amount_players)
+		{
+			g_cursor[i].operation_code;
+		}
+		cycle_to_die = 0;
+	}
 }

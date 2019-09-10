@@ -61,25 +61,25 @@ void	initialize_battlefield(void)
 	}
 }
 
-void	initialize_coaches(int amount_players)
+void	initialize_cursor(int amount_players)
 {
 	int	i;
 	int	j;
 
-	g_coaches = (t_cursor *)malloc(sizeof(t_cursor) * amount_players);
-	i = -1;
-	while (++i < amount_players)
+	g_cursor = (t_cursor *)malloc(sizeof(t_cursor) * amount_players);
+	i = amount_players;
+	while (--i >= 0)
 	{
-		g_coaches[i].bytes_to_next_op = 0;
-		g_coaches[i].carry = false;
-		g_coaches[i].cur_pos = PLAYER(i).start_position;
-		g_coaches[i].cycle_exec = 0;
-		g_coaches[i].id = PLAYER(i).identifier;
-		g_coaches[i].last_alive = 0;
-		g_coaches[i].operation_code = 0;
-		g_coaches[i].reg[0] = -PLAYER(i).identifier;
+		g_cursor[i].bytes_to_next_op = 0;
+		g_cursor[i].carry = false;
+		g_cursor[i].cur_pos = PLAYER(i).start_position;
+		g_cursor[i].cycle_exec = 0;
+		g_cursor[i].id = PLAYER(i).identifier;
+		g_cursor[i].last_alive = 0;
+		g_cursor[i].operation_code = 0;
+		g_cursor[i].reg[0] = -PLAYER(i).identifier;
 		j = 0;
 		while (++j < 16)
-			g_coaches[i].reg[j] = 0;
+			g_cursor[i].reg[j] = 1;
 	}
 }

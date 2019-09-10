@@ -64,7 +64,7 @@ typedef struct		s_battlefield
 
 t_player			*g_players;
 t_battlefield		*g_battlefield;
-t_cursor			*g_coaches;
+t_cursor			*g_cursor;
 
 
 /*
@@ -84,7 +84,7 @@ void				print_battlefield(void);
 
 void				initialize_vm(t_vm *vm);
 void				initialize_battlefield(void);
-void				initialize_coaches(int amount_players);
+void				initialize_cursor(int amount_players);
 void				initialize_g_players(int amount_players);
 
 /*
