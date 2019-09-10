@@ -101,7 +101,8 @@ int		parsing_arguments(int argc, char **argv, t_vm *vm)
 			continue;
 		}
 		else
-			res = check_flags(argc, argv, &i, vm);
+			if ((res = check_flags(argc, argv, &i, vm)) == -1)
+				break ;
 	}
 	return (res);
 }
