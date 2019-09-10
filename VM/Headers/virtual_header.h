@@ -14,6 +14,12 @@
 # define GET_BYTE(pos) g_battlefield[pos].code
 # define GET_CUR_POS_BYTE(cursor, extra) GET_BYTE((*cursor)->cur_pos + extra)
 # define CODE_PER_LINE 64
+# define CHECK_REG(cursor, reg, label_size, byte_val) \
+					if (reg > 16) \
+					{ \
+						if_return(*cursor, label_size, byte_val); \
+						return ; \
+					}
 
 typedef enum
 {
@@ -69,6 +75,7 @@ typedef struct		s_battlefield
 t_player			*g_players;
 t_battlefield		*g_battlefield;
 t_cursor			*g_cursors;
+int					g_cursors_amount;
 
 
 /*
@@ -123,6 +130,14 @@ void				sub(t_cursor *cursor);
 
 void				or(t_cursor *cursor);
 
+void				zjmp(t_cursor *cursor);
+
+void				sti(t_cursor *cursor);
+
+void				lld(t_cursor *cursor);
+
+void				lfork(t_cursor *cursor);
+
 /*
 **					Operations help
 */
@@ -130,7 +145,9 @@ void				or(t_cursor *cursor);
 int					check_for_cycle_exec(t_cursor *cursor);
 int					get_var_byte(unsigned char code, int offset, int label_size);
 int					get_amount_bytes_to_skip(unsigned char code, int label_size);
-void				*get_amount_of_bytes_data(short addres, int amount_for_read);
+void				*get_amount_of_bytes_data(int addres, int amount_for_read);
 void				if_return(t_cursor *cursor, int label_size, int byte_val);
 void				move_cursor(t_cursor *cursor, int new_value);
+void				write_amount_of_bytes_data(int adress, void *write, int size_of_write);
+void				make_one_new_cursor(t_cursor cursor);
 #endif

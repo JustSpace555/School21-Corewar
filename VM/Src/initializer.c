@@ -83,4 +83,5 @@ void	initialize_cursors(int amount_players)
 		while (++j < 16)
 			CURSOR(i).reg[j] = 0;
 	}
+	g_cursors_amount = amount_players;
 }

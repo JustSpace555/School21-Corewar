@@ -61,8 +61,8 @@ void	print_players(int amount_players)
 
 void	print_hex_data(char *file)
 {
-	int	fd;
-	int		i = 0;
+	int		fd;
+	int		i;
 	uint8_t	buffer[4];
 	int		count = 0;
 
@@ -70,7 +70,8 @@ void	print_hex_data(char *file)
 	ft_printf("Filename = %s\n", file);
 	while (read(fd, &buffer, 4))
 	{
-	for (int i = 0; i < 4; i++)
+		i = -1;
+		while (++i < 4)
 		{
 			if (count < 4 || (count >= PROG_NAME_LENGTH + 12 && count <
 					COMMENT_LENGTH + PROG_NAME_LENGTH + 12))

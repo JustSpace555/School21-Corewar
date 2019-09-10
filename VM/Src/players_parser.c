@@ -23,7 +23,7 @@ int		players_parser(int amount_players, char **files_champions, t_vm vm)
 		ft_bzero(comment, COMMENT_LENGTH);
 		fd = open(files_champions[i], O_RDONLY);
 		PLAYER(i).identifier = vm.plr_nbr[i].identifier;
-		int	temp = 0;
+		temp = 0;
 		while (read(fd, buffer, 4))
 		{
 			amount_bytes += 4;

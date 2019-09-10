@@ -32,7 +32,7 @@ int		get_amount_bytes_to_skip(unsigned char code, int label_size)
 	return (skip);
 }
 
-void	*get_amount_of_bytes_data(short addres, int amount_for_read)
+void	*get_amount_of_bytes_data(int addres, int amount_for_read)
 {
 	static unsigned short	temp_1;
 	static unsigned int		temp_2;
@@ -55,6 +55,35 @@ void	*get_amount_of_bytes_data(short addres, int amount_for_read)
 			temp_2 <<= 8;
 	}
 	return(&temp_2);
+}
+
+void	write_amount_of_bytes_data(int adress, void *write, int size_of_write)
+{
+	unsigned short	temp_1;
+	unsigned int	temp_2;
+	int				i;
+
+	temp_1 = 0;
+	temp_2 = 0;
+	i = -1;
+	if (size_of_write == 2)
+	{
+		temp_1 = *(unsigned short *)write;
+		while (++i < 2)
+		{
+			temp_1 <<= 8;
+			g_battlefield[adress + i].code = temp_1 & 0xF;
+		}
+	}
+	else
+	{
+		temp_2 = *(unsigned int *)write;
+		while (++i < 4)
+		{
+			temp_2 <<= 8;
+			g_battlefield[adress + i].code = temp_2 & 0xF;
+		}
+	}
 }
 
 void	if_return(t_cursor *cursor, int label_size, int byte_val)
