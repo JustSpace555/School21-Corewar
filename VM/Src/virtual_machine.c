@@ -33,10 +33,29 @@ void	fill_battlefield(t_vm *vm)
 	}
 }
 
+void	chose_operaion(t_cursor *cursor)
+{
+	// if (GET_BYTE(cursor->cur_pos) == 1)
+}
+
 void	virtual_machine(t_vm *vm)
 {
+	int	i;
 	initialize_battlefield();
 	initialize_cursors(vm->amount_players);
 	fill_battlefield(vm);
+	while (1)
+	{
+		i = -1;
+		while(++i < g_cursors_amount)
+		{
+			if (GET_BYTE(g_cursors[i].cur_pos) == 0 || GET_BYTE(g_cursors[i].cur_pos > 16))
+				move_cursor(&g_cursors[i], 0, 0);
+			else
+			{
+
+			}
+		}
+	}
 	print_battlefield();
 }

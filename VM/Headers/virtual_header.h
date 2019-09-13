@@ -14,18 +14,14 @@
 # define GET_BYTE(pos) g_battlefield[pos].code
 # define GET_CUR_POS_BYTE(cursor, extra) GET_BYTE((*cursor)->cur_pos + extra)
 # define CODE_PER_LINE 64
-# define CHECK_REG(cursor, reg, label_size, byte_val) \
-					if (reg > 16) \
-					{ \
-						if_return(*cursor, label_size, byte_val); \
-						return ; \
-					}
+# define CHECK_EXEC(cursor) if (check_for_cycle_exec(*cursor) == -1) return ;
+# define CHECK_REG(c, r, l, b) if(r > REG_NUMBER){move_cursor(*c,l,b);return;}
 
 typedef enum
 {
 	false,
 	true
-}					t_bool;
+}	t_bool;
 
 typedef struct		s_player_nbr
 {
@@ -44,15 +40,15 @@ typedef struct		s_vm
 
 typedef struct		s_cursor
 {
-	int 			id;
+	int				id;
 	t_bool			carry;
 	t_bool			is_alive;
 	uint8_t			operation_code;
 	unsigned int	reg[REG_NUMBER];
 	int				last_alive;
-	int 			cycle_exec;
-	int 			cur_pos;
-	int 			bytes_to_next_op;
+	int				cycle_exec;
+	unsigned short	cur_pos;
+	int				bytes_to_next_op;
 }					t_cursor;
 
 typedef struct		s_player
@@ -77,7 +73,6 @@ t_battlefield		*g_battlefield;
 t_cursor			*g_cursors;
 int					g_cursors_amount;
 
-
 /*
 **					Print
 */
@@ -87,7 +82,6 @@ void				show_bin_int(unsigned int i);
 void				show_bin_char(unsigned char c);
 void				print_players(int amount_players);
 void				print_battlefield(void);
-
 
 /*
 **					Initialize
@@ -103,7 +97,8 @@ void				initialize_g_players(int amount_players);
 */
 
 int					make_4_byte_int(u_int8_t buffer[4]);
-void				copy_bytes_to_string(char **str, u_int8_t buffer[4], int amount_of_bytes);
+void				copy_bytes_to_string(char **str, u_int8_t buffer[4],
+										int amount_of_bytes);
 int					check_for_header(u_int8_t buffer[4]);
 int					get_code_size(u_int8_t buffer[4]);
 int					ft_is_strdigit(char *str);
@@ -115,7 +110,8 @@ char				choose_color(int i);
 */
 
 void				virtual_machine(t_vm *vm);
-int					players_parser(int amount_players, char **files_champions, t_vm vm);
+int					players_parser(int amount_players,
+									char **files_champions, t_vm vm);
 int					parsing_arguments(int argc, char **argv, t_vm *flags);
 
 /*
@@ -131,23 +127,33 @@ void				sub(t_cursor *cursor);
 void				or(t_cursor *cursor);
 
 void				zjmp(t_cursor *cursor);
-
 void				sti(t_cursor *cursor);
+
+
+/*
+**					lever = 1 => ldi
+**					lever = 0 => lldi
+*/
+void				ldi_lldi(t_cursor *cursor, int lever);
 
 void				lld(t_cursor *cursor);
 
 void				lfork(t_cursor *cursor);
+void				aff(t_cursor *cursor);
 
 /*
 **					Operations help
 */
 
 int					check_for_cycle_exec(t_cursor *cursor);
-int					get_var_byte(unsigned char code, int offset, int label_size);
-int					get_amount_bytes_to_skip(unsigned char code, int label_size);
-void				*get_amount_of_bytes_data(int addres, int amount_for_read);
-void				if_return(t_cursor *cursor, int label_size, int byte_val);
-void				move_cursor(t_cursor *cursor, int new_value);
-void				write_amount_of_bytes_data(int adress, void *write, int size_of_write);
+int					get_var_byte(unsigned char code, int offset,
+									int label_size);
+int					get_amount_bytes_to_skip(unsigned char code,
+												int label_size);
+unsigned short		get_short_data(unsigned short addres);
+unsigned int		get_int_data(unsigned short addres);
+void				move_cursor(t_cursor *cursor, int label_size, int byte_val);
+void				write_amount_of_bytes_data(unsigned short adress,
+											void *write, int size_of_write);
 void				make_one_new_cursor(t_cursor cursor);
 #endif
