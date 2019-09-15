@@ -7,6 +7,7 @@ int		check_for_cycle_exec(t_cursor *cursor)
 		cursor->cycle_exec--;
 		return (-1);
 	}
+	cursor->cycle_exec = -1;
 	return (1);
 }
 
@@ -33,31 +34,29 @@ int		get_amount_bytes_to_skip(unsigned char code, int label_size)
 	return (skip);
 }
 
-void	write_amount_of_bytes_data(unsigned short addres, void *write, int size_of_write)
+void	write_amount_of_bytes_data(short addres, void *write, int size_of_write, char color)
 {
-	unsigned short	temp_1;
-	unsigned int	temp_2;
 	int				i;
+	char			temp_1[2];
+	char			temp_2[4];
 
-	temp_1 = 0;
-	temp_2 = 0;
 	i = -1;
 	if (size_of_write == 2)
 	{
-		temp_1 = *(unsigned short *)write;
+		*(short *)temp_1 = *(short *)write;
 		while (++i < 2)
 		{
-			temp_1 <<= 8;
-			g_battlefield[addres + i].code = temp_1 & 0xF;
+			g_battlefield[addres + i].code = temp_1[i];
+			g_battlefield[addres + i].color = color;
 		}
 	}
 	else
 	{
-		temp_2 = *(unsigned int *)write;
+		*(unsigned int *)temp_2 = *(unsigned int *)write;
 		while (++i < 4)
 		{
-			temp_2 <<= 8;
-			g_battlefield[addres + i].code = temp_2 & 0xF;
+			g_battlefield[addres + i].code = temp_2[i];
+			g_battlefield[addres + i].color = color;
 		}
 	}
 }

@@ -17,7 +17,10 @@ int		make_4_byte_int(u_int8_t buffer[4])
 
 void		copy_bytes_to_string(char **str, u_int8_t buffer[4], int amount_of_bytes)
 {
-	for (int i = 0; i < 4; i++)
+	int	i;
+
+	i = -1;
+	while (++i < 4)
 		(*str)[amount_of_bytes + i] = buffer[i];
 }
 

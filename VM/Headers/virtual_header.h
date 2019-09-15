@@ -15,7 +15,20 @@
 # define GET_CUR_POS_BYTE(cursor, extra) GET_BYTE((*cursor)->cur_pos + extra)
 # define CODE_PER_LINE 64
 # define CHECK_EXEC(cursor) if (check_for_cycle_exec(*cursor) == -1) return ;
+
+/*
+**		c = cursor
+**		r = register
+**		l = label size (4 or 2)
+**		b = byte val (1 or 0)
+*/
 # define CHECK_REG(c, r, l, b) if(r > REG_NUMBER){move_cursor(*c,l,b);return;}
+
+/*
+**		c = cursor
+**		w = cycles to wait
+*/
+# define CHECK_CYCLES(c, w) if((*c)->cycle_exec == 0) (*c)->cycle_exec = w;
 
 typedef enum
 {
@@ -40,7 +53,7 @@ typedef struct		s_vm
 
 typedef struct		s_cursor
 {
-	int				id;
+	unsigned int	id;
 	t_bool			carry;
 	t_bool			is_alive;
 	uint8_t			operation_code;
@@ -119,26 +132,33 @@ int					parsing_arguments(int argc, char **argv, t_vm *flags);
 */
 
 void				live(t_cursor *cursor);
-
+void				ld(t_cursor *cursor);
 void				st(t_cursor	*cursor);
-
+void				add(t_cursor *cursor);
 void				sub(t_cursor *cursor);
 
-void				or(t_cursor *cursor);
-
+/*
+**					selector == 0 -> and
+**					selector == 1 -> or
+**					selector >= 2 -> xor
+*/
+void				and_or_xor(t_cursor *cursor, int selector);
 void				zjmp(t_cursor *cursor);
 void				sti(t_cursor *cursor);
 
-
 /*
-**					lever = 1 => ldi
-**					lever = 0 => lldi
+**					selector == 0 -> ldi
+**					selector != 0 -> lldi
 */
-void				ldi_lldi(t_cursor *cursor, int lever);
+void				ldi_lldi(t_cursor *cursor, int selector);
 
 void				lld(t_cursor *cursor);
 
-void				lfork(t_cursor *cursor);
+/*
+**					selector == 0 -> fork
+**					selector != 1 -> lfork
+*/
+void				fork_lfork(t_cursor *cursor, int selector);
 void				aff(t_cursor *cursor);
 
 /*
@@ -150,10 +170,9 @@ int					get_var_byte(unsigned char code, int offset,
 									int label_size);
 int					get_amount_bytes_to_skip(unsigned char code,
 												int label_size);
-unsigned short		get_short_data(unsigned short addres);
-unsigned int		get_int_data(unsigned short addres);
+short				get_short_data(short addres);
+unsigned int		get_int_data(short addres);
 void				move_cursor(t_cursor *cursor, int label_size, int byte_val);
-void				write_amount_of_bytes_data(unsigned short adress,
-											void *write, int size_of_write);
+void				write_amount_of_bytes_data(short addres, void *write, int size_of_write, char color);
 void				make_one_new_cursor(t_cursor cursor);
 #endif

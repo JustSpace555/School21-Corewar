@@ -1,6 +1,6 @@
 #include "../Headers/virtual_header.h"
 
-void	move_cursor(t_cursor *cursor, int label_size, int byte_val)
+void			move_cursor(t_cursor *cursor, int label_size, int byte_val)
 {
 	int	skip;
 
@@ -13,7 +13,7 @@ void	move_cursor(t_cursor *cursor, int label_size, int byte_val)
 	g_battlefield[cursor->cur_pos].cursor = true;
 }
 
-void	make_one_new_cursor(t_cursor cursor)
+void			make_one_new_cursor(t_cursor cursor)
 {
 	t_cursor	*new;
 	t_cursor	*temp;
@@ -30,7 +30,7 @@ void	make_one_new_cursor(t_cursor cursor)
 	g_cursors_amount++;
 }
 
-void	*get_amount_of_bytes_data(int addres, int amount_for_read)
+void			*get_amount_of_bytes_data(short addres, int amount_for_read)
 {
 	static unsigned short	temp_1;
 	static unsigned int		temp_2;
@@ -55,9 +55,9 @@ void	*get_amount_of_bytes_data(int addres, int amount_for_read)
 	return(&temp_2);
 }
 
-unsigned short	get_short_data(unsigned short addres)
+short			get_short_data(short addres)
 {
-	unsigned short	res;
+	short	res;
 
 	res = 0;
 	res |= GET_BYTE(addres);
@@ -66,7 +66,7 @@ unsigned short	get_short_data(unsigned short addres)
 	return (res);
 }
 
-unsigned int	get_int_data(unsigned short addres)
+unsigned int	get_int_data(short addres)
 {
 	unsigned short	res;
 	int				i;
