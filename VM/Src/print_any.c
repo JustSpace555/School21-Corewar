@@ -104,7 +104,7 @@ void	print_battlefield(void)
 	while (++c < MEM_SIZE)
 	{
 		if (print_bytes % CODE_PER_LINE == 0)
-			ft_printf("\n0x%04x: ", print_bytes);
+			ft_printf("\n0x%04x : ", print_bytes);
 		if (g_battlefield[c].color == 'r')
 		{
 			if (g_battlefield[c].cursor)
@@ -162,7 +162,12 @@ void	print_battlefield(void)
 				ft_printf("%{grey}02hhx ", g_battlefield[c].code);
 		}
 		else
-			ft_printf("%02hhx ", g_battlefield[c].code);
+		{
+			if (g_battlefield[c].cursor)
+				ft_printf(WHITE_BG"%{black}02hhx ", g_battlefield[c].code);
+			else
+				ft_printf("%02hhx ", g_battlefield[c].code);
+		}
 		print_bytes++;
 	}
 	ft_printf("\n");

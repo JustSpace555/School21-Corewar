@@ -1,13 +1,20 @@
 #include "../Headers/virtual_header.h"
 
-void	live(t_cursor *cursor)
+void	live(t_cursor *cursor, int cycle)
 {
+	// int	i;
+
 	CHECK_EXEC(&cursor);
-	if (cursor->id == -get_int_data(cursor->cur_pos + 1))
-		cursor->is_alive = true;
-	else
-		cursor->is_alive = false;
+	// i = 0;
+	// if (cursor->id != get_int_data(cursor->cur_pos + 1))
+	// {
+	// 	while (cursor->id != -PLAYER(i).identifier && i < )
+	// 		i++;
+	// 	PLAYER(i).is_alive = false;
+	// }
+	cursor->last_alive = cycle;
 	move_cursor(cursor, 4, 0);
+	g_amount_live_operations++;
 }
 
 void	ld(t_cursor *cursor)

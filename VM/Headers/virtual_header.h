@@ -55,7 +55,6 @@ typedef struct		s_cursor
 {
 	unsigned int	id;
 	t_bool			carry;
-	t_bool			is_alive;
 	uint8_t			operation_code;
 	unsigned int	reg[REG_NUMBER];
 	int				last_alive;
@@ -67,11 +66,12 @@ typedef struct		s_cursor
 typedef struct		s_player
 {
 	int				start_position;
-	int				identifier;
+	unsigned int	identifier;
 	char			*name;
 	char			*comment;
 	int				code_size;
 	char			*code;
+	t_bool			is_alive;
 }					t_player;
 
 typedef struct		s_battlefield
@@ -81,10 +81,19 @@ typedef struct		s_battlefield
 	t_bool			cursor;
 }					t_battlefield;
 
+typedef struct		s_cyles_to_die
+{
+	int				num_p_r;
+	int				num_r;
+	int				amount_of_repeate;
+}					t_cycles_to_die;
+
+
 t_player			*g_players;
 t_battlefield		*g_battlefield;
 t_cursor			*g_cursors;
 int					g_cursors_amount;
+int					g_amount_live_operations;
 
 /*
 **					Print
@@ -131,7 +140,7 @@ int					parsing_arguments(int argc, char **argv, t_vm *flags);
 **					Operations
 */
 
-void				live(t_cursor *cursor);
+void				live(t_cursor *cursor, int cycle);
 void				ld(t_cursor *cursor);
 void				st(t_cursor	*cursor);
 void				add(t_cursor *cursor);

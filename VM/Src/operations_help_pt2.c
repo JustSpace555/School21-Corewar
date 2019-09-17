@@ -9,8 +9,12 @@ void			move_cursor(t_cursor *cursor, int label_size, int byte_val)
 	else
 		skip = label_size;
 	g_battlefield[cursor->cur_pos].cursor = false;
-	cursor->cur_pos += skip + 1;
-	g_battlefield[cursor->cur_pos].cursor = true;
+	if (label_size >= 0)
+		cursor->cur_pos += skip + 1;
+	else
+		cursor->cur_pos += skip;
+	if (cursor->cur_pos < MEM_SIZE)
+		g_battlefield[cursor->cur_pos].cursor = true;
 }
 
 void			make_one_new_cursor(t_cursor cursor)

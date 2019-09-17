@@ -59,10 +59,10 @@ void	choose_operaion(t_cursor *cursor, unsigned char byte)
 	}
 }
 
-void	exec_operation(t_cursor *cursor)
+void	exec_operation(t_cursor *cursor, int current_cycle)
 {
 	if (cursor->operation_code == 1)
-		live(cursor);
+		live(cursor, current_cycle);
 	else if (cursor->operation_code == 2)
 		ld(cursor);
 	else if (cursor->operation_code == 3)
@@ -95,59 +95,101 @@ void	exec_operation(t_cursor *cursor)
 		aff(cursor);
 }
 
+void	introduce(t_vm *vm)
+{
+	int	i;
+
+	i = -1;
+	ft_printf("Introducing contestants...\n");
+	while (++i < vm->amount_players)
+		ft_printf("* Player %d, weighting %d bytes, \"%s\" (\"%s\") !\n",
+			PLAYER(i).identifier, PLAYER(i).code_size,
+			PLAYER(i).name, PLAYER(i).comment);
+}
+
 void	virtual_machine(t_vm *vm)
 {
 	int	i;
-	int	cycles;
+	int	current_cycle;
 	int	amount_alive_cursors;
-	int	amount_of_checks;
 	int	cycle_to_die;
+	int	last_cycle_check;
+	t_cycles_to_die	repeate;
 
 	initialize_battlefield();
 	fill_battlefield(vm);
 	initialize_cursors(vm->amount_players);
-	amount_of_checks = 0;
+	introduce(vm);
+	last_cycle_check = 0;
+	repeate.num_r = CYCLE_TO_DIE;
+	repeate.num_p_r = CYCLE_TO_DIE;
+	repeate.amount_of_repeate = 0;
 	cycle_to_die = CYCLE_TO_DIE;
-	cycles = 0;
+	current_cycle = 1;
 	while (cycle_to_die > 0)
 	{
 		i = -1;
 		while(++i < g_cursors_amount)
 		{
-			system("clear");
-			if (GET_BYTE(g_cursors[i].cur_pos) == 0x0 || GET_BYTE(g_cursors[i].cur_pos) > 0x10)
+			// system("clear");
+			if ((GET_BYTE(g_cursors[i].cur_pos) == 0x0 || GET_BYTE(g_cursors[i].cur_pos) > 0x10))
 				move_cursor(&g_cursors[i], 0, 0);
 			else
 			{
 				choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));
-				exec_operation(&g_cursors[i]);
+				exec_operation(&g_cursors[i], current_cycle);
 			}
-			print_battlefield();
-			ft_printf("Cycle = %d\n", cycles);
-			system("sleep 0.05");
+			// print_battlefield();
+			// ft_printf("Cycle = %d\n", current_cycle);
+			// system("sleep 0.01");
 		}
-		cycles++;
-		if (cycles == cycle_to_die)
+		printf("It is now cycle %d\n", current_cycle);
+		if (current_cycle - last_cycle_check >= cycle_to_die)
 		{
 			i = -1;
 			amount_alive_cursors = 0;
 			while (++i < g_cursors_amount)
-				if(g_cursors[i].is_alive == true)
+				if(ft_abs(g_cursors[i].last_alive - last_cycle_check)
+					< last_cycle_check ||
+					(last_cycle_check == 0 && g_cursors[i].last_alive != 0))
+				{
 					amount_alive_cursors++;
-			amount_of_checks++;
-			if (amount_alive_cursors > 21)
+					g_cursors[i].last_alive = 0;
+				}
+			repeate.num_p_r = cycle_to_die;
+			if (cycle_to_die == repeate.num_r && cycle_to_die == repeate.num_p_r)
+				repeate.amount_of_repeate++;
+			else
+				repeate.amount_of_repeate = 0;
+			if (repeate.amount_of_repeate + 1 >= MAX_CHECKS || g_amount_live_operations >= NBR_LIVE)
 			{
+				if (repeate.amount_of_repeate >= MAX_CHECKS && g_amount_live_operations >= NBR_LIVE)
+					cycle_to_die -= CYCLE_DELTA;
 				cycle_to_die -= CYCLE_DELTA;
-				amount_alive_cursors = 0;
+				printf("Cycle to die is now %d\n", cycle_to_die);
+				repeate.num_r = cycle_to_die;
+				repeate.amount_of_repeate = 0;
+				if (repeate.amount_of_repeate >= MAX_CHECKS)
+					repeate.amount_of_repeate = 0;
 			}
-			if (amount_of_checks == MAX_CHECKS && cycle_to_die == CYCLE_TO_DIE)
-			{
-				cycle_to_die -= CYCLE_DELTA;
-				amount_of_checks = 0;
-			}
-			cycles = 0;
+			g_amount_live_operations = 0;
+			last_cycle_check = current_cycle;
+			if (amount_alive_cursors == 0)
+				break ;
 		}
-		if (amount_alive_cursors == 0)
-			break ;
+		current_cycle++;
+		// printf("Amount of lives = %d\n", g_amount_live_operations);
+		// printf("Amount of checks = %d\n", amount_of_checks);
+		// if (current_cycle <= 57955)
+		// {
+			// printf("num_r = %d\n", repeate.num_r);
+			// printf("num_p_r = %d\n", repeate.num_p_r);
+			// printf("CTD = %d\n", cycle_to_die);
+		// }
+		// printf("Cycles = %d\n", current_cycle);
 	}
+	// printf("num_r = %d\n", repeate.num_r);
+	// printf("num_p_r = %d\n", repeate.num_p_r);
+	// printf("CTD = %d\n", cycle_to_die);
+	// printf("Cycles = %d\n", current_cycle);
 }

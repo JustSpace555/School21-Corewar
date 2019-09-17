@@ -72,7 +72,6 @@ void	initialize_cursors(int amount_players)
 	{
 		CURSOR(i).bytes_to_next_op = 0;
 		CURSOR(i).carry = false;
-		CURSOR(i).is_alive = true;
 		CURSOR(i).cur_pos = PLAYER(i).start_position;
 		CURSOR(i).cycle_exec = -1;
 		CURSOR(i).id = PLAYER(i).identifier;
@@ -84,4 +83,5 @@ void	initialize_cursors(int amount_players)
 			CURSOR(i).reg[j] = 0;
 	}
 	g_cursors_amount = amount_players;
+	g_amount_live_operations = 0;
 }
