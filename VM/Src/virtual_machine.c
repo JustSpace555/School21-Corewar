@@ -126,12 +126,18 @@ void	virtual_machine(t_vm *vm)
 	repeate.amount_of_repeate = 0;
 	cycle_to_die = CYCLE_TO_DIE;
 	current_cycle = 1;
+
+	if (vm->dump == 0)
+	{
+		print_battlefield();
+		return ;
+	}
 	while (cycle_to_die > 0)
 	{
 		i = -1;
 		while(++i < g_cursors_amount)
 		{
-			system("clear");
+			//system("clear");
 			if ((GET_BYTE(g_cursors[i].cur_pos) == 0x0 || GET_BYTE(g_cursors[i].cur_pos) > 0x10))
 				move_cursor(&g_cursors[i], 0, 0);
 			else
@@ -139,11 +145,11 @@ void	virtual_machine(t_vm *vm)
 				choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));
 				exec_operation(&g_cursors[i], current_cycle);
 			}
-			print_battlefield();
-			ft_printf("Cycle = %d\n", current_cycle);
-			system("sleep 0.01");
+			//print_battlefield();
+			//ft_printf("Cycle = %d\n", current_cycle);
+			//system("sleep 0.01");
 		}
-		printf("It is now cycle %d\n", current_cycle);
+		//printf("It is now cycle %d\n", current_cycle);
 		if (current_cycle - last_cycle_check >= cycle_to_die)
 		{
 			i = -1;
@@ -176,6 +182,11 @@ void	virtual_machine(t_vm *vm)
 			last_cycle_check = current_cycle;
 			if (amount_alive_cursors == 0)
 				break ;
+		}
+		if (cycle_to_die > 0 && vm->dump >= 0 && vm->dump == current_cycle)
+		{
+			print_battlefield();
+			return ;
 		}
 		current_cycle++;
 		// printf("Amount of lives = %d\n", g_amount_live_operations);
