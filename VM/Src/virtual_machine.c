@@ -151,13 +151,11 @@ void	virtual_machine(t_vm *vm)
 			// print_battlefield();
 			push_to_render();
 			SDL_RenderPresent(g_main_render);
-			SDL_Delay(SCREEN_TICKS_PER_FRAME);
 			// ft_printf("Cycle = %d\n", current_cycle);
 			// system("sleep 0.05");
-		}
-		printf("It is now cycle %d\n", current_cycle);
-		if (current_cycle - last_cycle_check >= cycle_to_die)
-		{
+			//print_battlefield();
+			//ft_printf("Cycle = %d\n", current_cycle);
+			//system("sleep 0.01");
 			i = -1;
 			amount_alive_cursors = 0;
 			while (++i < g_cursors_amount)
@@ -188,6 +186,11 @@ void	virtual_machine(t_vm *vm)
 			last_cycle_check = current_cycle;
 			if (amount_alive_cursors == 0)
 				break ;
+		}
+		if (cycle_to_die > 0 && vm->dump >= 0 && vm->dump == current_cycle)
+		{
+			print_battlefield();
+			return ;
 		}
 		current_cycle++;
 		// printf("Amount of lives = %d\n", g_amount_live_operations);
