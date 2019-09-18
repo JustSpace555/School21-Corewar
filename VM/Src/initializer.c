@@ -58,6 +58,7 @@ void	initialize_battlefield(void)
 		g_battlefield[i].code = 0x0;
 		g_battlefield[i].color = '\0';
 		g_battlefield[i].cursor = false;
+		g_battlefield[i].cursor_color = '\0';
 	}
 }
 
@@ -78,6 +79,8 @@ void	initialize_cursors(int amount_players)
 		CURSOR(i).last_alive = 0;
 		CURSOR(i).operation_code = 0;
 		CURSOR(i).reg[0] = -PLAYER(i).identifier;
+		CURSOR(i).color = g_battlefield[CURSOR(i).cur_pos].color;
+		g_battlefield[CURSOR(i).cur_pos].cursor_color = CURSOR(i).color;
 		j = 0;
 		while (++j < 16)
 			CURSOR(i).reg[j] = 0;

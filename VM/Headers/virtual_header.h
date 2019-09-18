@@ -36,6 +36,8 @@ typedef enum
 	true
 }	t_bool;
 
+# include "../../visualisator/visualisator.h"
+
 typedef struct		s_player_nbr
 {
 	int				index_file;
@@ -61,6 +63,7 @@ typedef struct		s_cursor
 	int				cycle_exec;
 	unsigned short	cur_pos;
 	int				bytes_to_next_op;
+	char			color;
 }					t_cursor;
 
 typedef struct		s_player

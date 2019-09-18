@@ -115,6 +115,8 @@ void	virtual_machine(t_vm *vm)
 	int	cycle_to_die;
 	int	last_cycle_check;
 	t_cycles_to_die	repeate;
+	t_bool			quit;
+	SDL_Event		event;
 
 	initialize_battlefield();
 	fill_battlefield(vm);
@@ -126,12 +128,19 @@ void	virtual_machine(t_vm *vm)
 	repeate.amount_of_repeate = 0;
 	cycle_to_die = CYCLE_TO_DIE;
 	current_cycle = 1;
-	while (cycle_to_die > 0)
+	quit = false;
+	if (!init())
+		return ;
+	while (cycle_to_die > 0 && !quit)
 	{
+		while(SDL_PollEvent(&event))
+			if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN
+				&& event.key.keysym.sym == SDLK_ESCAPE))
+				quit = true;
 		i = -1;
 		while(++i < g_cursors_amount)
 		{
-			system("clear");
+			// system("clear");
 			if ((GET_BYTE(g_cursors[i].cur_pos) == 0x0 || GET_BYTE(g_cursors[i].cur_pos) > 0x10))
 				move_cursor(&g_cursors[i], 0, 0);
 			else
@@ -139,9 +148,12 @@ void	virtual_machine(t_vm *vm)
 				choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));
 				exec_operation(&g_cursors[i], current_cycle);
 			}
-			print_battlefield();
-			ft_printf("Cycle = %d\n", current_cycle);
-			system("sleep 0.01");
+			// print_battlefield();
+			push_to_render();
+			SDL_RenderPresent(g_main_render);
+			SDL_Delay(SCREEN_TICKS_PER_FRAME);
+			// ft_printf("Cycle = %d\n", current_cycle);
+			// system("sleep 0.05");
 		}
 		printf("It is now cycle %d\n", current_cycle);
 		if (current_cycle - last_cycle_check >= cycle_to_die)

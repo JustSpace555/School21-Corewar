@@ -14,25 +14,33 @@ SRC =	$(SRC_FOLDER)main.c \
 		$(SRC_FOLDER)operations_help_pt1.c \
 		$(SRC_FOLDER)operations_help_pt2.c
 
+SRC_VIS_FOLDER = ../visualisator/
+SRC_VIS =	$(SRC_VIS_FOLDER)visualisator.c
+
 INCLUDE_FOLDER = Headers/
 INCLUDE =	$(INCLUDE_FOLDER)virtual_header.h \
-			$(INCLUDE_FOLDER)op.h
+			$(INCLUDE_FOLDER)op.h \
+			../visualisator/visualisator.h
 
 LIB_FOLDER = ../libft/SRC/
 SRC_FOR_DEBUG = $(LIB_FOLDER)main_functions/ft_strlen.c
 
 FLAGS = -Wall -Wextra -Werror
 
+FRAMEWORKS =	-I/Library/Frameworks/SDL2.framework/Headers -F ~/Library/Frameworks -framework SDL2 \
+				-I/Library/Frameworks/SDL2_ttf.framework/Headers -F ~/Library/Frameworks -framework SDL2_ttf
+
 EXEC = corewar
 
 all:
 	@echo Compiling virtual machine ...
-	@gcc $(FLAGS) $(SRC) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
+	@bash /Users/qmebble/Git/corewar/visualisator/script.bash
+	@gcc $(FLAGS) $(SRC) $(SRC_VIS) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
 	@mv $(EXEC) ../$(EXEC)
 
 debug: fclean
 	@echo Compiling virtual machine ...
-	@gcc -g $(FLAGS) $(SRC) $(SRC_FOR_DEBUG) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
+	@gcc -g $(FLAGS) $(SRC) $(SRC_VIS) $(SRC_FOR_DEBUG) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
 	@mv $(EXEC) ../$(EXEC)
 	@mv $(EXEC).dSYM ../$(EXEC).dSYM
 

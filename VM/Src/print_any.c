@@ -105,66 +105,43 @@ void	print_battlefield(void)
 	{
 		if (print_bytes % CODE_PER_LINE == 0)
 			ft_printf("\n0x%04x : ", print_bytes);
-		if (g_battlefield[c].color == 'r')
+		if (g_battlefield[c].cursor)
 		{
-			if (g_battlefield[c].cursor)
+			if (g_battlefield[c].cursor_color == 'r')
 				ft_printf(RED_BG"%{black}02hhx ", g_battlefield[c].code);
-			else
-				ft_printf("%{red}02hhx ", g_battlefield[c].code);
-		}
-		else if (g_battlefield[c].color == 'y')
-		{
-			if (g_battlefield[c].cursor)
+			else if (g_battlefield[c].cursor_color == 'y')
 				ft_printf(YELLOW_BG"%{black}02hhx ", g_battlefield[c].code);
-			else
-				ft_printf("%{yellow}02hhx ", g_battlefield[c].code);
-		}
-		else if (g_battlefield[c].color == 'g')
-		{
-			if (g_battlefield[c].cursor)
+			else if (g_battlefield[c].cursor_color == 'g')
 				ft_printf(GREEN_BG"%{black}02hhx ", g_battlefield[c].code);
-			else
-				ft_printf("%{green}02hhx ", g_battlefield[c].code);
-		}
-		else if (g_battlefield[c].color == 'b')
-		{
-			if (g_battlefield[c].cursor)
+			else if (g_battlefield[c].cursor_color == 'b')
 				ft_printf(BLUE_BG"%{black}02hhx ", g_battlefield[c].code);
-			else
-				ft_printf("%{blue}02hhx ", g_battlefield[c].code);
-		}
-		else if (g_battlefield[c].color == 'p')
-		{
-			if (g_battlefield[c].cursor)
+			else if (g_battlefield[c].cursor_color == 'p')
 				ft_printf(PURPLE_BG"%{black}02hhx ", g_battlefield[c].code);
-			else
-				ft_printf("%{purple}02hhx ", g_battlefield[c].code);
-		}
-		else if (g_battlefield[c].color == 'c')
-		{
-			if (g_battlefield[c].cursor)
+			else if (g_battlefield[c].cursor_color == 'c')
 				ft_printf(CYAN_BG"%{black}02hhx ", g_battlefield[c].code);
-			else
-				ft_printf("%{cyan}02hhx ", g_battlefield[c].code);
-		}
-		else if (g_battlefield[c].color == 'l')
-		{
-			if (g_battlefield[c].cursor)
-				ft_printf(BLACK_BG"%{black}02hhx ", g_battlefield[c].code);
-			else
-				ft_printf("%{black}02hhx ", g_battlefield[c].code);
-		}
-		else if (g_battlefield[c].color == 'e')
-		{
-			if (g_battlefield[c].cursor)
+			else if (g_battlefield[c].cursor_color == 'e')
 				ft_printf(WHITE_BG"%{black}02hhx ", g_battlefield[c].code);
-			else
-				ft_printf("%{grey}02hhx ", g_battlefield[c].code);
+			else if (g_battlefield[c].cursor_color == 'l')
+				ft_printf(BLACK_BG"%02hhx ", g_battlefield[c].code);
 		}
 		else
 		{
-			if (g_battlefield[c].cursor)
-				ft_printf(WHITE_BG"%{black}02hhx ", g_battlefield[c].code);
+			if (g_battlefield[c].color == 'r')
+				ft_printf("%{red}02hhx ", g_battlefield[c].code);
+			else if (g_battlefield[c].color == 'y')
+				ft_printf("%{yellow}02hhx ", g_battlefield[c].code);
+			else if (g_battlefield[c].color == 'g')
+				ft_printf("%{green}02hhx ", g_battlefield[c].code);
+			else if (g_battlefield[c].color == 'b')
+				ft_printf("%{blue}02hhx ", g_battlefield[c].code);
+			else if (g_battlefield[c].color == 'p')
+				ft_printf("%{purple}02hhx ", g_battlefield[c].code);
+			else if (g_battlefield[c].color == 'c')
+				ft_printf("%{cyan}02hhx ", g_battlefield[c].code);
+			else if (g_battlefield[c].color == 'e')
+				ft_printf("%{grey}02hhx ", g_battlefield[c].code);
+			else if (g_battlefield[c].color == 'l')
+				ft_printf("%{black}02hhx ", g_battlefield[c].code);
 			else
 				ft_printf("%02hhx ", g_battlefield[c].code);
 		}
