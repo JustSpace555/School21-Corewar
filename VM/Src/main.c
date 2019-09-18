@@ -40,6 +40,13 @@ void	set_identifiers(t_vm *vm, int argc, char **argv)
 	}
 }
 
+void	print_usage(void)
+{
+	ft_printf("Usage: ./corewar [-dump N -v -n N] <filename.cor> ...\n");
+	ft_printf("\t-dump N\t: Dumps memory after N cycles then exits\n");
+	ft_printf("\t-n N\t: set the champion number\n");
+	ft_printf("\t-v\t\t: visual mode\n");
+}
 int		main(int argc, char *argv[])
 {
 	t_vm		vm;
@@ -48,7 +55,7 @@ int		main(int argc, char *argv[])
 
 	if (argc < 2)
 	{
-		//usage
+		print_usage();
 		return (1);
 	}
 	else
