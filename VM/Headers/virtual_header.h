@@ -79,6 +79,7 @@ typedef struct		s_battlefield
 	unsigned char	code;
 	char			color;
 	t_bool			cursor;
+	char			cursor_color;
 }					t_battlefield;
 
 typedef struct		s_cyles_to_die

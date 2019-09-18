@@ -5,7 +5,8 @@ int		check_for_cycle_exec(t_cursor *cursor)
 	if (cursor->cycle_exec > 0)
 	{
 		cursor->cycle_exec--;
-		return (-1);
+		if (cursor->cycle_exec > 0)
+			return (-1);
 	}
 	cursor->cycle_exec = -1;
 	return (1);

@@ -131,7 +131,7 @@ void	virtual_machine(t_vm *vm)
 		i = -1;
 		while(++i < g_cursors_amount)
 		{
-			// system("clear");
+			system("clear");
 			if ((GET_BYTE(g_cursors[i].cur_pos) == 0x0 || GET_BYTE(g_cursors[i].cur_pos) > 0x10))
 				move_cursor(&g_cursors[i], 0, 0);
 			else
@@ -139,9 +139,9 @@ void	virtual_machine(t_vm *vm)
 				choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));
 				exec_operation(&g_cursors[i], current_cycle);
 			}
-			// print_battlefield();
-			// ft_printf("Cycle = %d\n", current_cycle);
-			// system("sleep 0.01");
+			print_battlefield();
+			ft_printf("Cycle = %d\n", current_cycle);
+			system("sleep 0.01");
 		}
 		printf("It is now cycle %d\n", current_cycle);
 		if (current_cycle - last_cycle_check >= cycle_to_die)
@@ -161,12 +161,12 @@ void	virtual_machine(t_vm *vm)
 				repeate.amount_of_repeate++;
 			else
 				repeate.amount_of_repeate = 0;
-			if (repeate.amount_of_repeate + 1 >= MAX_CHECKS || g_amount_live_operations >= NBR_LIVE)
+			if (repeate.amount_of_repeate >= MAX_CHECKS || g_amount_live_operations >= NBR_LIVE)
 			{
 				if (repeate.amount_of_repeate >= MAX_CHECKS && g_amount_live_operations >= NBR_LIVE)
 					cycle_to_die -= CYCLE_DELTA;
 				cycle_to_die -= CYCLE_DELTA;
-				printf("Cycle to die is now %d\n", cycle_to_die);
+				// printf("Cycle to die is now %d\n", cycle_to_die);
 				repeate.num_r = cycle_to_die;
 				repeate.amount_of_repeate = 0;
 				if (repeate.amount_of_repeate >= MAX_CHECKS)
@@ -188,8 +188,8 @@ void	virtual_machine(t_vm *vm)
 		// }
 		// printf("Cycles = %d\n", current_cycle);
 	}
-	// printf("num_r = %d\n", repeate.num_r);
-	// printf("num_p_r = %d\n", repeate.num_p_r);
-	// printf("CTD = %d\n", cycle_to_die);
-	// printf("Cycles = %d\n", current_cycle);
+	printf("num_r = %d\n", repeate.num_r);
+	printf("num_p_r = %d\n", repeate.num_p_r);
+	printf("CTD = %d\n", cycle_to_die);
+	printf("Cycles = %d\n", current_cycle);
 }

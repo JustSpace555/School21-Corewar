@@ -184,8 +184,10 @@ void	ldi_lldi(t_cursor *cursor, int selector)
 	{
 		dest_reg = GET_CUR_POS_BYTE(&cursor, 3);
 		CHECK_REG(&cursor, dest_reg, 2, 1);
-		cursor->reg[dest_reg - 1] = get_int_data(
-			get_short_data(cursor->cur_pos + 2) % IDX_MOD);
+		if (selector == 0)
+			cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2) % IDX_MOD);
+		else
+			cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2));
 	}
 	move_cursor(cursor, 2, 1);
 }
