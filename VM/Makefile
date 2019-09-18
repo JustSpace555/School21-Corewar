@@ -20,10 +20,10 @@ SRC_VIS =	$(SRC_VIS_FOLDER)visualisator.c
 INCLUDE_FOLDER = Headers/
 INCLUDE =	$(INCLUDE_FOLDER)virtual_header.h \
 			$(INCLUDE_FOLDER)op.h \
-			../visualisator/visualisator.h
+			$(SRC_VIS_FOLDER)visualisator.h
 
 LIB_FOLDER = ../libft/SRC/
-SRC_FOR_DEBUG = $(LIB_FOLDER)main_functions/ft_strlen.c
+SRC_FOR_DEBUG =
 
 FLAGS = -Wall -Wextra -Werror
 

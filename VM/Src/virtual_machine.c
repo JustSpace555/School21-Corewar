@@ -151,57 +151,49 @@ void	virtual_machine(t_vm *vm)
 			// print_battlefield();
 			push_to_render();
 			SDL_RenderPresent(g_main_render);
+			SDL_Delay(SCREEN_TICKS_PER_FRAME);
 			// ft_printf("Cycle = %d\n", current_cycle);
 			// system("sleep 0.05");
-			//print_battlefield();
-			//ft_printf("Cycle = %d\n", current_cycle);
-			//system("sleep 0.01");
-			i = -1;
-			amount_alive_cursors = 0;
-			while (++i < g_cursors_amount)
-				if(ft_abs(g_cursors[i].last_alive - last_cycle_check)
-					< last_cycle_check ||
-					(last_cycle_check == 0 && g_cursors[i].last_alive != 0))
-				{
-					amount_alive_cursors++;
-					g_cursors[i].last_alive = 0;
-				}
-			repeate.num_p_r = cycle_to_die;
-			if (cycle_to_die == repeate.num_r && cycle_to_die == repeate.num_p_r)
-				repeate.amount_of_repeate++;
-			else
-				repeate.amount_of_repeate = 0;
-			if (repeate.amount_of_repeate >= MAX_CHECKS || g_amount_live_operations >= NBR_LIVE)
+			if (current_cycle - last_cycle_check >= cycle_to_die)
 			{
-				if (repeate.amount_of_repeate >= MAX_CHECKS && g_amount_live_operations >= NBR_LIVE)
-					cycle_to_die -= CYCLE_DELTA;
-				cycle_to_die -= CYCLE_DELTA;
-				// printf("Cycle to die is now %d\n", cycle_to_die);
-				repeate.num_r = cycle_to_die;
-				repeate.amount_of_repeate = 0;
-				if (repeate.amount_of_repeate >= MAX_CHECKS)
+				i = -1;
+				amount_alive_cursors = 0;
+				while (++i < g_cursors_amount)
+					if(ft_abs(g_cursors[i].last_alive - last_cycle_check)
+						< last_cycle_check ||
+						(last_cycle_check == 0 && g_cursors[i].last_alive != 0))
+					{
+						amount_alive_cursors++;
+						g_cursors[i].last_alive = 0;
+					}
+				repeate.num_p_r = cycle_to_die;
+				if (cycle_to_die == repeate.num_r && cycle_to_die == repeate.num_p_r)
+					repeate.amount_of_repeate++;
+				else
 					repeate.amount_of_repeate = 0;
+				if (repeate.amount_of_repeate >= MAX_CHECKS || g_amount_live_operations >= NBR_LIVE)
+				{
+					if (repeate.amount_of_repeate >= MAX_CHECKS && g_amount_live_operations >= NBR_LIVE)
+						cycle_to_die -= CYCLE_DELTA;
+					cycle_to_die -= CYCLE_DELTA;
+					// printf("Cycle to die is now %d\n", cycle_to_die);
+					repeate.num_r = cycle_to_die;
+					repeate.amount_of_repeate = 0;
+					if (repeate.amount_of_repeate >= MAX_CHECKS)
+						repeate.amount_of_repeate = 0;
+				}
+				g_amount_live_operations = 0;
+				last_cycle_check = current_cycle;
+				if (amount_alive_cursors == 0)
+					break ;
 			}
-			g_amount_live_operations = 0;
-			last_cycle_check = current_cycle;
-			if (amount_alive_cursors == 0)
-				break ;
+			if (cycle_to_die > 0 && vm->dump >= 0 && vm->dump == current_cycle)
+			{
+				print_battlefield();
+				return ;
+			}
+			current_cycle++;
 		}
-		if (cycle_to_die > 0 && vm->dump >= 0 && vm->dump == current_cycle)
-		{
-			print_battlefield();
-			return ;
-		}
-		current_cycle++;
-		// printf("Amount of lives = %d\n", g_amount_live_operations);
-		// printf("Amount of checks = %d\n", amount_of_checks);
-		// if (current_cycle <= 57955)
-		// {
-			// printf("num_r = %d\n", repeate.num_r);
-			// printf("num_p_r = %d\n", repeate.num_p_r);
-			// printf("CTD = %d\n", cycle_to_die);
-		// }
-		// printf("Cycles = %d\n", current_cycle);
 	}
 	printf("num_r = %d\n", repeate.num_r);
 	printf("num_p_r = %d\n", repeate.num_p_r);

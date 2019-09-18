@@ -2,6 +2,7 @@
 # define VIRTUAL_HEADER_H
 
 # include "../../libft/Headers/libft.h"
+# include "../../visualisator/visualisator.h"
 # include "op.h"
 
 # define BYTES_AFTER_HEADER 4
@@ -35,8 +36,6 @@ typedef enum
 	false,
 	true
 }	t_bool;
-
-# include "../../visualisator/visualisator.h"
 
 typedef struct		s_player_nbr
 {

@@ -1,9 +1,9 @@
 #ifndef VISUALISATOR_H
 # define VISUALISATOR_H
 
-#include "../VM/Headers/virtual_header.h"
 #include "SDL2.framework/Headers/SDL.h"
 #include "SDL2_ttf.framework/Headers/SDL_ttf.h"
+#include "../VM/Headers/virtual_header.h"
 
 #define			SCREEN_HEIGHT 1080
 #define			SCREEN_WIDTH 1920
@@ -14,6 +14,6 @@ SDL_Window		*g_main_window;
 SDL_Renderer	*g_main_render;
 
 void			push_to_render(void);
-t_bool			init(void);
+int				init(void);
 
 #endif
