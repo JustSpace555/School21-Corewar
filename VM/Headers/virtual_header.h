@@ -14,9 +14,9 @@
 
 typedef enum
 {
-	false,
-	true
-}					t_bool;
+		false,
+		true
+}		t_bool;
 
 typedef struct		s_player_nbr
 {
@@ -35,7 +35,7 @@ typedef struct		s_vm
 
 typedef struct		s_cursor
 {
-	int 			id;
+	int				id;
 	t_bool			carry;
 	uint8_t			operation_code;
 	unsigned int	reg[REG_NUMBER];
@@ -65,7 +65,6 @@ typedef struct		s_battlefield
 t_player			*g_players;
 t_battlefield		*g_battlefield;
 t_cursor			*g_cursor;
-
 
 /*
 **					Print

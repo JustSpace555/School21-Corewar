@@ -73,10 +73,10 @@ void	initialize_cursor(int amount_players)
 		g_cursor[i].bytes_to_next_op = 0;
 		g_cursor[i].carry = false;
 		g_cursor[i].cur_pos = PLAYER(i).start_position;
-		g_cursor[i].cycle_exec = 0;
+		g_cursor[i].cycle_exec = 0§;
 		g_cursor[i].id = PLAYER(i).identifier;
 		g_cursor[i].last_alive = 0;
-		g_cursor[i].operation_code = g_battlefield[PLAYER(i).start_position].code;
+		g_cursor[i].operation_code = 0;
 		g_cursor[i].reg[0] = -PLAYER(i).identifier;
 		j = 0;
 		while (++j < 16)

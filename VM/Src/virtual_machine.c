@@ -72,11 +72,12 @@ int		check_codage(unsigned char byte, int *args)
 		j += 1;
 		i -= 2;
 	}
+	return (0);
 }
 
-unsigned int			ft_atoi_hex(char *str)
+unsigned long	ft_atoi_hex(char *str)
 {
-	unsigned int		res;
+	unsigned long	res;
 
 	res = 0;
 	while (*str)
@@ -94,28 +95,91 @@ unsigned int			ft_atoi_hex(char *str)
 	return (res);
 }
 
+unsigned long	read_byte(unsigned char *byte, int bytes_offset)
+{
+	unsigned long	res;
+	int 			offset;
+
+	offset = (bytes_offset * 8);
+	res = 0;
+	res += ((res >> offset) | *byte) << offset;
+	return (res);
+}
+
+unsigned long	read_argument(int first_byte_i, int size_bytes)
+{
+	unsigned long	res;
+	int i;
+	int byte;
+
+	byte = first_byte_i % MEM_SIZE;
+	i = 0;
+	res = 0;
+	while (++i <= size_bytes)
+	{
+		res += read_byte(&g_battlefield[byte].code, i - 1);
+		byte = (byte + 1) % MEM_SIZE;
+	}
+	//printf("Число: %lu\n", res);
+	return (res);
+}
+
+int 	add(t_cursor *cursor)
+{
+	int pos;
+	int i_reg1;
+	int i_reg2;
+	int i_reg3;
+
+	cursor->bytes_to_next_op += 1; // за codage
+	pos = (cursor->cur_pos + 2) % MEM_SIZE;
+	i_reg1 = read_argument(pos, 1);
+	i_reg2 = read_argument((pos + 1) % MEM_SIZE, 1);
+	i_reg3 = read_argument((pos + 2) % MEM_SIZE, 1)
+	cursor->reg[i_reg3] = cursor->reg[i_reg1] + cursor->reg[i_reg2];
+	cursor->carry = (cursor->reg[i_reg3] == 0) ? 1 : 0;
+	cursor->bytes_to_next_op += 3; // за регистры
+}
+
 int		ld(t_cursor *cursor, int *args)
 {
 	int	i;
 	int pos;
+	unsigned int	value;
+	int 			i_reg;
+	int 			relative_address;
 
-	pos = cursor->cur_pos + 2;
+	cursor->bytes_to_next_op += 1; // за codage
+	pos = (cursor->cur_pos + 2) % MEM_SIZE;
 	i = 0;
-	printf("%u\n", ft_atoi_hex("A0F000"));
-	printf("%i\n", (6 % 0)); //
+
 	if (args[0] == 2)
 	{
-		//while (pos % cursor->cur_pos <= DIR_SIZE) // протестировать
+		value = read_argument(pos, DIR_SIZE);
+		cursor->carry = (value == 0) ? 1 : 0; // убедиться, что везде есть
+		i_reg = read_argument((pos + 4) % MEM_SIZE, 1);
+		if (i_reg < 1 | i_reg > REG_SIZE)
+			return (1); // просто закончить
+		cursor->reg[i_reg] = value;
+		printf("value: %u will writed at %i-th register\n", value, i_reg);
+		cursor->bytes_to_next_op += DIR_SIZE;  // подсчет возиожно изменить
 	}
-	else if (args[0] == 3)
+	else if (args[0] == 3) // протестировать
 	{
-
+		relative_address = read_argument(pos, IND_SIZE) % IDX_MOD;
+		relative_address = (cursor->cur_pos + relative_address) % MEM_SIZE;
+		value = read_argument(relative_address, DIR_SIZE);
+		i_reg = read_argument((pos + 2) % MEM_SIZE, 1);
+		if (i_reg < 1 | i_reg > REG_SIZE)
+			return (1); // просто закончить
+		cursor->reg[i_reg] = value;
+		cursor->bytes_to_next_op += IND_SIZE;
 	}
-//	check_codage(f_byte_of_arguments, args);
-	//if g_battlefield[f_byte_of_arguments].code
+	cursor->bytes_to_next_op += 1; // + 1 byte register
+	return (0);
 }
 
-int 	choose_operation(t_vm *vm, t_cursor *cursor, int *args)
+int 	execute_operation(t_vm *vm, t_cursor *cursor, int *args)
 {
 	if (cursor->operation_code == 1)
 	{}
@@ -152,21 +216,73 @@ int 	choose_operation(t_vm *vm, t_cursor *cursor, int *args)
 	return (0);
 }
 
-void	execute_operation(t_vm *vm, t_cursor *cursor)
+void	move_cursor(t_cursor *cursor)
+{
+	g_battlefield[cursor->cur_pos].coach = 0;
+	cursor->cur_pos += cursor->bytes_to_next_op;
+	g_battlefield[cursor->cur_pos].coach = 1;
+}
+
+int 	set_cycle_to_exec(int nbr_op)
+{
+	if (nbr_op == 1)
+		return (10);
+	else if(nbr_op == 2)
+		return (5);
+	else if(nbr_op == 3)
+		return (5);
+	else if(nbr_op == 4)
+		return (10);
+	else if(nbr_op == 5)
+		return (10);
+	else if(nbr_op == 6)
+		return (6);
+	else if(nbr_op == 7)
+		return (6);
+	else if(nbr_op == 8)
+		return (6);
+	else if(nbr_op == 9)
+		return (20);
+	else if(nbr_op == 10)
+		return (25);
+	else if(nbr_op == 11)
+		return (25);
+	else if(nbr_op == 12)
+		return (800);
+	else if(nbr_op == 13)
+		return (10);
+	else if(nbr_op == 14)
+		return (50);
+	else if(nbr_op == 15)
+		return (1000);
+	else if(nbr_op == 16)
+		return (2);
+	return (-1);
+}
+
+void	check_cursor(t_vm *vm, t_cursor *cursor)
 {
 	int args[3];
 
-	if (cursor->cycle_exec == 0) // про назначение подумать
+	if (cursor->cycle_exec == 0)
 	{
-		check_codage(g_battlefield[(cursor->cur_pos + 1) % MEM_SIZE].code, args);
-		printf("%i\n", args[0]);
-		choose_operation(vm, cursor, args);
-		//g_battlefield[byte].code = 0x0;
-		// назначить cycle_exec в функции
+
+		cursor->operation_code = g_battlefield[cursor->cur_pos].code;
+		if (cursor->operation_code >= 1 && cursor->operation_code <= 16)
+			cursor->cycle_exec 	= set_cycle_to_exec(cursor->operation_code);
+		cursor->bytes_to_next_op = 1;
 	}
-	else
+	cursor->cycle_exec = (cursor->cycle_exec > 0) ? cursor->cycle_exec-- : 0;
+	if (cursor->cycle_exec == 0)
 	{
-		cursor->cycle_exec--;
+		if (cursor->operation_code < 1 || cursor->operation_code > 16)
+			move_cursor(cursor);
+		else
+		{
+			check_codage(g_battlefield[(cursor->cur_pos + 1) % MEM_SIZE].code, args);
+			execute_operation(vm, cursor, args);
+			move_cursor(cursor);
+		}
 	}
 }
 
@@ -174,30 +290,29 @@ void	virtual_machine(t_vm *vm)
 {
 	int cycle;
 	int cycle_to_die;
+	int i;
 
-	cycle = -1;
+	cycle = 0;
 	cycle_to_die = CYCLE_TO_DIE;
 	initialize_battlefield();
 	fill_battlefield(vm);
 	initialize_cursor(vm->amount_players);
-	print_battlefield();
+	print_battlefield(); // удалить
 	while (cycle_to_die > 0)
 	{
 		int lives = 0;
-
 		if (cycle == cycle_to_die)  // сделать проверку
 			checkup(vm, &lives, &cycle_to_die);
-
-		int i = -1;
-		int dead = 0;
+		i = -1;
 		while (++i < vm->amount_players)
 		{
-			if (g_cursor[i].last_alive / cycle_to_die == 0)
-				execute_operation(vm, &g_cursor[i]);
+			if (g_cursor[i].last_alive != -1 && g_cursor[i].last_alive / cycle_to_die == 0)
+				check_cursor(vm, &g_cursor[i]);
 			else
-				dead++; // исправить
+				g_cursor[i].last_alive = -1;
 		}
 		cycle++;
 		cycle_to_die = 0; // удалить потом
 	}
+	print_battlefield();
 }
