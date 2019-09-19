@@ -116,7 +116,7 @@ void	push_to_render(void)
 					SDL_SetRenderDrawColor(g_main_render, 47, 79, 79, 100);
 				SDL_RenderDrawRectF(g_main_render, &cell);
 			}
-			SDL_RenderCopyF(g_main_render, g_textures_array[g_battlefield[(int)(i + j + lines_count)].code], NULL, &cell);
+			// SDL_RenderCopyF(g_main_render, g_textures_array[g_battlefield[(int)(i + j + lines_count)].code], NULL, &cell);
 		}
 		lines_count += j;
 	}
