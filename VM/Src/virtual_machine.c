@@ -117,6 +117,7 @@ void	virtual_machine(t_vm *vm)
 	t_cycles_to_die	repeate;
 	t_bool			quit;
 	SDL_Event		event;
+	TTF_Font		*font;
 
 	initialize_battlefield();
 	fill_battlefield(vm);
@@ -131,6 +132,12 @@ void	virtual_machine(t_vm *vm)
 	quit = false;
 	if (!init())
 		return ;
+	if (!(font = TTF_OpenFont("/Users/qmebble/Library/Fonts/FiraCode-Regular.ttf", 21)))
+	{
+		printf("Can't open font. %s\n", TTF_GetError());
+		return ;
+	}
+	initialize_textures(font);
 	while (cycle_to_die > 0 && !quit)
 	{
 		while(SDL_PollEvent(&event))
@@ -149,51 +156,51 @@ void	virtual_machine(t_vm *vm)
 				exec_operation(&g_cursors[i], current_cycle);
 			}
 			// print_battlefield();
+			// ft_printf("Cycle = %d\n", current_cycle);
+			// system("sleep 0.05");
 			push_to_render();
 			SDL_RenderPresent(g_main_render);
 			SDL_Delay(SCREEN_TICKS_PER_FRAME);
-			// ft_printf("Cycle = %d\n", current_cycle);
-			// system("sleep 0.05");
-			if (current_cycle - last_cycle_check >= cycle_to_die)
-			{
-				i = -1;
-				amount_alive_cursors = 0;
-				while (++i < g_cursors_amount)
-					if(ft_abs(g_cursors[i].last_alive - last_cycle_check)
-						< last_cycle_check ||
-						(last_cycle_check == 0 && g_cursors[i].last_alive != 0))
-					{
-						amount_alive_cursors++;
-						g_cursors[i].last_alive = 0;
-					}
-				repeate.num_p_r = cycle_to_die;
-				if (cycle_to_die == repeate.num_r && cycle_to_die == repeate.num_p_r)
-					repeate.amount_of_repeate++;
-				else
-					repeate.amount_of_repeate = 0;
-				if (repeate.amount_of_repeate >= MAX_CHECKS || g_amount_live_operations >= NBR_LIVE)
-				{
-					if (repeate.amount_of_repeate >= MAX_CHECKS && g_amount_live_operations >= NBR_LIVE)
-						cycle_to_die -= CYCLE_DELTA;
-					cycle_to_die -= CYCLE_DELTA;
-					// printf("Cycle to die is now %d\n", cycle_to_die);
-					repeate.num_r = cycle_to_die;
-					repeate.amount_of_repeate = 0;
-					if (repeate.amount_of_repeate >= MAX_CHECKS)
-						repeate.amount_of_repeate = 0;
-				}
-				g_amount_live_operations = 0;
-				last_cycle_check = current_cycle;
-				if (amount_alive_cursors == 0)
-					break ;
-			}
-			if (cycle_to_die > 0 && vm->dump >= 0 && vm->dump == current_cycle)
-			{
-				print_battlefield();
-				return ;
-			}
-			current_cycle++;
 		}
+		if (current_cycle - last_cycle_check >= cycle_to_die)
+		{
+			i = -1;
+			amount_alive_cursors = 0;
+			while (++i < g_cursors_amount)
+				if(ft_abs(g_cursors[i].last_alive - last_cycle_check)
+					< last_cycle_check ||
+					(last_cycle_check == 0 && g_cursors[i].last_alive != 0))
+				{
+					amount_alive_cursors++;
+					g_cursors[i].last_alive = 0;
+				}
+			repeate.num_p_r = cycle_to_die;
+			if (cycle_to_die == repeate.num_r && cycle_to_die == repeate.num_p_r)
+				repeate.amount_of_repeate++;
+			else
+				repeate.amount_of_repeate = 0;
+			if (repeate.amount_of_repeate >= MAX_CHECKS || g_amount_live_operations >= NBR_LIVE)
+			{
+				if (repeate.amount_of_repeate >= MAX_CHECKS && g_amount_live_operations >= NBR_LIVE)
+					cycle_to_die -= CYCLE_DELTA;
+				cycle_to_die -= CYCLE_DELTA;
+				// printf("Cycle to die is now %d\n", cycle_to_die);
+				repeate.num_r = cycle_to_die;
+				repeate.amount_of_repeate = 0;
+				if (repeate.amount_of_repeate >= MAX_CHECKS)
+					repeate.amount_of_repeate = 0;
+			}
+			g_amount_live_operations = 0;
+			last_cycle_check = current_cycle;
+			if (amount_alive_cursors == 0)
+				break ;
+		}
+		if (cycle_to_die > 0 && vm->dump >= 0 && vm->dump == current_cycle)
+		{
+			print_battlefield();
+			return ;
+		}
+		current_cycle++;
 	}
 	printf("num_r = %d\n", repeate.num_r);
 	printf("num_p_r = %d\n", repeate.num_p_r);

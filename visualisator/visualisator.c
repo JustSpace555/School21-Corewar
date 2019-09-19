@@ -60,24 +60,9 @@ void	push_to_render(void)
 	float		i;
 	float		j;
 	int			lines_count;
-	TTF_Font	*font;
-	SDL_Surface	*text_surface;
-	SDL_Surface	*text_surface_00;
-	SDL_Texture	*text_texture;
-	SDL_Texture	*text_00;
-	SDL_Color	White = {255, 255, 255, 255};
-	char		*text;
 
 	SDL_SetRenderDrawColor(g_main_render, 0, 0, 0, 255);
 	SDL_RenderClear(g_main_render);
-	font = TTF_OpenFont("/Users/qmebble/Git/corewar/visualisator/InputMonoNarrow-Regular.ttf", 35);
-	if (!font)
-	{
-		printf("Can't open font. %s\n", TTF_GetError());
-		return ;
-	}
-	text_surface_00 = TTF_RenderText_Solid(font, get_text_from_cell(0), White);
-	text_00 = SDL_CreateTextureFromSurface(g_main_render, text_surface_00);
 	i = -1;
 	lines_count = 0;
 	cell.w = (float)(SCREEN_WIDTH - 350) / 64;
@@ -131,22 +116,24 @@ void	push_to_render(void)
 					SDL_SetRenderDrawColor(g_main_render, 47, 79, 79, 100);
 				SDL_RenderDrawRectF(g_main_render, &cell);
 			}
-			if (g_battlefield[(int)(i + j + lines_count)].code == 0)
-				SDL_RenderCopyF(g_main_render, text_00, NULL, &cell);
-			else
-			{
-				text = get_text_from_cell(g_battlefield[(int)(i + j + lines_count)].code);
-				text_surface = TTF_RenderText_Solid(font, text, White);
-				text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
-				SDL_RenderCopyF(g_main_render, text_texture, NULL, &cell);
-				free(text);
-			}
+			SDL_RenderCopyF(g_main_render, g_textures_array[g_battlefield[(int)(i + j + lines_count)].code], NULL, &cell);
 		}
 		lines_count += j;
 	}
 }
 
-// void	visualisator(t_vm *vm)
-// {
+void	initialize_textures(TTF_Font *font)
+{
+	int			i;
+	SDL_Surface	*text_surface;
+	SDL_Color	White = {255, 255, 255, 255};
 
-// }
+	g_textures_array = (SDL_Texture **)(malloc(sizeof(SDL_Texture *) * 256));
+	i = -1;
+	while (++i < 256)
+	{
+		text_surface = TTF_RenderText_Solid(font, get_text_from_cell((unsigned char)i), White);
+		g_textures_array[i] = SDL_CreateTextureFromSurface(g_main_render, text_surface);
+		free(text_surface);
+	}
+}
