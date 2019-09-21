@@ -42,15 +42,12 @@ void	ld(t_cursor *cursor)
 		CHECK_REG(&cursor, dest_reg, 4, 1);
 		num = get_int_data(get_short_data(cursor->cur_pos + 2));
 	}
-	if (num == 0)
-		cursor->carry = true;
-	else
-		cursor->carry = false;
+	cursor->carry = (num == 0) ? true : false;
 	cursor->reg[dest_reg - 1] = num;
 	move_cursor(cursor, 4, 1);
 }
 
-void	st(t_cursor *cursor)
+void	st(t_cursor *cursor) //потестить с типами
 {
 	unsigned char	src_reg;
 	unsigned char	dest_reg;

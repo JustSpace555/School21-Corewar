@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"types.h": "c",
-		"virtual_header.h": "c"
+		"virtual_header.h": "c",
+		"visualisator.h": "c"
 	}
 }

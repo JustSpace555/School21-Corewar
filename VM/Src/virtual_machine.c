@@ -117,6 +117,7 @@ void	virtual_machine(t_vm *vm)
 	t_cycles_to_die	repeate;
 	t_bool			quit;
 	SDL_Event		event;
+	SDL_FRect		cell;
 	TTF_Font		*font;
 
 	initialize_battlefield();
@@ -132,12 +133,13 @@ void	virtual_machine(t_vm *vm)
 	quit = false;
 	if (!init())
 		return ;
-	if (!(font = TTF_OpenFont("/Users/qmebble/Library/Fonts/FiraCode-Regular.ttf", 21)))
+	if (!(font = TTF_OpenFont("visualisator/InputMonoNarrow-regular.ttf", 15)))
 	{
-		printf("Can't open font. %s\n", TTF_GetError());
+		ft_printf("%s\n", TTF_GetError());
 		return ;
 	}
-	initialize_textures(font);
+	cell.w = (float)(SCREEN_WIDTH - INFORMATION_SIZE) / 64;
+	cell.h = (float)SCREEN_HEIGHT / 64;
 	while (cycle_to_die > 0 && !quit)
 	{
 		while(SDL_PollEvent(&event))
@@ -158,7 +160,8 @@ void	virtual_machine(t_vm *vm)
 			// print_battlefield();
 			// ft_printf("Cycle = %d\n", current_cycle);
 			// system("sleep 0.05");
-			push_to_render();
+			push_to_render_battlefield(cell);
+			push_info(current_cycle, cycle_to_die, font);
 			SDL_RenderPresent(g_main_render);
 			SDL_Delay(SCREEN_TICKS_PER_FRAME);
 		}
@@ -184,7 +187,6 @@ void	virtual_machine(t_vm *vm)
 				if (repeate.amount_of_repeate >= MAX_CHECKS && g_amount_live_operations >= NBR_LIVE)
 					cycle_to_die -= CYCLE_DELTA;
 				cycle_to_die -= CYCLE_DELTA;
-				// printf("Cycle to die is now %d\n", cycle_to_die);
 				repeate.num_r = cycle_to_die;
 				repeate.amount_of_repeate = 0;
 				if (repeate.amount_of_repeate >= MAX_CHECKS)

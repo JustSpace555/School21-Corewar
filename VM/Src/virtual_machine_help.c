@@ -20,3 +20,24 @@ char	choose_color(int i)
 		return ('l');
 	return ('n');
 }
+
+int		choose_reverse_color(char color)
+{
+	if (color == 'r')
+		return(0);
+	else if (color == 'y')
+		return(1);
+	else if (color == 'g')
+		return(2);
+	else if (color == 'b')
+		return(3);
+	else if (color == 'p')
+		return(4);
+	else if (color == 'c')
+		return(5);
+	else if (color == 'e')
+		return(6);
+	else if (color == 'l')
+		return (7);
+	return (8);
+}

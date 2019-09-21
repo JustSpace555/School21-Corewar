@@ -14,6 +14,7 @@
 # define CURSOR(i) g_cursors[i]
 # define GET_BYTE(pos) g_battlefield[pos].code
 # define GET_CUR_POS_BYTE(cursor, extra) GET_BYTE((*cursor)->cur_pos + extra)
+# define GET_REG_VALUE(cursor, reg_i) cursor->reg[reg_i]
 # define CODE_PER_LINE 64
 # define CHECK_EXEC(cursor) if (check_for_cycle_exec(*cursor) == -1) return ;
 
@@ -23,7 +24,7 @@
 **		l = label size (4 or 2)
 **		b = byte val (1 or 0)
 */
-# define CHECK_REG(c, r, l, b) if(r > REG_NUMBER){move_cursor(*c,l,b);return;}
+# define CHECK_REG(c,r,l,b) if(r>REG_NUMBER||r==0){move_cursor(*c,l,b);return;}
 
 /*
 **		c = cursor
@@ -47,6 +48,7 @@ typedef struct		s_vm
 {
 	int				dump;
 	int				vis;
+	int				live_player;
 	int				*order_idtfrs;
 	int				amount_players;
 	t_plr_nbr		*plr_nbr;
@@ -129,6 +131,7 @@ int					get_code_size(u_int8_t buffer[4]);
 int					ft_is_strdigit(char *str);
 void				free_g_players(int amount_players);
 char				choose_color(int i);
+int					choose_reverse_color(char color);
 
 /*
 **					Main funcions

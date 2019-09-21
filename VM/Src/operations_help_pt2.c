@@ -38,31 +38,6 @@ void			make_one_new_cursor(t_cursor cursor)
 	g_cursors_amount++;
 }
 
-void			*get_amount_of_bytes_data(short addres, int amount_for_read)
-{
-	static unsigned short	temp_1;
-	static unsigned int		temp_2;
-	int						i;
-
-	temp_1 = 0;
-	temp_2 = 0;
-	if (amount_for_read == 2)
-	{
-		temp_1 |= GET_BYTE(addres);
-		temp_1 <<= 8;
-		temp_1 |= GET_BYTE(addres + 1);
-		return (&temp_1);
-	}
-	i = -1;
-	while (++i < 4)
-	{
-		temp_2 |= GET_BYTE(addres + i);
-		if (i <= 2)
-			temp_2 <<= 8;
-	}
-	return(&temp_2);
-}
-
 short			get_short_data(short addres)
 {
 	short	res;
