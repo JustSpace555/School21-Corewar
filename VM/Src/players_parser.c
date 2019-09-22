@@ -35,7 +35,7 @@ int		players_parser(int amount_players, char **files_champions, t_vm vm)
 				}
 			if (amount_bytes > BYTES_AFTER_HEADER && amount_bytes <= BYTES_AFTER_NAME)
 			{
-				copy_bytes_to_string(&name, buffer, temp);
+				copy_bytes_to_string(&name, buffer, temp, temp + 4);
 				temp += 4;
 			}
 			if (amount_bytes == BYTES_AFTER_NAME)
@@ -62,7 +62,7 @@ int		players_parser(int amount_players, char **files_champions, t_vm vm)
 			}
 			if (amount_bytes > BYTES_AFTER_CODE_SIZE && amount_bytes <= BYTES_AFTER_COMMENT)
 			{
-				copy_bytes_to_string(&comment, buffer, temp);
+				copy_bytes_to_string(&comment, buffer, temp, temp + 4);
 				temp += 4;
 			}
 			if (amount_bytes == BYTES_AFTER_COMMENT)
@@ -79,7 +79,7 @@ int		players_parser(int amount_players, char **files_champions, t_vm vm)
 					PLAYER(i).code = (char *)malloc(sizeof(char) * PLAYER(i).code_size);
 					ft_bzero(PLAYER(i).code, PLAYER(i).code_size);
 				}
-				copy_bytes_to_string(&PLAYER(i).code, buffer, temp);
+				copy_bytes_to_string(&PLAYER(i).code, buffer, temp, PLAYER(i).code_size);
 				temp += 4;
 			}
 		}

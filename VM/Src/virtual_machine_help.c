@@ -1,6 +1,57 @@
 #include "../Headers/virtual_header.h"
 
-char	choose_color(int i)
+void	choose_color(t_battlefield *cell, int i)
+{
+	if (i == 0)
+	{
+		cell->color = 'r';
+		cell->color_r = 155;
+	}
+	else if (i == 1)
+	{
+		cell->color = 'y';
+		cell->color_r = 155;
+		cell->color_g = 155;
+	}
+	else if (i == 2)
+	{
+		cell->color = 'g';
+		cell->color_g = 128;
+	}
+	else if (i == 3)
+	{
+		cell->color = 'b';
+		cell->color_b = 155;
+	}
+	else if (i == 4)
+	{
+		cell->color = 'p';
+		cell->color_r = 128;
+		cell->color_b = 128;
+	}
+	else if (i == 5)
+	{
+		cell->color = 'c';
+		cell->color_g = 155;
+		cell->color_b = 155;
+	}
+	else if (i == 6)
+	{
+		cell->color = 'e';
+		cell->color_r = 169;
+		cell->color_g = 169;
+		cell->color_b = 169;
+	}
+	else if (i == 7)
+	{
+		cell->color = 'l';
+		cell->color_r = 50;
+		cell->color_g = 50;
+		cell->color_b = 50;
+	}
+}
+
+char	choose_color_char(int i)
 {
 	if (i == 0)
 		return('r');
@@ -17,27 +68,67 @@ char	choose_color(int i)
 	else if (i == 6)
 		return('e');
 	else if (i == 7)
-		return ('l');
+		return ('b');
 	return ('n');
 }
 
-int		choose_reverse_color(char color)
+int		choose_reverse_color(t_battlefield *cell)
 {
-	if (color == 'r')
-		return(0);
-	else if (color == 'y')
-		return(1);
-	else if (color == 'g')
-		return(2);
-	else if (color == 'b')
-		return(3);
-	else if (color == 'p')
-		return(4);
-	else if (color == 'c')
-		return(5);
-	else if (color == 'e')
-		return(6);
-	else if (color == 'l')
+	if (cell->color == 'r')
+	{
+		cell->color_r = 155;
+		cell->color_g = 0;
+		cell->color_b = 0;
+		return (0);
+	}
+	else if (cell->color == 'y')
+	{
+		cell->color_r = 155;
+		cell->color_g = 155;
+		cell->color_b = 0;
+		return (1);
+	}
+	else if (cell->color == 'g')
+	{
+		cell->color_r = 0;
+		cell->color_g = 128;
+		cell->color_b = 0;
+		return (2);
+	}
+	else if (cell->color == 'b')
+	{
+		cell->color_r = 0;
+		cell->color_g = 0;
+		cell->color_b = 155;
+		return (3);
+	}
+	else if (cell->color == 'p')
+	{
+		cell->color_r = 128;
+		cell->color_g = 0;
+		cell->color_b = 128;
+		return (4);
+	}
+	else if (cell->color == 'c')
+	{
+		cell->color_r = 0;
+		cell->color_g = 155;
+		cell->color_b = 155;
+		return (5);
+	}
+	else if (cell->color == 'e')
+	{
+		cell->color_r = 169;
+		cell->color_g = 169;
+		cell->color_b = 169;
+		return (6);
+	}
+	else if (cell->color == 'l')
+	{
+		cell->color_r = 50;
+		cell->color_g = 50;
+		cell->color_b = 50;
 		return (7);
+	}
 	return (8);
 }

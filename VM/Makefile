@@ -22,8 +22,8 @@ INCLUDE =	$(INCLUDE_FOLDER)virtual_header.h \
 			$(INCLUDE_FOLDER)op.h \
 			$(SRC_VIS_FOLDER)visualisator.h
 
-LIB_FOLDER = ../libft/SRC/
-SRC_FOR_DEBUG =
+LIB_FOLDER = ../libft/Src/
+SRC_FOR_DEBUG = $(LIB_FOLDER)main_functions/ft_itoa.c
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -39,7 +39,7 @@ all:
 	@mv $(EXEC) ../$(EXEC)
 
 debug: fclean
-	@echo Compiling virtual machine ...
+	@echo Compiling virtual machine for debug ...
 	@gcc -g $(FLAGS) $(SRC) $(SRC_VIS) $(SRC_FOR_DEBUG) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
 	@mv $(EXEC) ../$(EXEC)
 	@mv $(EXEC).dSYM ../$(EXEC).dSYM

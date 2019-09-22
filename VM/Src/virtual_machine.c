@@ -2,13 +2,13 @@
 
 void	fill_battlefield(t_vm *vm)
 {
-	int	i;
-	int	j;
-	int	diff;
-	int	temp;
-	int	byte;
+	int		i;
+	int		j;
+	float	diff;
+	float	temp;
+	int		byte;
 
-	diff = MEM_SIZE / vm->amount_players;
+	diff = (float)MEM_SIZE / vm->amount_players;
 	temp = diff;
 	i = -1;
 	byte = 0;
@@ -20,13 +20,16 @@ void	fill_battlefield(t_vm *vm)
 		while (++j < PLAYER(i).code_size)
 		{
 			g_battlefield[byte].code = PLAYER(i).code[j];
-			g_battlefield[byte].color = choose_color(i);
+			choose_color(&g_battlefield[byte], i);
 			byte++;
 		}
-		while (byte < MIN(diff, MEM_SIZE))
+		while ((float)byte < diff && byte < MEM_SIZE)
 		{
+			g_battlefield[byte].color_b = 111;
+			g_battlefield[byte].color_g = 111;
+			g_battlefield[byte].color_r = 111;
 			g_battlefield[byte].code = 0x0;
-			g_battlefield[byte].color = '\0';
+			g_battlefield[byte].color = 'n';
 			byte++;
 		}
 		diff += temp;
@@ -107,6 +110,18 @@ void	introduce(t_vm *vm)
 			PLAYER(i).name, PLAYER(i).comment);
 }
 
+void	ft_pause(void)
+{
+	SDL_Event	event;
+
+	while (1)
+		if(SDL_PollEvent(&event))
+			if (event.type == SDL_KEYDOWN)
+				if (event.key.keysym.sym == SDLK_RETURN
+					|| event.key.keysym.sym == SDLK_ESCAPE)
+					break ;
+}
+
 void	virtual_machine(t_vm *vm)
 {
 	int	i;
@@ -117,6 +132,7 @@ void	virtual_machine(t_vm *vm)
 	t_cycles_to_die	repeate;
 	t_bool			quit;
 	SDL_Event		event;
+	t_bool			pause;
 	SDL_FRect		cell;
 	TTF_Font		*font;
 
@@ -131,9 +147,10 @@ void	virtual_machine(t_vm *vm)
 	cycle_to_die = CYCLE_TO_DIE;
 	current_cycle = 1;
 	quit = false;
+	pause = false;
 	if (!init())
 		return ;
-	if (!(font = TTF_OpenFont("visualisator/InputMonoNarrow-regular.ttf", 15)))
+	if (!(font = TTF_OpenFont("visualisator/InputMono-Regular.ttf", 15)))
 	{
 		ft_printf("%s\n", TTF_GetError());
 		return ;
@@ -165,6 +182,7 @@ void	virtual_machine(t_vm *vm)
 			SDL_RenderPresent(g_main_render);
 			SDL_Delay(SCREEN_TICKS_PER_FRAME);
 		}
+		// ft_pause();
 		if (current_cycle - last_cycle_check >= cycle_to_die)
 		{
 			i = -1;

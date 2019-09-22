@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/corewar",
-			"args": ["vm_champs/champs/Gagnant.cor", "vm_champs/champs/Car.cor", "vm_champs/champs/ex.cor", "vm_champs/champs/jumper.cor"],
+			"args": ["vm_champs/champs/championships/2018/mbenjell3/echo.cor", "vm_champs/champs/championships/2018/mbenjell3/fast.cor", "vm_champs/champs/championships/2018/mbenjell3/wave.cor"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

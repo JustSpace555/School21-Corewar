@@ -145,49 +145,86 @@ void	ldi_lldi(t_cursor *cursor, int selector)
 {
 	unsigned char	codage;
 	unsigned char	dest_reg;
-	unsigned int	where;
 
 	CHECK_EXEC(&cursor);
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
-	if (!((codage >= 84 && codage <= 87) || (codage >= 164 && codage <= 167)
-			|| (codage >= 212 && codage <= 215)
-				|| (codage >= 228 && codage <= 231)))
+	if ((codage & 0xC0) == 0 || (codage & 0x30) > 0x20 || (codage & 0xC) > 4)
 	{
 		move_cursor(cursor, 2, 1);
 		return ;
 	}
-	if (codage >= 84 && codage <= 87)
+	if ((codage & 0xC0) == 0x40)
 	{
-		dest_reg = GET_CUR_POS_BYTE(&cursor, 4);
-		CHECK_REG(&cursor, dest_reg, 2, 1);
 		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 2), 2, 1);
-		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 3), 2, 1);
-		where = cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] +
-				cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1];
-		if (selector == 0)
-			cursor->reg[dest_reg - 1] = get_int_data(where % IDX_MOD);
-		else
-			cursor->reg[dest_reg - 1] = get_int_data(where);
+		if ((codage & 0x30) == 0x10)
+		{
+			CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 3), 2, 1);
+			dest_reg = GET_CUR_POS_BYTE(&cursor, 4);
+			CHECK_REG(&cursor, dest_reg, 2, 1);
+			if (selector == 0)
+				cursor->reg[dest_reg - 1] = get_int_data((
+					cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] +
+					cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1])
+					% IDX_MOD);
+			else
+				cursor->reg[dest_reg - 1] = get_int_data((
+					cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] +
+					cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1]));
+		}
+		else if ((codage & 0x30) == 0x20)
+		{
+			dest_reg = GET_CUR_POS_BYTE(&cursor, 5);
+			CHECK_REG(&cursor, dest_reg, 2, 1);
+			if (selector == 0)
+				cursor->reg[dest_reg - 1] = get_int_data((
+					cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] +
+					get_short_data(cursor->cur_pos + 3)) % IDX_MOD);
+			else
+				cursor->reg[dest_reg - 1] = get_int_data((
+					cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] +
+					get_short_data(cursor->cur_pos + 3)));
+		}
 	}
-	else if (codage >= 164 && codage <= 167)
+	else if ((codage & 0xC0) == 0x80)
+	{
+		if ((codage & 0x30) == 0x10)
+		{
+			CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 4), 2, 1);
+			dest_reg = GET_CUR_POS_BYTE(&cursor, 5);
+			CHECK_REG(&cursor, dest_reg, 2, 1);
+			if (selector == 0)
+				cursor->reg[dest_reg - 1] = get_int_data((
+					get_short_data(cursor->cur_pos + 2) +
+					cursor->reg[GET_CUR_POS_BYTE(&cursor, 5) - 1]) % IDX_MOD);
+			else
+				cursor->reg[dest_reg - 1] = get_int_data((
+					get_short_data(cursor->cur_pos + 2) +
+					cursor->reg[GET_CUR_POS_BYTE(&cursor, 5) - 1]));
+		}
+		else if ((codage & 0x30) == 0x20)
+		{
+			dest_reg = GET_CUR_POS_BYTE(&cursor, 6);
+			CHECK_REG(&cursor, dest_reg, 2, 1);
+			if (selector == 0)
+				cursor->reg[dest_reg - 1] = get_int_data((
+					get_short_data(cursor->cur_pos + 2) +
+					get_short_data(cursor->cur_pos + 4)) % IDX_MOD);
+			else
+				cursor->reg[dest_reg - 1] = get_int_data((
+					get_short_data(cursor->cur_pos + 2) +
+					get_short_data(cursor->cur_pos + 4)));
+		}
+	}
+	else if ((codage & 0xC0) == 0xC0)
 	{
 		dest_reg = GET_CUR_POS_BYTE(&cursor, 6);
 		CHECK_REG(&cursor, dest_reg, 2, 1);
-		where = get_short_data(cursor->cur_pos + 2) +
-				get_short_data(cursor->cur_pos + 4);
 		if (selector == 0)
-			cursor->reg[dest_reg - 1] = get_int_data(where % IDX_MOD);
+			cursor->reg[dest_reg - 1] = get_int_data(
+				get_short_data(cursor->cur_pos + 2) % IDX_MOD);
 		else
-			cursor->reg[dest_reg - 1] = get_int_data(where);
-	}
-	else
-	{
-		dest_reg = GET_CUR_POS_BYTE(&cursor, 3);
-		CHECK_REG(&cursor, dest_reg, 2, 1);
-		if (selector == 0)
-			cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2) % IDX_MOD);
-		else
-			cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2));
+			cursor->reg[dest_reg - 1] = get_int_data(
+				get_short_data(cursor->cur_pos + 2) % IDX_MOD);
 	}
 	move_cursor(cursor, 2, 1);
 }
@@ -220,36 +257,53 @@ void	sti(t_cursor *cursor)
 {
 	unsigned char	codage;
 	unsigned char	src_reg;
-	int				value;
 
 	CHECK_EXEC(&cursor);
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
-	if (!((codage >= 84 && codage <= 87) || (codage >= 104 && codage <= 107)
-		|| (codage >= 116 && codage <= 123)) || src_reg > REG_NUMBER) //проверка на 0
+	if ((codage & 0xC0) > 0x40 || (codage & 0x30) == 0 || (codage & 0xC) > 8 ||
+		src_reg > REG_NUMBER || src_reg == 0)
 	{
 		move_cursor(cursor, 2, 1);
 		return ;
 	}
-	//arg2 = (short)
-	//value = cursor->reg[src_reg - 1];
-	value = cursor->reg[src_reg - 1];
-	if ((codage & 0x30) == 48) // 2 arg T_IND
+	if ((codage & 0x30) == 0x10)
 	{
 		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 3), 2, 1);
-		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 4), 2, 1);
-		write_amount_of_bytes_data(
-			(cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] +
-				cursor->reg[GET_CUR_POS_BYTE(&cursor, 4) - 1]) % IDX_MOD,
-					&cursor->reg[src_reg - 1], 4, g_battlefield[cursor->cur_pos].color);
+		if ((codage & 0xC) == 4)
+		{
+			CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 4), 2, 1);
+			write_amount_of_bytes_data((
+				cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] +
+				cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1]) % IDX_MOD,
+				(void *)&cursor->reg[src_reg - 1], 4, cursor->color);
+		}
+		else if ((codage & 0xC) == 8)
+			write_amount_of_bytes_data((
+				cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] +
+				get_short_data(cursor->cur_pos + 4)) % IDX_MOD,
+				(void *)&cursor->reg[src_reg - 1], 4, cursor->color);
 	}
-	else if ((codage & 0x20) == 32)
-		write_amount_of_bytes_data((get_short_data(cursor->cur_pos + 3)
-			+ get_short_data(cursor->cur_pos + 5)) % IDX_MOD,
-				&cursor->reg[src_reg - 1], 4, g_battlefield[cursor->cur_pos].color);
-	else
-		write_amount_of_bytes_data(get_short_data(cursor->cur_pos + 3)
-			% IDX_MOD, &cursor->reg[src_reg - 1], 4, g_battlefield[cursor->cur_pos].color);
+	else if ((codage & 0x30) == 0x20)
+	{
+		if ((codage & 0xC) == 4)
+		{
+			CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 5), 2, 1);
+			write_amount_of_bytes_data((
+				get_short_data(cursor->cur_pos + 3) +
+				cursor->reg[GET_CUR_POS_BYTE(&cursor, 5) - 1]) % IDX_MOD,
+				(void *)&cursor->reg[src_reg - 1], 4, cursor->color);
+		}
+		else if ((codage & 0xC) == 8)
+			write_amount_of_bytes_data((
+				get_short_data(cursor->cur_pos + 3) +
+				get_short_data(cursor->cur_pos + 5)) % IDX_MOD,
+				(void *)&cursor->reg[src_reg - 1], 4, cursor->color);
+	}
+	else if ((codage & 0x30) == 0x30)
+		write_amount_of_bytes_data(
+			get_short_data(cursor->cur_pos + 3) % IDX_MOD,
+			(void *)&cursor->reg[src_reg - 1], 4, cursor->color);
 	move_cursor(cursor, 2, 1);
 }
 

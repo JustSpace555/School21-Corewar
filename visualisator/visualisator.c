@@ -42,9 +42,9 @@ void	set_render_draw_color(char color)
 	else if (color == 'c')
 		SDL_SetRenderDrawColor(g_main_render, 0, 155, 155, 255);
 	else if (color == 'e')
-		SDL_SetRenderDrawColor(g_main_render, 0, 155, 155, 255);
+		SDL_SetRenderDrawColor(g_main_render, 169, 169, 169, 255);
 	else if (color == 'l')
-		SDL_SetRenderDrawColor(g_main_render, 0, 0, 0, 255);
+		SDL_SetRenderDrawColor(g_main_render, 50, 50, 50, 255);
 	else
 		SDL_SetRenderDrawColor(g_main_render, 111, 111, 111, 255);
 }
@@ -75,8 +75,9 @@ void	set_info_text(void *data, int flag, TTF_Font *font, int indent_count, char 
 	{
 		if (flag)
 		{
+			printf("before = %d\n", *(int *)data);
 			temp_1 = ft_itoa(*(int *)data);
-			printf("%s\n", temp_1);
+			printf("after = %s\n", temp_1);
 		}
 		else
 			temp_1 = (char *)data;
@@ -84,14 +85,14 @@ void	set_info_text(void *data, int flag, TTF_Font *font, int indent_count, char 
 	if (temp_1)
 	{
 		temp_2 = ft_strjoin(text, temp_1);
+		text_surface = TTF_RenderText_Solid(font, temp_2, White);
 		free(temp_1);
+		free(temp_2);
 	}
 	else
-		temp_2 = text;
-	text_surface = TTF_RenderText_Solid(font, temp_2, White);
-	// free(temp_2);
+		text_surface = TTF_RenderText_Solid(font, text, White);
 	text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
-	coor = set_rect(SCREEN_WIDTH - INFORMATION_SIZE + 50, 50 * indent_count, 20, 200);
+	coor = set_rect(SCREEN_WIDTH - INFORMATION_SIZE + 50, 50 * indent_count, 17, 200);
 	SDL_RenderCopy(g_main_render, text_texture, NULL, &coor);
 }
 
@@ -108,7 +109,7 @@ void	push_distribution(int indent_count)
 		colors[i] = 0;
 	i = -1;
 	while (++i < MEM_SIZE)
-		colors[choose_reverse_color(g_battlefield[i].color)]++;
+		colors[choose_reverse_color(&g_battlefield[i])]++;
 	i = -1;
 	coor.y = 50 * indent_count;
 	coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 25;
@@ -116,7 +117,7 @@ void	push_distribution(int indent_count)
 	{
 		coor.h = 15;
 		coor.w = colors[i] * k;
-		set_render_draw_color(choose_color(i));
+		set_render_draw_color(choose_color_char(i));
 		SDL_RenderFillRectF(g_main_render, &coor);
 		coor.x += coor.w;
 	}
@@ -131,7 +132,7 @@ void	push_info(int current_cycle, int cycle_to_die, TTF_Font *font)
 	set_info_text((void *)&current_cycle, 1, font, 2, "Current cycle: ");
 	set_info_text((void *)&cycle_to_die, 1, font, 3, "Cycle to die: ");
 	set_info_text((void *)&temp, 1, font, 4, "Cycle delta: ");
-	set_info_text(NULL, 0, font, 5, "Arena distribution:");
+	set_info_text(NULL, 0, font, 5, "Arena distribution: ");
 	push_distribution(6);
 }
 
@@ -152,7 +153,13 @@ void	push_to_render_battlefield(SDL_FRect cell)
 		{
 			cell.x = cell.w * j;
 			cell.y = cell.h * i;
-			set_render_draw_color(g_battlefield[i + j + lines_count].color);
+			// set_render_draw_color(g_battlefield[i + j + lines_count].color);
+			SDL_SetRenderDrawColor(g_main_render,
+				BATTLEFIELD_CELL(i, j, lines_count).color_r + BATTLEFIELD_CELL(i, j, lines_count).write_cycles,
+				BATTLEFIELD_CELL(i, j, lines_count).color_g + BATTLEFIELD_CELL(i, j, lines_count).write_cycles,
+				BATTLEFIELD_CELL(i, j, lines_count).color_b + BATTLEFIELD_CELL(i, j, lines_count).write_cycles, 255);
+			if (BATTLEFIELD_CELL(i, j, lines_count).write_cycles > 0)
+				BATTLEFIELD_CELL(i, j, lines_count).write_cycles--;
 			SDL_RenderFillRectF(g_main_render, &cell);
 		}
 		lines_count += j - 1;

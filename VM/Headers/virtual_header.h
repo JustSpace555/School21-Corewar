@@ -13,6 +13,7 @@
 # define PLAYER(i) g_players[i]
 # define CURSOR(i) g_cursors[i]
 # define GET_BYTE(pos) g_battlefield[pos].code
+# define BATTLEFIELD_CELL(i, j, l_c) g_battlefield[i + j + l_c]
 # define GET_CUR_POS_BYTE(cursor, extra) GET_BYTE((*cursor)->cur_pos + extra)
 # define GET_REG_VALUE(cursor, reg_i) cursor->reg[reg_i]
 # define CODE_PER_LINE 64
@@ -82,8 +83,11 @@ typedef struct		s_battlefield
 {
 	unsigned char	code;
 	char			color;
+	int				color_r;
+	int				color_g;
+	int				color_b;
+	int				write_cycles;
 	t_bool			cursor;
-	char			cursor_color;
 }					t_battlefield;
 
 typedef struct		s_cyles_to_die
@@ -125,13 +129,14 @@ void				initialize_g_players(int amount_players);
 
 int					make_4_byte_int(u_int8_t buffer[4]);
 void				copy_bytes_to_string(char **str, u_int8_t buffer[4],
-										int amount_of_bytes);
+						int amount_of_bytes, int code_size);
 int					check_for_header(u_int8_t buffer[4]);
 int					get_code_size(u_int8_t buffer[4]);
 int					ft_is_strdigit(char *str);
 void				free_g_players(int amount_players);
-char				choose_color(int i);
-int					choose_reverse_color(char color);
+void				choose_color(t_battlefield *cell, int i);
+int					choose_reverse_color(t_battlefield *cell);
+char				choose_color_char(int i);
 
 /*
 **					Main funcions
