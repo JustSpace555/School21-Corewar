@@ -132,3 +132,23 @@ int		choose_reverse_color(t_battlefield *cell)
 	}
 	return (8);
 }
+
+void	free_all(TTF_Font *font, t_vm *vm)
+{
+	int	i;
+
+	TTF_CloseFont(font);
+	TTF_Quit();
+	SDL_DestroyRenderer(g_main_render);
+	SDL_DestroyWindow(g_main_window);
+	SDL_Quit();
+	i = -1;
+	while (++i < vm->amount_players)
+	{
+		free(PLAYER(i).code);
+		free(PLAYER(i).comment);
+		free(PLAYER(i).name);
+	}
+	free(g_battlefield);
+	free(g_cursors);
+}

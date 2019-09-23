@@ -15,7 +15,9 @@ SRC =	$(SRC_FOLDER)main.c \
 		$(SRC_FOLDER)operations_help_pt2.c
 
 SRC_VIS_FOLDER = ../visualisator/
-SRC_VIS =	$(SRC_VIS_FOLDER)visualisator.c
+SRC_VIS =	$(SRC_VIS_FOLDER)visualisator.c \
+			$(SRC_VIS_FOLDER)push_info.c \
+			$(SRC_VIS_FOLDER)visualisator_help.c
 
 INCLUDE_FOLDER = Headers/
 INCLUDE =	$(INCLUDE_FOLDER)virtual_header.h \

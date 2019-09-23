@@ -79,6 +79,8 @@ int		main(int argc, char *argv[])
 			return (0);
 		}
 		virtual_machine(&vm);
+		i = -1;
+		free(player_files);
 	}
 	return (0);
 }

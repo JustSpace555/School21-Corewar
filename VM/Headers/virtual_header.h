@@ -137,6 +137,8 @@ void				free_g_players(int amount_players);
 void				choose_color(t_battlefield *cell, int i);
 int					choose_reverse_color(t_battlefield *cell);
 char				choose_color_char(int i);
+void				free_all(TTF_Font *font, t_vm *vm);
+void				*my_malloc(size_t size, const char *file, int line, const char *func);
 
 /*
 **					Main funcions

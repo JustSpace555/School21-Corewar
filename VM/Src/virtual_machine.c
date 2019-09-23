@@ -164,9 +164,9 @@ void	virtual_machine(t_vm *vm)
 				&& event.key.keysym.sym == SDLK_ESCAPE))
 				quit = true;
 		i = -1;
+		// system("clear");
 		while(++i < g_cursors_amount)
 		{
-			// system("clear");
 			if ((GET_BYTE(g_cursors[i].cur_pos) == 0x0 || GET_BYTE(g_cursors[i].cur_pos) > 0x10))
 				move_cursor(&g_cursors[i], 0, 0);
 			else
@@ -174,15 +174,14 @@ void	virtual_machine(t_vm *vm)
 				choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));
 				exec_operation(&g_cursors[i], current_cycle);
 			}
-			// print_battlefield();
-			// ft_printf("Cycle = %d\n", current_cycle);
-			// system("sleep 0.05");
-			push_to_render_battlefield(cell);
-			push_info(current_cycle, cycle_to_die, font);
-			SDL_RenderPresent(g_main_render);
-			SDL_Delay(SCREEN_TICKS_PER_FRAME);
 		}
-		// ft_pause();
+		push_to_render_battlefield(cell);
+		push_info(current_cycle, cycle_to_die, font, vm->amount_players, repeate.amount_of_repeate);
+		SDL_RenderPresent(g_main_render);
+		SDL_Delay(SCREEN_TICKS_PER_FRAME);
+		// print_battlefield();
+		// ft_printf("Cycle = %d\n", current_cycle);
+		// system("sleep 0.01");
 		if (current_cycle - last_cycle_check >= cycle_to_die)
 		{
 			i = -1;
@@ -222,6 +221,7 @@ void	virtual_machine(t_vm *vm)
 		}
 		current_cycle++;
 	}
+	free_all(font, vm);
 	printf("num_r = %d\n", repeate.num_r);
 	printf("num_p_r = %d\n", repeate.num_p_r);
 	printf("CTD = %d\n", cycle_to_die);
