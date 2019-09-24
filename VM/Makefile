@@ -36,7 +36,7 @@ EXEC = corewar
 
 all:
 	@echo Compiling virtual machine ...
-	@bash /Users/qmebble/Git/corewar/visualisator/script.bash
+	@bash $(SRC_VIS_FOLDER)script.bash
 	@gcc $(FLAGS) $(SRC) $(SRC_VIS) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
 	@mv $(EXEC) ../$(EXEC)
 
