@@ -134,8 +134,6 @@ void	virtual_machine(t_vm *vm)
 	SDL_Event		event;
 	t_bool			pause;
 	SDL_FRect		cell;
-	SDL_Texture		**array;
-	TTF_Font		*code_font;
 	TTF_Font		*font;
 
 	initialize_battlefield();
@@ -157,12 +155,6 @@ void	virtual_machine(t_vm *vm)
 		ft_printf("%s\n", TTF_GetError());
 		return ;
 	}
-	if (!(code_font = TTF_OpenFont("visualisator/InputMono-Regular.ttf", 12)))
-	{
-		ft_printf("%s\n", TTF_GetError());
-		return ;
-	}
-	array = make_code_text_array(code_font);
 	cell.w = (float)(SCREEN_WIDTH - INFORMATION_SIZE) / 64;
 	cell.h = (float)SCREEN_HEIGHT / 64;
 	while (cycle_to_die > 0 && !quit)
@@ -183,7 +175,7 @@ void	virtual_machine(t_vm *vm)
 				exec_operation(&g_cursors[i], current_cycle);
 			}
 		}
-		push_to_render_battlefield(cell, array, code_font);
+		push_to_render_battlefield(cell);
 		push_info(current_cycle, cycle_to_die, font, vm->amount_players, repeate.amount_of_repeate);
 		SDL_RenderPresent(g_main_render);
 		SDL_Delay(SCREEN_TICKS_PER_FRAME);
@@ -232,7 +224,7 @@ void	virtual_machine(t_vm *vm)
 		}
 		current_cycle++;
 	}
-	free_all(font, vm, array);
+	free_all(font, vm);
 	printf("num_r = %d\n", repeate.num_r);
 	printf("num_p_r = %d\n", repeate.num_p_r);
 	printf("CTD = %d\n", cycle_to_die);

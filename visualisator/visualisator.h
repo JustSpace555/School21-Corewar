@@ -15,7 +15,7 @@ SDL_Window		*g_main_window;
 SDL_Renderer	*g_main_render;
 SDL_Texture		**g_textures_array;
 
-void			push_to_render_battlefield(SDL_FRect cell, SDL_Texture **text_array, TTF_Font *code_font);
+void			push_to_render_battlefield(SDL_FRect cell);
 void			push_info(int current_cycle, int cycle_to_die, TTF_Font *font, int amount_players, int amount_checks);
 void			push_int_text(int data, char *info_text, float y, TTF_Font *font, SDL_Color color);
 void			push_int_slash_data(float y, TTF_Font *font, int data_1, int data_2, char *text, SDL_Color color);
