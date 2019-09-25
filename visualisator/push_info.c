@@ -27,6 +27,26 @@ void	push_distribution(float y)
 	}
 }
 
+void	push_live_breakdown(int y, int amount_players)
+{
+	int			i;
+	float		k;
+	SDL_FRect	coor;
+
+	k = 300 / (float)g_amount_live_operations;
+	coor.y = y;
+	coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 25;
+	i = -1;
+	while (++i < amount_players)
+	{
+		coor.h = 15;
+		coor.w = PLAYER(i).nbr_live * k;
+		set_render_draw_color(choose_color_char(i));
+		SDL_RenderFillRectF(g_main_render, &coor);
+		coor.x += coor.w;
+	}
+}
+
 void	push_int_text(int data, char *info_text, float y, TTF_Font *font, SDL_Color color)
 {
 	char		*temp_1;
@@ -101,10 +121,12 @@ void	push_players(int start_y, int amount_players, TTF_Font *font)
 	pos = start_y;
 	while (++i < amount_players)
 	{
-		push_int_text(i, "Player # ", pos, font, White);
-		push_int_text(PLAYER(i).identifier, "ID: ", pos + 20, font, White);
+		push_int_text(i + 1, "Player # ", pos, font, White);
 		set_sdl_color(&color, i);
-		push_char_text(PLAYER(i).name, pos + 40, font, color);
-		pos += 80;
+		push_char_text(PLAYER(i).name, pos + 20, font, color);
+		push_int_text(PLAYER(i).identifier, "ID: ", pos + 40, font, White);
+		push_int_text(PLAYER(i).last_alive, "Last alive: ", pos + 60, font, White);
+		push_int_text(PLAYER(i).nbr_live, "Lives in current period : ", pos + 80, font, White);
+		pos += 120;
 	}
 }

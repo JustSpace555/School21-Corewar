@@ -45,6 +45,8 @@ void	initialize_g_players(int amount_players)
 		PLAYER(i).comment = NULL;
 		PLAYER(i).identifier = 0;
 		PLAYER(i).name = NULL;
+		PLAYER(i).last_alive = 0;
+		PLAYER(i).nbr_live = 0;
 	}
 }
 

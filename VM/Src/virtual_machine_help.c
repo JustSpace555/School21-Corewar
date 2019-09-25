@@ -133,10 +133,14 @@ int		choose_reverse_color(t_battlefield *cell)
 	return (8);
 }
 
-void	free_all(TTF_Font *font, t_vm *vm)
+void	free_all(TTF_Font *font, t_vm *vm, SDL_Texture **array)
 {
 	int	i;
 
+	i = -1;
+	while (++i < 256)
+		SDL_DestroyTexture(array[i]);
+	free(array);
 	TTF_CloseFont(font);
 	TTF_Quit();
 	SDL_DestroyRenderer(g_main_render);

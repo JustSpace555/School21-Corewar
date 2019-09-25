@@ -106,3 +106,45 @@ void	set_sdl_color(SDL_Color *color, int i)
 		color->b = 111;
 	}
 }
+
+char		choose_hex(int i)
+{
+	if (i >= 10)
+	{
+		if (i == 10)
+			return ('a');
+		else if (i == 11)
+			return ('b');
+		else if (i == 12)
+			return ('c');
+		else if (i == 13)
+			return ('d');
+		else if (i == 14)
+			return ('e');
+		else if (i == 15)
+			return ('f');
+	}
+	return (i + '0');
+}
+
+SDL_Texture	**make_code_text_array(TTF_Font *font)
+{
+	SDL_Texture	**array;
+	SDL_Surface	*text_surface;
+	SDL_Color	White = {255, 255, 255, 255};
+	char		code[3];
+	int			i;
+
+	array = (SDL_Texture **)(malloc(sizeof(SDL_Texture *) * 256));
+	i = -1;
+	while (++i < 256)
+	{
+		code[0] = choose_hex(i / 16);
+		code[1] = choose_hex(i % 16);
+		code[2] = '\0';
+		text_surface = TTF_RenderText_Solid(font, code, White);
+		array[i] = SDL_CreateTextureFromSurface(g_main_render, text_surface);
+		SDL_FreeSurface(text_surface);
+	}
+	return (array);
+}

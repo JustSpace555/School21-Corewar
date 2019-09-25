@@ -2,17 +2,16 @@
 
 void	live(t_cursor *cursor, int cycle)
 {
-	// int	i;
+	int	i;
 
 	CHECK_EXEC(&cursor);
-	// i = 0;
-	// if (cursor->id != get_int_data(cursor->cur_pos + 1))
-	// {
-	// 	while (cursor->id != -PLAYER(i).identifier && i < )
-	// 		i++;
-	// 	PLAYER(i).is_alive = false;
-	// }
+	i = 0;
+	while (cursor->id != PLAYER(i).identifier)
+		i++;
 	cursor->last_alive = cycle;
+	PLAYER(i).last_alive = cycle;
+	PLAYER(i).nbr_live++;
+	g_battlefield[cursor->cur_pos].write_cycles = 100;
 	move_cursor(cursor, 4, 0);
 	g_amount_live_operations++;
 }
