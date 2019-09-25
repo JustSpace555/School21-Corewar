@@ -16,7 +16,7 @@
 # define BATTLEFIELD_CELL(i, j, l_c) g_battlefield[i + j + l_c]
 # define GET_CUR_POS_BYTE(cursor, extra) GET_BYTE((*cursor)->cur_pos + extra)
 # define GET_REG_VALUE(cursor, reg_i) cursor->reg[reg_i]
-# define CODE_PER_LINE 64
+# define CODE_PER_LINE 32 // change to 32
 # define CHECK_EXEC(cursor) if (check_for_cycle_exec(*cursor) == -1) return ;
 
 /*

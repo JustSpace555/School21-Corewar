@@ -4,7 +4,6 @@ void	live(t_cursor *cursor, int cycle)
 {
 	int	i;
 
-	CHECK_EXEC(&cursor);
 	i = 0;
 	while (cursor->id != PLAYER(i).identifier)
 		i++;
@@ -22,7 +21,6 @@ void	ld(t_cursor *cursor)
 	unsigned char	dest_reg;
 	unsigned int	num;
 
-	CHECK_EXEC(&cursor);
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	if (!((codage >= 144 && codage <= 159) || (codage >= 208 && codage <= 223)))
 	{
@@ -52,7 +50,6 @@ void	st(t_cursor *cursor) //потестить с типами
 	unsigned char	dest_reg;
 	short			temp;
 
-	CHECK_EXEC(&cursor);
 	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
 	if (src_reg > REG_NUMBER || !((GET_CUR_POS_BYTE(&cursor, 1) >= 80
 			&& GET_CUR_POS_BYTE(&cursor, 1) <= 95)

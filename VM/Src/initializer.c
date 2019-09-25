@@ -80,7 +80,7 @@ void	initialize_cursors(int amount_players)
 		CURSOR(i).bytes_to_next_op = 0;
 		CURSOR(i).carry = false;
 		CURSOR(i).cur_pos = PLAYER(i).start_position;
-		CURSOR(i).cycle_exec = -1;
+		CURSOR(i).cycle_exec = 0;
 		CURSOR(i).id = PLAYER(i).identifier;
 		CURSOR(i).last_alive = 0;
 		CURSOR(i).operation_code = 0;

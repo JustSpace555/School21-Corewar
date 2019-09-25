@@ -5,7 +5,6 @@ void	and_or_xor(t_cursor *cursor, int selector)
 	unsigned char	dest_reg;
 	unsigned char	codage;
 
-	CHECK_EXEC(&cursor);
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	if ((codage & 0xC0) == 0 || (codage & 0x30) == 0 || (codage & 0xC) != 4)
 	{
@@ -134,7 +133,6 @@ void	and_or_xor(t_cursor *cursor, int selector)
 
 void	zjmp(t_cursor *cursor)
 {
-	CHECK_EXEC(&cursor);
 	if (cursor->carry == false)
 		move_cursor(cursor, 2, 0);
 	else
@@ -258,7 +256,6 @@ void	sti(t_cursor *cursor)
 	unsigned char	codage;
 	unsigned char	src_reg;
 
-	CHECK_EXEC(&cursor);
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
 	if ((codage & 0xC0) > 0x40 || (codage & 0x30) == 0 || (codage & 0xC) > 8 ||
@@ -311,7 +308,6 @@ void	lld(t_cursor *cursor)
 {
 	unsigned char	codage;
 
-	CHECK_EXEC(&cursor);
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	if (!((codage >= 144 && codage <= 159) || (codage >= 208 && codage <= 223)))
 	{

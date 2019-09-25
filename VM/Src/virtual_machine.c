@@ -38,7 +38,7 @@ void	fill_battlefield(t_vm *vm)
 
 void	choose_operaion(t_cursor *cursor, unsigned char byte)
 {
-	if (cursor->cycle_exec == -1)
+	if (cursor->cycle_exec == 0)
 	{
 		cursor->operation_code = byte;
 		if (byte == 1 || byte == 4 || byte == 5 || byte == 13)
@@ -59,43 +59,51 @@ void	choose_operaion(t_cursor *cursor, unsigned char byte)
 			cursor->cycle_exec = 1000;
 		else if (byte == 16)
 			cursor->cycle_exec = 2;
+		else
+			cursor->cycle_exec = 0;
 	}
+	cursor->cycle_exec = (cursor->cycle_exec > 0) ? --cursor->cycle_exec : 0;
 }
 
 void	exec_operation(t_cursor *cursor, int current_cycle)
 {
-	if (cursor->operation_code == 1)
-		live(cursor, current_cycle);
-	else if (cursor->operation_code == 2)
-		ld(cursor);
-	else if (cursor->operation_code == 3)
-		st(cursor);
-	else if (cursor->operation_code == 4)
-		add(cursor);
-	else if (cursor->operation_code == 5)
-		sub(cursor);
-	else if (cursor->operation_code == 6)
-		and_or_xor(cursor, 0);
-	else if (cursor->operation_code == 7)
-		and_or_xor(cursor, 1);
-	else if (cursor->operation_code == 8)
-		and_or_xor(cursor, 2);
-	else if (cursor->operation_code == 9)
-		zjmp(cursor);
-	else if (cursor->operation_code == 10)
-		ldi_lldi(cursor, 0);
-	else if (cursor->operation_code == 11)
-		sti(cursor);
-	else if (cursor->operation_code == 12)
-		fork_lfork(cursor, 0);
-	else if (cursor->operation_code == 13)
-		lld(cursor);
-	else if (cursor->operation_code == 14)
-		ldi_lldi(cursor, 1);
-	else if (cursor->operation_code == 15)
-		fork_lfork(cursor, 1);
-	else if (cursor->operation_code == 16)
-		aff(cursor);
+	if (cursor->cycle_exec == 0)
+	{
+		if (cursor->operation_code == 1)
+			live(cursor, current_cycle);
+		else if (cursor->operation_code == 2)
+			ld(cursor);
+		else if (cursor->operation_code == 3)
+			st(cursor);
+		else if (cursor->operation_code == 4)
+			add(cursor);
+		else if (cursor->operation_code == 5)
+			sub(cursor);
+		else if (cursor->operation_code == 6)
+			and_or_xor(cursor, 0);
+		else if (cursor->operation_code == 7)
+			and_or_xor(cursor, 1);
+		else if (cursor->operation_code == 8)
+			and_or_xor(cursor, 2);
+		else if (cursor->operation_code == 9)
+			zjmp(cursor);
+		else if (cursor->operation_code == 10)
+			ldi_lldi(cursor, 0);
+		else if (cursor->operation_code == 11)
+			sti(cursor);
+		else if (cursor->operation_code == 12)
+			fork_lfork(cursor, 0);
+		else if (cursor->operation_code == 13)
+			lld(cursor);
+		else if (cursor->operation_code == 14)
+			ldi_lldi(cursor, 1);
+		else if (cursor->operation_code == 15)
+			fork_lfork(cursor, 1);
+		else if (cursor->operation_code == 16)
+			aff(cursor);
+		else
+			move_cursor(cursor, 0, 0);
+	}
 }
 
 void	introduce(t_vm *vm)
@@ -145,12 +153,17 @@ void	virtual_machine(t_vm *vm)
 	repeate.num_p_r = CYCLE_TO_DIE;
 	repeate.amount_of_repeate = 0;
 	cycle_to_die = CYCLE_TO_DIE;
-	current_cycle = 1;
+	current_cycle = 0;
 	quit = false;
 	pause = false;
-	if (!init())
+	if (vm->vis == 1 && !init())
 		return ;
-	if (!(font = TTF_OpenFont("visualisator/InputMono-Regular.ttf", 15)))
+	if (vm->dump == 0)
+	{
+		print_battlefield();
+		return ;
+	}
+	if (vm->vis == 1 && !(font = TTF_OpenFont("visualisator/InputMono-Regular.ttf", 15)))
 	{
 		ft_printf("%s\n", TTF_GetError());
 		return ;
@@ -159,29 +172,25 @@ void	virtual_machine(t_vm *vm)
 	cell.h = (float)SCREEN_HEIGHT / 64;
 	while (cycle_to_die > 0 && !quit)
 	{
-		while(SDL_PollEvent(&event))
-			if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN
-				&& event.key.keysym.sym == SDLK_ESCAPE))
-				quit = true;
+		current_cycle++;
+		if (vm->vis == 1)
+			while(SDL_PollEvent(&event))
+				if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN
+					&& event.key.keysym.sym == SDLK_ESCAPE))
+					quit = true;
 		i = -1;
-		// system("clear");
 		while(++i < g_cursors_amount)
 		{
-			if ((GET_BYTE(g_cursors[i].cur_pos) == 0x0 || GET_BYTE(g_cursors[i].cur_pos) > 0x10))
-				move_cursor(&g_cursors[i], 0, 0);
-			else
-			{
-				choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));
-				exec_operation(&g_cursors[i], current_cycle);
-			}
+			choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));
+			exec_operation(&g_cursors[i], current_cycle);
 		}
-		push_to_render_battlefield(cell);
-		push_info(current_cycle, cycle_to_die, font, vm->amount_players, repeate.amount_of_repeate);
-		SDL_RenderPresent(g_main_render);
-		SDL_Delay(SCREEN_TICKS_PER_FRAME);
-		// print_battlefield();
-		// ft_printf("Cycle = %d\n", current_cycle);
-		// system("sleep 0.01");
+		if (vm->vis == 1)
+		{
+			push_to_render_battlefield(cell);
+			push_info(current_cycle, cycle_to_die, font, vm->amount_players, repeate.amount_of_repeate);
+			SDL_RenderPresent(g_main_render);
+			SDL_Delay(SCREEN_TICKS_PER_FRAME);
+		}
 		if (current_cycle - last_cycle_check >= cycle_to_die)
 		{
 			i = -1;
@@ -222,7 +231,6 @@ void	virtual_machine(t_vm *vm)
 			print_battlefield();
 			return ;
 		}
-		current_cycle++;
 	}
 	free_all(font, vm);
 	printf("num_r = %d\n", repeate.num_r);
