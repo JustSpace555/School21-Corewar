@@ -42,12 +42,14 @@ void	write_amount_of_bytes_data(short addres, void *write, int size_of_write, ch
 	char			temp_2[4];
 
 	i = -1;
+	if (addres > MEM_SIZE)
+		addres -= MEM_SIZE;
 	if (size_of_write == 2)
 	{
 		*(short *)temp_1 = *(short *)write;
 		while (++i < 2)
 		{
-			g_battlefield[addres + i].code = temp_1[i];
+			g_battlefield[addres + i].code = temp_1[1 - i];
 			g_battlefield[addres + i].color = color;
 			choose_reverse_color(&g_battlefield[addres + i]);
 			g_battlefield[addres + i].write_cycles = 100;
@@ -58,7 +60,7 @@ void	write_amount_of_bytes_data(short addres, void *write, int size_of_write, ch
 		*(unsigned int *)temp_2 = *(unsigned int *)write;
 		while (++i < 4)
 		{
-			g_battlefield[addres + i].code = temp_2[i];
+			g_battlefield[addres + i].code = temp_2[3 - i];
 			g_battlefield[addres + i].color = color;
 			choose_reverse_color(&g_battlefield[addres + i]);
 			g_battlefield[addres + i].write_cycles = 100;

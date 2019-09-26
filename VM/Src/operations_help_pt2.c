@@ -47,7 +47,7 @@ short			get_short_data(short addres)
 
 unsigned int	get_int_data(short addres)
 {
-	unsigned short	res;
+	unsigned int	res;
 	int				i;
 
 	res = 0;

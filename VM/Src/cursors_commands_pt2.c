@@ -21,11 +21,11 @@ void	and_or_xor(t_cursor *cursor, int selector)
 			CHECK_REG(&cursor, dest_reg, 4, 1);
 			CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 3), 4, 1);
 			if (selector == 0)
-				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] & cursor->reg[GET_CUR_POS_BYTE(&cursor, 4) - 1];
+				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] & cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1];
 			else if (selector == 1)
-				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] | cursor->reg[GET_CUR_POS_BYTE(&cursor, 4) - 1];
+				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] | cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1];
 			else
-				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] ^ cursor->reg[GET_CUR_POS_BYTE(&cursor, 4) - 1];
+				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] ^ cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1];
 		}
 		else if ((codage & 0x30) == 0x20)
 		{
@@ -43,11 +43,11 @@ void	and_or_xor(t_cursor *cursor, int selector)
 			dest_reg = GET_CUR_POS_BYTE(&cursor, 5);
 			CHECK_REG(&cursor, dest_reg, 4, 1);
 			if (selector == 0)
-				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] & get_int_data(get_short_data(cursor->cur_pos + 3) % IDX_MOD);
+				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] & get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 3) % IDX_MOD);
 			else if (selector == 1)
-				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] | get_int_data(get_short_data(cursor->cur_pos + 3) % IDX_MOD);
+				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] | get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 3) % IDX_MOD);
 			else
-				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] ^ get_int_data(get_short_data(cursor->cur_pos + 3) % IDX_MOD);
+				cursor->reg[dest_reg - 1] = cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] ^ get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 3) % IDX_MOD);
 		}
 	}
 	else if ((codage & 0xC0) == 0x80)
@@ -66,7 +66,7 @@ void	and_or_xor(t_cursor *cursor, int selector)
 		}
 		else if ((codage & 0x30) == 0x20)
 		{
-			dest_reg = GET_CUR_POS_BYTE(&cursor, 11);
+			dest_reg = GET_CUR_POS_BYTE(&cursor, 10);
 			CHECK_REG(&cursor, dest_reg, 4, 1);
 			if (selector == 0)
 				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + 2) & get_int_data(cursor->cur_pos + 6);
@@ -80,11 +80,11 @@ void	and_or_xor(t_cursor *cursor, int selector)
 			dest_reg = GET_CUR_POS_BYTE(&cursor, 8);
 			CHECK_REG(&cursor, dest_reg, 4, 1);
 			if (selector == 0)
-				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + 2) & get_int_data(get_short_data(cursor->cur_pos + 6) % IDX_MOD);
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + 2) & get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 6) % IDX_MOD);
 			else if (selector == 1)
-				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + 2) | get_int_data(get_short_data(cursor->cur_pos + 6) % IDX_MOD);
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + 2) | get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 6) % IDX_MOD);
 			else
-				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + 2) ^ get_int_data(get_short_data(cursor->cur_pos + 6) % IDX_MOD);
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + 2) ^ get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 6) % IDX_MOD);
 		}
 	}
 	else if ((codage & 0xC0) == 0xC0)
@@ -95,33 +95,33 @@ void	and_or_xor(t_cursor *cursor, int selector)
 			CHECK_REG(&cursor, dest_reg, 4, 1);
 			CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 4), 4, 1);
 			if (selector == 0)
-				cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2) % IDX_MOD) & cursor->reg[GET_CUR_POS_BYTE(&cursor, 4) - 1];
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 2) % IDX_MOD) & cursor->reg[GET_CUR_POS_BYTE(&cursor, 4) - 1];
 			else if (selector == 1)
-				cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2) % IDX_MOD) | cursor->reg[GET_CUR_POS_BYTE(&cursor, 4) - 1];
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 2) % IDX_MOD) | cursor->reg[GET_CUR_POS_BYTE(&cursor, 4) - 1];
 			else
-				cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2) % IDX_MOD) ^ cursor->reg[GET_CUR_POS_BYTE(&cursor, 4) - 1];
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 2) % IDX_MOD) ^ cursor->reg[GET_CUR_POS_BYTE(&cursor, 4) - 1];
 		}
 		else if ((codage & 0x30) == 0x20)
 		{
 			dest_reg = GET_CUR_POS_BYTE(&cursor, 8);
 			CHECK_REG(&cursor, dest_reg, 4, 1);
 			if (selector == 0)
-				cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2) % IDX_MOD) & get_int_data(cursor->cur_pos + 4);
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 2) % IDX_MOD) & get_int_data(cursor->cur_pos + 4);
 			else if (selector == 1)
-				cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2) % IDX_MOD) | get_int_data(cursor->cur_pos + 4);
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 2) % IDX_MOD) | get_int_data(cursor->cur_pos + 4);
 			else
-				cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2) % IDX_MOD) ^ get_int_data(cursor->cur_pos + 4);
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 2) % IDX_MOD) ^ get_int_data(cursor->cur_pos + 4);
 		}
 		else if (codage & 0x30)
 		{
 			dest_reg = GET_CUR_POS_BYTE(&cursor, 6);
 			CHECK_REG(&cursor, dest_reg, 4, 1);
 			if (selector == 0)
-				cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2) % IDX_MOD) & get_int_data(get_short_data(cursor->cur_pos + 4) % IDX_MOD);
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 2) % IDX_MOD) & get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 4) % IDX_MOD);
 			else if (selector == 1)
-				cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2) % IDX_MOD) | get_int_data(get_short_data(cursor->cur_pos + 4) % IDX_MOD);
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 2) % IDX_MOD) | get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 4) % IDX_MOD);
 			else
-				cursor->reg[dest_reg - 1] = get_int_data(get_short_data(cursor->cur_pos + 2) % IDX_MOD) & get_int_data(get_short_data(cursor->cur_pos + 4) % IDX_MOD);
+				cursor->reg[dest_reg - 1] = get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 2) % IDX_MOD) & get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 4) % IDX_MOD);
 		}
 	}
 	if (cursor->reg[dest_reg - 1] == 0)

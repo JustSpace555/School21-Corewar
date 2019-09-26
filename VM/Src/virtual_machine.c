@@ -227,11 +227,13 @@ void	virtual_machine(t_vm *vm)
 		if (cycle_to_die > 0 && vm->dump >= 0 && vm->dump == current_cycle)
 		{
 			print_battlefield();
+			for (int j = 0; j < REG_NUMBER; j++)
+				printf("%u ", g_cursors[0].reg[j]);
 			return ;
 		}
 	}
 	free_all(font, vm);
-	printf("num_r = %d\n", repeate.num_r);
+	printf("\nnum_r = %d\n", repeate.num_r);
 	printf("num_p_r = %d\n", repeate.num_p_r);
 	printf("CTD = %d\n", cycle_to_die);
 	printf("Cycles = %d\n", current_cycle);

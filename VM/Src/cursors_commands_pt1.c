@@ -68,12 +68,11 @@ void	st(t_cursor *cursor) //потестить с типами
 	if ((GET_CUR_POS_BYTE(&cursor, 1) & 0x30) == 48)
 	{
 		temp = get_short_data(cursor->cur_pos + 3);
-//		g_battlefield[cursor->cur_pos + temp % IDX_MOD].code = cursor->reg[src_reg - 1];
 		write_amount_of_bytes_data(cursor->cur_pos + temp % IDX_MOD, &cursor->reg[src_reg - 1], 4, cursor->color);
 	}
 	else if ((GET_CUR_POS_BYTE(&cursor, 1) & 0x10) == 16)
 	{
-		dest_reg = GET_CUR_POS_BYTE(&cursor, 1);
+		dest_reg = GET_CUR_POS_BYTE(&cursor, 3);
 		CHECK_REG(&cursor, dest_reg, 4, 1);
 		cursor->reg[dest_reg - 1] = cursor->reg[src_reg - 1];
 	}
