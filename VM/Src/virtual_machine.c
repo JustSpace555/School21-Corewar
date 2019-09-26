@@ -166,6 +166,8 @@ void	virtual_machine(t_vm *vm)
 		ft_printf("%s\n", TTF_GetError());
 		return ;
 	}
+
+	//g_battlefield[3].code = 192;
 	cell.w = (float)(SCREEN_WIDTH - INFORMATION_SIZE) / 64;
 	cell.h = (float)SCREEN_HEIGHT / 64;
 	while (cycle_to_die > 0 && !quit)

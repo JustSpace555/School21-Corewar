@@ -2,6 +2,7 @@
 	"files.associations": {
 		"types.h": "c",
 		"virtual_header.h": "c",
-		"visualisator.h": "c"
+		"visualisator.h": "c",
+		"system_error": "c"
 	}
 }

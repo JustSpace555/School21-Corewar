@@ -230,7 +230,7 @@ void	ldi_lldi(t_cursor *cursor, int selector)
 unsigned int	get_second_arg(t_cursor *cursor, unsigned char codage, int label_size, short pos)
 {
 	unsigned int	result;
-//	short 			result_short; //посмтреть
+	short 			result_short; //посмтреть
 	unsigned char	reg_i;
 
 	result = 0;
@@ -242,12 +242,29 @@ unsigned int	get_second_arg(t_cursor *cursor, unsigned char codage, int label_si
 	else if ((codage & 0x20) == 16)
 	{
 		reg_i = GET_BYTE(pos);
-	/*	CHECK_REG(&cursor, dest_reg, 2, 1);
-		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 2), 2, 1);
-		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 3), 2, 1);*/
 		result = cursor->reg[reg_i];
 	}
+	result_short = (short)result;
 //	return ((unsigned int)result_short);
+	return (result);
+}
+
+unsigned int	get_third_arg(t_cursor *cursor, unsigned char codage, int label_size, short pos)
+{
+	unsigned int	result;
+	unsigned char	reg_i;
+
+	result = 0;
+	pos = pos % MEM_SIZE;
+	if ((codage & 0x30) == 12) // 2 arg T_IND
+		result = get_short_data(pos) % IDX_MOD;
+	else if ((codage & 0x20) == 8)
+		result = (label_size == 2) ? get_short_data(pos) : get_int_data(pos);
+	else if ((codage & 0x20) == 4)
+	{
+		reg_i = GET_BYTE(pos);
+		result = cursor->reg[reg_i];
+	}
 	return (result);
 }
 
@@ -255,9 +272,12 @@ void	sti(t_cursor *cursor)
 {
 	unsigned char	codage;
 	unsigned char	src_reg;
+	unsigned int	address;
 
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
+	address = (get_second_arg(cursor, codage, 2, cursor->cur_pos + 3) + get_third_arg(cursor, codage, 2, cursor->cur_pos + 5)) % IDX_MOD;
+	write_amount_of_bytes_data(address, &cursor->reg[src_reg - 1], 2, cursor->color);
 	/*if ((codage & 0xC0) > 0x40 || (codage & 0x30) == 0 || (codage & 0xC) > 8 ||
 		src_reg > REG_NUMBER || src_reg == 0)
 	{
