@@ -37,7 +37,7 @@ EXEC = corewar
 all:
 	@echo Compiling virtual machine ...
 	@bash $(SRC_VIS_FOLDER)script.bash
-	@gcc $(FLAGS) $(SRC) $(SRC_VIS) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
+	@gcc -g $(FLAGS) $(SRC) $(SRC_VIS) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
 	@mv $(EXEC) ../$(EXEC)
 
 debug: fclean

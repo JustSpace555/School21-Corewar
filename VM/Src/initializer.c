@@ -20,7 +20,7 @@ void	initialize_vm(t_vm *vm)
 	i = -1;
 	vm->dump = -1;
 	vm->vis = -1;
-	vm->live_player = 0;
+	vm->last_live_player = 0;
 	vm->order_idtfrs = init_int_array(MAX_PLAYERS, 0);
 	vm->plr_nbr = malloc(sizeof(t_plr_nbr) * MAX_PLAYERS);
 	vm->amount_players = 0;

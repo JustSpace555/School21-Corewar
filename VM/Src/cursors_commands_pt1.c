@@ -2,14 +2,20 @@
 
 void	live(t_cursor *cursor, int cycle)
 {
-	int	i;
+	/*int	i;
 
 	i = 0;
 	while (cursor->id != PLAYER(i).identifier)
 		i++;
-	cursor->last_alive = cycle;
+
 	PLAYER(i).last_alive = cycle;
-	PLAYER(i).nbr_live++;
+	PLAYER(i).nbr_live++;*/
+	unsigned char player_nbr;
+
+	//ft_printf("code: %u\n", g_battlefield[cursor->cur_pos + 1].code);
+	player_nbr = -GET_BYTE(cursor->cur_pos + 1);
+	//printf("player_nbr: %u", player_nbr);
+	cursor->last_alive = cycle;
 	g_battlefield[cursor->cur_pos].write_cycles = 100;
 	move_cursor(cursor, 4, 0);
 	g_amount_live_operations++;

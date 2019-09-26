@@ -258,7 +258,7 @@ void	sti(t_cursor *cursor)
 
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
-	if ((codage & 0xC0) > 0x40 || (codage & 0x30) == 0 || (codage & 0xC) > 8 ||
+	/*if ((codage & 0xC0) > 0x40 || (codage & 0x30) == 0 || (codage & 0xC) > 8 ||
 		src_reg > REG_NUMBER || src_reg == 0)
 	{
 		move_cursor(cursor, 2, 1);
@@ -300,7 +300,7 @@ void	sti(t_cursor *cursor)
 	else if ((codage & 0x30) == 0x30)
 		write_amount_of_bytes_data(
 			get_short_data(cursor->cur_pos + 3) % IDX_MOD,
-			(void *)&cursor->reg[src_reg - 1], 4, cursor->color);
+			(void *)&cursor->reg[src_reg - 1], 4, cursor->color);*/
 	move_cursor(cursor, 2, 1);
 }
 

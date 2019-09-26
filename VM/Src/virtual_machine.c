@@ -140,7 +140,6 @@ void	virtual_machine(t_vm *vm)
 	t_cycles_to_die	repeate;
 	t_bool			quit;
 	SDL_Event		event;
-	t_bool			pause;
 	SDL_FRect		cell;
 	TTF_Font		*font;
 
@@ -155,7 +154,6 @@ void	virtual_machine(t_vm *vm)
 	cycle_to_die = CYCLE_TO_DIE;
 	current_cycle = 0;
 	quit = false;
-	pause = false;
 	if (vm->vis == 1 && !init())
 		return ;
 	if (vm->dump == 0)

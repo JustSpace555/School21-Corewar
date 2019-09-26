@@ -49,7 +49,7 @@ typedef struct		s_vm
 {
 	int				dump;
 	int				vis;
-	int				live_player;
+	int				last_live_player;
 	int				*order_idtfrs;
 	int				amount_players;
 	t_plr_nbr		*plr_nbr;
