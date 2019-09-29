@@ -10,15 +10,11 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/corewar",
-<<<<<<< HEAD
-			"args": ["-v", "vm_champs/champs/championships/2018/bcozic/pai_mu_tan.cor", "vm_champs/champs/championships/2018/mbenjell3/fast.cor", "vm_champs/champs/ex.cor"],
-=======
 			//"args": ["vm_champs/champs/championships/2018/mbenjell3/echo.cor", "vm_champs/champs/championships/2018/mbenjell3/fast.cor", "vm_champs/champs/championships/2018/mbenjell3/wave.cor"],
 			//"args": ["-v", "vm_champs/champs/championships/2018/bcozic/pai_mu_tan.cor", "vm_champs/champs/championships/2018/mbenjell3/fast.cor"],
 			//"args": ["-n", "3", "vm_champs/champs/jumper.cor", "vm_champs/champs/jumper.cor", "vm_champs/champs/jumper.cor", "-v", "1"],
-			"args": ["vm_champs/champs/jumper.cor", "vm_champs/champs/ex.cor", "-dump", "20", "-v", "1"],
-			//"args": ["vm_champs/champs/ex.cor", "vm_champs/champs/ex.cor"],
->>>>>>> e20646f15c5601cc2e328fbedd0154259a4ad336
+			// "args": ["vm_champs/champs/championships/2018/bcozic/pai_mu_tan.cor", "vm_champs/champs/championships/2018/mbenjell3/fast.cor", "vm_champs/champs/ex.cor", "-vi"],
+			"args": ["-v", "1", "vm_champs/champs/championships/2018/bcozic/pai_mu_tan.cor", "vm_champs/champs/championships/2018/mbenjell3/fast.cor", "vm_champs/champs/ex.cor", "-vi"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

@@ -6,13 +6,13 @@ void	fork_lfork(t_cursor *cursor, int selector, t_vm *vm)
 
 	new = *cursor;
 	if (selector == 0)
-		new.cur_pos = get_short_data(cursor->cur_pos + 1) % IDX_MOD;
+		new.cur_pos = cursor->cur_pos + get_short_data(cursor->cur_pos + 1) % IDX_MOD;
 	else
-		new.cur_pos = get_short_data(cursor->cur_pos + 1);
+		new.cur_pos = cursor->cur_pos + get_short_data(cursor->cur_pos + 1);
 	if (vm->ver == 1 && selector == 0)
 		ft_printf("P %4d | fork %d (%d)\n", cursor->id, new.cur_pos, cursor->cur_pos + new.cur_pos % IDX_MOD);
-	else if (vm->ver == 1 && selector == 1)
-		ft_printf("P %4d | fork %d (%d)\n", cursor->id, new.cur_pos, cursor->cur_pos + new.cur_pos);			
+	else if (vm->ver == 1 && selector >= 1)
+		ft_printf("P %4d | lfork %d (%d)\n", cursor->id, new.cur_pos, cursor->cur_pos + new.cur_pos);
 	make_one_new_cursor(new);
 	move_cursor(cursor, 2, 0);
 }

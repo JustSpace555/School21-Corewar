@@ -140,7 +140,7 @@ void	zjmp(t_cursor *cursor, t_vm *vm)
 	else
 		move_cursor(cursor, addr = get_short_data(cursor->cur_pos + 1) % IDX_MOD, 0);
 	if (vm->ver == 1)
-		ft_printf("P %4d | zjmp %d %s\n", cursor->id, addr, (cursor->carry) ? "OK" : "FAILED");	
+		ft_printf("P %4d | zjmp %d %s\n", cursor->id, addr, (cursor->carry) ? "OK" : "FAILED");
 }
 
 void	ldi_lldi(t_cursor *cursor, int selector, t_vm *vm)
@@ -245,12 +245,12 @@ unsigned int	get_first_arg(t_cursor *cursor, unsigned char codage, int label_siz
 		address = get_short_data(pos) % IDX_MOD;
 		result =  get_int_data(cursor->cur_pos + address); //проверить с учетом позиции каретки или нет
 		*offset += 2;
-	}	
+	}
 	else if ((codage & 0x80) == 128)
 	{
 		result = (label_size == 2) ? get_short_data(pos) : get_int_data(pos);
 		*offset += (label_size == 2) ? 2 : 4;
-	}	
+	}
 	else if ((codage & 0x40) == 64)
 	{
 		reg_i = GET_BYTE(pos);
@@ -274,12 +274,12 @@ unsigned int	get_second_arg(t_cursor *cursor, unsigned char codage, int label_si
 		address = get_short_data(pos) % IDX_MOD;
 		result =  get_int_data(cursor->cur_pos + address); //проверить с учетом позиции каретки или нет
 		*offset += 2;
-	}	
+	}
 	else if ((codage & 0x20) == 32)
 	{
 		result = (label_size == 2) ? get_short_data(pos) : get_int_data(pos);
 		*offset += (label_size == 2) ? 2 : 4;
-	}	
+	}
 	else if ((codage & 0x10) == 16) // нет проверки
 	{
 		reg_i = GET_BYTE(pos);
@@ -303,12 +303,12 @@ unsigned int	get_third_arg(t_cursor *cursor, unsigned char codage, int label_siz
 		address = get_short_data(pos) % IDX_MOD;
 		result =  get_int_data(cursor->cur_pos + address); //проверить с учетом позиции каретки или нет
 		*offset += 2;
-	}	
+	}
 	else if ((codage & 0x8) == 8)
 	{
 		result = (label_size == 2) ? get_short_data(pos) : get_int_data(pos);
 		*offset += (label_size == 2) ? 2 : 4;
-	}	
+	}
 	else if ((codage & 0x4) == 4)
 	{
 		reg_i = GET_BYTE(pos);
@@ -355,7 +355,7 @@ void	sti(t_cursor *cursor, t_vm *vm)
 		third_arg = get_third_arg(cursor, codage, 2, &offset);
 	else if ((codage & 0x4) == 4)
 		third_arg = get_third_arg(cursor, codage, 2, &offset);
-	
+
 	address = cursor->cur_pos + ((second_arg + third_arg) % IDX_MOD);
 	write_amount_of_bytes_data(address, &cursor->reg[src_reg - 1], 4, cursor->color);
 	if (vm->ver == 1)
