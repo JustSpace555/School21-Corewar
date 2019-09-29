@@ -132,11 +132,10 @@ void	ft_pause(void)
 
 void	virtual_machine(t_vm *vm)
 {
-	int	i;
-	int	current_cycle;
-	int	amount_alive_cursors;
-	int	cycle_to_die;
-	int	last_cycle_check;
+	int				i;
+	int				current_cycle;
+	int				cycle_to_die;
+	int				last_cycle_check;
 	t_cycles_to_die	repeate;
 	t_bool			quit;
 	SDL_Event		event;
@@ -191,16 +190,7 @@ void	virtual_machine(t_vm *vm)
 		}
 		if (current_cycle - last_cycle_check >= cycle_to_die)
 		{
-			i = -1;
-			amount_alive_cursors = 0;
-			while (++i < g_cursors_amount)
-				if(ft_abs(g_cursors[i].last_alive - last_cycle_check)
-					< last_cycle_check ||
-					(last_cycle_check == 0 && g_cursors[i].last_alive != 0))
-				{
-					amount_alive_cursors++;
-					g_cursors[i].last_alive = 0;
-				}
+			check_alive_cursors(last_cycle_check);
 			i = -1;
 			while (++i < vm->amount_players)
 				PLAYER(i).nbr_live = 0;
@@ -221,14 +211,12 @@ void	virtual_machine(t_vm *vm)
 			}
 			g_amount_live_operations = 0;
 			last_cycle_check = current_cycle;
-			if (amount_alive_cursors == 0)
+			if (g_cursors_amount <= 0)
 				break ;
 		}
 		if (cycle_to_die > 0 && vm->dump >= 0 && vm->dump == current_cycle)
 		{
 			print_battlefield();
-			for (int j = 0; j < REG_NUMBER; j++)
-				printf("%u ", g_cursors[0].reg[j]);
 			return ;
 		}
 	}

@@ -75,10 +75,12 @@ typedef struct		s_player
 	unsigned int	identifier;
 	char			*name;
 	char			*comment;
+	char			*aff_out;
 	int				code_size;
 	char			*code;
 	int				last_alive;
 	int				nbr_live;
+	int				amount_cursors;
 	t_bool			is_alive;
 }					t_player;
 
@@ -140,6 +142,7 @@ void				free_g_players(int amount_players);
 void				choose_color(t_battlefield *cell, int i);
 int					choose_reverse_color(t_battlefield *cell);
 char				choose_color_char(int i);
+void				check_alive_cursors(int last_cycle_check);
 void				free_all(TTF_Font *font, t_vm *vm);
 
 /*

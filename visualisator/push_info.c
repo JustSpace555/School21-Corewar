@@ -142,6 +142,12 @@ void	push_players(int start_y, int amount_players, TTF_Font *font)
 		push_int_text(PLAYER(i).identifier, "ID: ", pos + 40, font, White);
 		push_int_text(PLAYER(i).last_alive, "Last alive: ", pos + 60, font, White);
 		push_int_text(PLAYER(i).nbr_live, "Lives in current period : ", pos + 80, font, White);
-		pos += 120;
+		push_int_text(PLAYER(i).amount_cursors, "Amount of coaches: ", pos + 100, font, White);
+		if (PLAYER(i).aff_out)
+		{
+			push_char_text("Player aff out: ", pos + 120, font, White);
+			push_char_text(PLAYER(i).aff_out, pos + 140, font, White);
+		}
+		pos += 180;
 	}
 }

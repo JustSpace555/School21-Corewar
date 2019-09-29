@@ -151,7 +151,44 @@ void	free_all(TTF_Font *font, t_vm *vm)
 		free(PLAYER(i).code);
 		free(PLAYER(i).comment);
 		free(PLAYER(i).name);
+		if (PLAYER(i).aff_out)
+			free(PLAYER(i).aff_out);
 	}
 	free(g_battlefield);
 	free(g_cursors);
+}
+
+void	check_alive_cursors(int last_cycle_check)
+{
+	int			i;
+	int			j;
+	int			alive_cursors;
+	t_cursor	*new;
+	void		*temp;
+
+	i = -1;
+	j = -1;
+	alive_cursors = 0;
+	while (++i < g_cursors_amount)
+		if(ft_abs(CURSOR(i).last_alive - last_cycle_check) < last_cycle_check || (last_cycle_check == 0 && CURSOR(i).last_alive != 0))
+			alive_cursors++;
+		else
+		{
+			g_battlefield[CURSOR(i).cur_pos].cursor = false;
+			while (PLAYER(j).identifier != CURSOR(i).id)
+				j++;
+			PLAYER(j).amount_cursors--;
+		}
+	if (alive_cursors == g_cursors_amount)
+		return ;
+	j = -1;
+	new = (t_cursor *)malloc(sizeof(t_cursor) * alive_cursors);
+	i = -1;
+	while (++i < g_cursors_amount)
+		if(ft_abs(CURSOR(i).last_alive - last_cycle_check) < last_cycle_check || (last_cycle_check == 0 && CURSOR(i).last_alive != 0))
+			new[++j] = CURSOR(i);
+	g_cursors_amount = alive_cursors;
+	temp = g_cursors;
+	g_cursors = new;
+	free(temp);
 }

@@ -48,6 +48,8 @@ void	initialize_g_players(int amount_players)
 		PLAYER(i).name = NULL;
 		PLAYER(i).last_alive = 0;
 		PLAYER(i).nbr_live = 0;
+		PLAYER(i).amount_cursors = 1;
+		PLAYER(i).aff_out = NULL;
 	}
 }
 

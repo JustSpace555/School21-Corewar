@@ -13,8 +13,9 @@ void			move_cursor(t_cursor *cursor, int label_size, int byte_val)
 		cursor->cur_pos += skip + 1;
 	else
 		cursor->cur_pos += skip;
-	if (cursor->cur_pos < MEM_SIZE)
-		g_battlefield[cursor->cur_pos].cursor = true;
+	if (cursor->cur_pos >= MEM_SIZE)
+		cursor->cur_pos -= MEM_SIZE;
+	g_battlefield[cursor->cur_pos].cursor = true;
 }
 
 void			make_one_new_cursor(t_cursor cursor)
@@ -22,16 +23,22 @@ void			make_one_new_cursor(t_cursor cursor)
 	t_cursor	*new;
 	t_cursor	*temp;
 	int			i;
+	int			j;
 
 	new = (t_cursor *)malloc(sizeof(t_cursor) * (g_cursors_amount + 1));
 	i = -1;
 	while (++i < g_cursors_amount)
 		new[i] = g_cursors[i];
+	j = 0;
+	while (PLAYER(j).identifier != cursor.id)
+		j++;
+	PLAYER(j).amount_cursors++;
 	new[i] = cursor;
 	temp = g_cursors;
 	g_cursors = new;
 	free(temp);
 	g_cursors_amount++;
+	g_battlefield[cursor.cur_pos].cursor = true;
 }
 
 short			get_short_data(short addres)
