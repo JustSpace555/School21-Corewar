@@ -35,9 +35,9 @@ void	push_to_render_battlefield(SDL_FRect cell)
 			cell.x = cell.w * j;
 			cell.y = cell.h * i;
 			SDL_SetRenderDrawColor(g_main_render,
-				MIN(BATTLEFIELD_CELL(i, j, lines_count).color_r + BATTLEFIELD_CELL(i, j, lines_count).write_cycles, 255),
-				MIN(BATTLEFIELD_CELL(i, j, lines_count).color_g + BATTLEFIELD_CELL(i, j, lines_count).write_cycles, 255),
-				MIN(BATTLEFIELD_CELL(i, j, lines_count).color_b + BATTLEFIELD_CELL(i, j, lines_count).write_cycles, 255), 255);
+				BATTLEFIELD_CELL(i, j, lines_count).color_r + BATTLEFIELD_CELL(i, j, lines_count).write_cycles,
+				BATTLEFIELD_CELL(i, j, lines_count).color_g + BATTLEFIELD_CELL(i, j, lines_count).write_cycles,
+				BATTLEFIELD_CELL(i, j, lines_count).color_b + BATTLEFIELD_CELL(i, j, lines_count).write_cycles, 255);
 			if (BATTLEFIELD_CELL(i, j, lines_count).write_cycles > 0)
 				BATTLEFIELD_CELL(i, j, lines_count).write_cycles--;
 			SDL_RenderFillRectF(g_main_render, &cell);

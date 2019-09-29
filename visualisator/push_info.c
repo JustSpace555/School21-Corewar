@@ -33,17 +33,26 @@ void	push_live_breakdown(int y, int amount_players)
 	float		k;
 	SDL_FRect	coor;
 
-	k = 300 / (float)g_amount_live_operations;
 	coor.y = y;
 	coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 25;
-	i = -1;
-	while (++i < amount_players)
+	coor.h = 15;
+	if (g_amount_live_operations > 0)
 	{
-		coor.h = 15;
-		coor.w = PLAYER(i).nbr_live * k;
-		set_render_draw_color(choose_color_char(i));
-		SDL_RenderFillRectF(g_main_render, &coor);
-		coor.x += coor.w;
+		k = 300 / (float)g_amount_live_operations;
+		i = -1;
+		while (++i < amount_players)
+		{
+			coor.w = PLAYER(i).nbr_live * k;
+			set_render_draw_color(choose_color_char(i));
+			SDL_RenderFillRectF(g_main_render, &coor);
+			coor.x += coor.w;
+		}
+	}
+	else
+	{
+		SDL_SetRenderDrawColor(g_main_render, 255, 255, 255, 255);
+		coor.w = INFORMATION_SIZE - 50;
+		SDL_RenderDrawRectF(g_main_render, &coor);
 	}
 }
 
@@ -51,22 +60,25 @@ void	push_int_text(int data, char *info_text, float y, TTF_Font *font, SDL_Color
 {
 	char		*temp_1;
 	char		*temp_2;
-	SDL_Surface	*text_surface;
-	SDL_Texture	*text_texture;
+	SDL_Surface	*text_surface = NULL;
+	SDL_Texture	*text_texture = NULL;
 	SDL_Rect	coor;
 
 	temp_1 = ft_itoa(data);
 	temp_2 = ft_strjoin(info_text, temp_1);
 	ft_strdel(&temp_1);
 	text_surface = TTF_RenderText_Solid(font, temp_2, color);
-	text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
-	SDL_FreeSurface(text_surface);
-	TTF_SizeText(font, temp_2, &coor.w, &coor.h);
-	ft_strdel(&temp_2);
-	coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 50;
-	coor.y = y;
-	SDL_RenderCopy(g_main_render, text_texture, NULL, &coor);
-	SDL_DestroyTexture(text_texture);
+	if (text_surface)
+	{
+		text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
+		SDL_FreeSurface(text_surface);
+		TTF_SizeText(font, temp_2, &coor.w, &coor.h);
+		ft_strdel(&temp_2);
+		coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 50;
+		coor.y = y;
+		SDL_RenderCopy(g_main_render, text_texture, NULL, &coor);
+		SDL_DestroyTexture(text_texture);
+	}
 }
 
 void	push_int_slash_data(float y, TTF_Font *font, int data_1, int data_2, char *text, SDL_Color color)
@@ -74,8 +86,8 @@ void	push_int_slash_data(float y, TTF_Font *font, int data_1, int data_2, char *
 	char		*temp_1;
 	char		*temp_2;
 	char		*temp_3;
-	SDL_Surface	*text_surface;
-	SDL_Texture	*text_texture;
+	SDL_Surface	*text_surface = NULL;
+	SDL_Texture	*text_texture = NULL;
 	SDL_Rect	coor;
 
 	temp_1 = ft_itoa(data_1);
@@ -84,14 +96,17 @@ void	push_int_slash_data(float y, TTF_Font *font, int data_1, int data_2, char *
 	ft_strdel(&temp_1);
 	ft_strdel(&temp_2);
 	text_surface = TTF_RenderText_Solid(font, temp_3, color);
-	text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
-	SDL_FreeSurface(text_surface);
-	TTF_SizeText(font, temp_3, &coor.w, &coor.h);
-	ft_strdel(&temp_3);
-	coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 50;
-	coor.y = y;
-	SDL_RenderCopy(g_main_render, text_texture, NULL, &coor);
-	SDL_DestroyTexture(text_texture);
+	if (text_surface)
+	{
+		text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
+		SDL_FreeSurface(text_surface);
+		TTF_SizeText(font, temp_3, &coor.w, &coor.h);
+		ft_strdel(&temp_3);
+		coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 50;
+		coor.y = y;
+		SDL_RenderCopy(g_main_render, text_texture, NULL, &coor);
+		SDL_DestroyTexture(text_texture);
+	}
 }
 
 void	push_char_text(char *text, float y, TTF_Font *font, SDL_Color color)

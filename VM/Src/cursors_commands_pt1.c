@@ -2,14 +2,14 @@
 
 void	live(t_cursor *cursor, int cycle)
 {
-	/*int	i;
+	int	i;
 
 	i = 0;
 	while (cursor->id != PLAYER(i).identifier)
 		i++;
 
 	PLAYER(i).last_alive = cycle;
-	PLAYER(i).nbr_live++;*/
+	PLAYER(i).nbr_live++;
 	unsigned char player_nbr;
 
 	//ft_printf("code: %u\n", g_battlefield[cursor->cur_pos + 1].code);
