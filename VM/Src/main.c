@@ -45,7 +45,8 @@ void	print_usage(void)
 	ft_printf("Usage: ./corewar [-dump N -v -n N] <filename.cor> ...\n");
 	ft_printf("\t-dump N\t: Dumps memory after N cycles then exits\n");
 	ft_printf("\t-n N\t: set the champion number\n");
-	ft_printf("\t-v\t\t: visual mode\n");
+	ft_printf("\t-v\t\t: verbose\n");
+	ft_printf("\t-vi\t\t: visual mode\n");
 }
 int		main(int argc, char *argv[])
 {
@@ -60,6 +61,17 @@ int		main(int argc, char *argv[])
 	}
 	else
 	{
+		/*int j = 31;
+		unsigned int ui = 3000000000;
+		int	in = (int)ui;
+		while (j >= 0)
+		{
+			printf("%d", (in >> j) & 1);
+			j--;
+		}
+		unsigned int nui = (unsigned int)in;
+		printf("\n%u\n", nui);
+		return (1);*/
 		initialize_vm(&vm);
 		if (parsing_arguments(argc, argv, &vm) == -1)
 			return (1);
