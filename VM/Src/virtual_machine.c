@@ -65,42 +65,42 @@ void	choose_operaion(t_cursor *cursor, unsigned char byte)
 	cursor->cycle_exec = (cursor->cycle_exec > 0) ? --cursor->cycle_exec : 0;
 }
 
-void	exec_operation(t_cursor *cursor, int current_cycle)
+void	exec_operation(t_cursor *cursor, int current_cycle, t_vm *vm)
 {
 	if (cursor->cycle_exec == 0)
 	{
 		if (cursor->operation_code == 1)
-			live(cursor, current_cycle);
+			live(cursor, current_cycle, vm);
 		else if (cursor->operation_code == 2)
-			ld(cursor);
+			ld(cursor, vm);
 		else if (cursor->operation_code == 3)
-			st(cursor);
+			st(cursor, vm);
 		else if (cursor->operation_code == 4)
-			add(cursor);
+			add(cursor, vm);
 		else if (cursor->operation_code == 5)
-			sub(cursor);
+			sub(cursor, vm);
 		else if (cursor->operation_code == 6)
-			and_or_xor(cursor, 0);
+			and_or_xor(cursor, 0, vm);
 		else if (cursor->operation_code == 7)
-			and_or_xor(cursor, 1);
+			and_or_xor(cursor, 1, vm);
 		else if (cursor->operation_code == 8)
-			and_or_xor(cursor, 2);
+			and_or_xor(cursor, 2, vm);
 		else if (cursor->operation_code == 9)
-			zjmp(cursor);
+			zjmp(cursor, vm);
 		else if (cursor->operation_code == 10)
-			ldi_lldi(cursor, 0);
+			ldi_lldi(cursor, 0, vm);
 		else if (cursor->operation_code == 11)
-			sti(cursor);
+			sti(cursor, vm);
 		else if (cursor->operation_code == 12)
-			fork_lfork(cursor, 0);
+			fork_lfork(cursor, 0, vm);
 		else if (cursor->operation_code == 13)
-			lld(cursor);
+			lld(cursor, vm);
 		else if (cursor->operation_code == 14)
-			ldi_lldi(cursor, 1);
+			ldi_lldi(cursor, 1, vm);
 		else if (cursor->operation_code == 15)
-			fork_lfork(cursor, 1);
+			fork_lfork(cursor, 1, vm);
 		else if (cursor->operation_code == 16)
-			aff(cursor);
+			aff(cursor, vm);
 		else
 			move_cursor(cursor, 0, 0);
 	}
@@ -182,7 +182,7 @@ void	virtual_machine(t_vm *vm)
 		while(++i < g_cursors_amount)
 		{
 			choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));
-			exec_operation(&g_cursors[i], current_cycle);
+			exec_operation(&g_cursors[i], current_cycle, vm);
 		}
 		if (vm->vis == 1)
 		{

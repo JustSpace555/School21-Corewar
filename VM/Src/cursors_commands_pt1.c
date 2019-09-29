@@ -1,6 +1,6 @@
 #include "../Headers/virtual_header.h"
 
-void	live(t_cursor *cursor, int cycle)
+void	live(t_cursor *cursor, int cycle, t_vm *vm)
 {
 	int	i;
 
@@ -11,46 +11,56 @@ void	live(t_cursor *cursor, int cycle)
 	PLAYER(i).last_alive = cycle;
 	PLAYER(i).nbr_live++;
 	unsigned char player_nbr;
-
-	//ft_printf("code: %u\n", g_battlefield[cursor->cur_pos + 1].code);
 	player_nbr = -GET_BYTE(cursor->cur_pos + 1);
-	//printf("player_nbr: %u", player_nbr);
 	cursor->last_alive = cycle;
 	g_battlefield[cursor->cur_pos].write_cycles = 100;
+	if (vm->ver == 1)
+		ft_printf("P %4d | live %d\n", cursor->id, cursor->reg[0]);
 	move_cursor(cursor, 4, 0);
 	g_amount_live_operations++;
 }
 
-void	ld(t_cursor *cursor)
+void	ld(t_cursor *cursor, t_vm *vm)
 {
 	unsigned char	codage;
 	unsigned char	dest_reg;
-	unsigned int	num;
+	int				num;
+	unsigned short	offset;
 
+	offset = 2;
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	if (!((codage >= 144 && codage <= 159) || (codage >= 208 && codage <= 223)))
 	{
 		move_cursor(cursor, 4, 1);
 		return ;
 	}
-	if (codage >= 144 && codage <= 159)
-	{
-		dest_reg = GET_CUR_POS_BYTE(&cursor, 6);
-		CHECK_REG(&cursor, dest_reg, 4, 1);
-		num = get_int_data(cursor->cur_pos + 2);
-	}
-	else
-	{
-		dest_reg = GET_CUR_POS_BYTE(&cursor, 4);
-		CHECK_REG(&cursor, dest_reg, 4, 1);
-		num = get_int_data(get_short_data(cursor->cur_pos + 2));
-	}
+	num = get_first_arg(cursor, codage, 4, &offset);
+	dest_reg = get_second_arg(cursor, codage, 4, &offset);
+	// if (codage >= 144 && codage <= 159)
+	// {
+	// 	dest_reg = GET_CUR_POS_BYTE(&cursor, 6);
+	// 	CHECK_REG(&cursor, dest_reg, 4, 1);
+	// 	num = get_int_data(cursor->cur_pos + 2);
+	// }
+	// else
+	// {
+	// 	dest_reg = GET_CUR_POS_BYTE(&cursor, 4);
+	// 	CHECK_REG(&cursor, dest_reg, 4, 1);
+	// 	num = get_int_data(get_short_data(cursor->cur_pos + 2));
+	// }
 	cursor->carry = (num == 0) ? true : false;
 	cursor->reg[dest_reg - 1] = num;
-	move_cursor(cursor, 4, 1);
+	if (vm->ver == 1)
+		ft_printf("P %4d | ld %d r%d\n", cursor->id, num, dest_reg);
+	cursor->cur_pos += offset;
 }
 
-void	st(t_cursor *cursor) //потестить с типами
+void	print_st(t_cursor *cursor, int reg, int addr)
+{
+	ft_printf("P %4d | st r%d %d\n", cursor->id, reg, addr);
+}
+
+void	st(t_cursor *cursor, t_vm *vm) //потестить с типами
 {
 	unsigned char	src_reg;
 	unsigned char	dest_reg;
@@ -76,10 +86,12 @@ void	st(t_cursor *cursor) //потестить с типами
 		CHECK_REG(&cursor, dest_reg, 4, 1);
 		cursor->reg[dest_reg - 1] = cursor->reg[src_reg - 1];
 	}
+	if (vm->ver == 1)
+		ft_printf("P %4d | st r%d %d\n", cursor->id, src_reg, temp);
 	move_cursor(cursor, 4, 1);
 }
 
-void	add(t_cursor *cursor)
+void	add(t_cursor *cursor, t_vm *vm)
 {
 	unsigned char	src_reg_1;
 	unsigned char	src_reg_2;
@@ -104,10 +116,12 @@ void	add(t_cursor *cursor)
 	else
 		cursor->carry = false;
 	cursor->reg[dest_reg - 1] = sum;
+	if (vm->ver == 1)
+		ft_printf("P %4d | add r%d r%d r%d\n", cursor->id, src_reg_1, src_reg_2, dest_reg);
 	move_cursor(cursor, 4, 1);
 }
 
-void	sub(t_cursor *cursor)
+void	sub(t_cursor *cursor, t_vm *vm)
 {
 	unsigned char	dest_reg;
 	unsigned char	src_reg_1;
@@ -132,5 +146,7 @@ void	sub(t_cursor *cursor)
 		cursor->carry = true;
 	else
 		cursor->carry = false;
+	if (vm->ver == 1)
+		ft_printf("P %4d | sub r%d r%d r%d\n", cursor->id, src_reg_1, src_reg_2, dest_reg);	
 	move_cursor(cursor, 4, 1);
 }

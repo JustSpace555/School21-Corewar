@@ -20,6 +20,7 @@ void	initialize_vm(t_vm *vm)
 	i = -1;
 	vm->dump = -1;
 	vm->vis = -1;
+	vm->ver = -1;
 	vm->last_live_player = 0;
 	vm->order_idtfrs = init_int_array(MAX_PLAYERS, 0);
 	vm->plr_nbr = malloc(sizeof(t_plr_nbr) * MAX_PLAYERS);
@@ -72,19 +73,21 @@ void	initialize_cursors(int amount_players)
 {
 	int	i;
 	int	j;
+	int	plr_id;
 
 	g_cursors = (t_cursor *)malloc(sizeof(t_cursor) * amount_players);
 	i = -1;
+	plr_id = amount_players;
 	while (++i < amount_players)
 	{
 		CURSOR(i).bytes_to_next_op = 0;
 		CURSOR(i).carry = false;
-		CURSOR(i).cur_pos = PLAYER(i).start_position;
+		CURSOR(i).cur_pos = PLAYER(--plr_id).start_position;
 		CURSOR(i).cycle_exec = 0;
-		CURSOR(i).id = PLAYER(i).identifier;
+		CURSOR(i).id = PLAYER(plr_id).identifier;
 		CURSOR(i).last_alive = 0;
 		CURSOR(i).operation_code = 0;
-		CURSOR(i).reg[0] = -PLAYER(i).identifier;
+		CURSOR(i).reg[0] = -PLAYER(plr_id).identifier;
 		CURSOR(i).color = g_battlefield[CURSOR(i).cur_pos].color;
 		j = 0;
 		while (++j < 16)

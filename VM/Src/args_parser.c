@@ -74,6 +74,16 @@ int		check_flags(int argc, char **argv, int *i, t_vm *vm)
 	}
 	else if (ft_strcmp("-v", argv[*i]) == 0)
 	{
+		if (*i + 1 != argc)
+			if (ft_is_strdigit(argv[*i + 1]) == 1)
+			{
+				vm->ver = ft_atoi(argv[*i + 1]);
+				rtn = 1;
+				*i += 1;
+			}
+	}
+	else if (ft_strcmp("-vi", argv[*i]) == 0)
+	{
 		vm->vis = 1;
 		rtn = 1;
 	}
