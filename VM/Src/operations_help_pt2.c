@@ -1,11 +1,11 @@
 #include "../Headers/virtual_header.h"
 
-void			move_cursor(t_cursor *cursor, int label_size, int byte_val)
+void			move_cursor(t_cursor *cursor, int label_size, int byte_val, int amount_arguments)
 {
 	int	skip;
 
 	if (byte_val)
-		skip = get_amount_bytes_to_skip(GET_CUR_POS_BYTE(&cursor, 1), label_size) + 1;
+		skip = get_amount_bytes_to_skip(GET_CUR_POS_BYTE(&cursor, 1), label_size, amount_arguments) + 1;
 	else
 		skip = label_size;
 	g_battlefield[cursor->cur_pos].cursor = false;

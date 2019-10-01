@@ -15,7 +15,7 @@ void	live(t_cursor *cursor, int cycle, t_vm *vm)
 	if (vm->ver == 1)
 		ft_printf("P %4d | live %d\n", cursor->id, cursor->reg[0]);
 	g_amount_live_operations++;
-	move_cursor(cursor, 4, 0);
+	move_cursor(cursor, 4, 0, 1);
 }
 
 void	ld(t_cursor *cursor, t_vm *vm)
@@ -29,7 +29,7 @@ void	ld(t_cursor *cursor, t_vm *vm)
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	if (!((codage >= 144 && codage <= 159) || (codage >= 208 && codage <= 223)))
 	{
-		move_cursor(cursor, 4, 1);
+		move_cursor(cursor, 4, 1, 2);
 		return ;
 	}
 	num = get_first_arg(cursor, codage, 4, &offset);
@@ -38,7 +38,7 @@ void	ld(t_cursor *cursor, t_vm *vm)
 	cursor->reg[dest_reg - 1] = num;
 	if (vm->ver == 1)
 		ft_printf("P %4d | ld %d r%d\n", cursor->id, num, dest_reg);
-	move_cursor(cursor, 4, 1);
+	move_cursor(cursor, 4, 1, 2);
 }
 
 void	st(t_cursor *cursor, t_vm *vm) //потестить с типами
@@ -48,12 +48,13 @@ void	st(t_cursor *cursor, t_vm *vm) //потестить с типами
 	short			temp;
 
 	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
-	if (src_reg > REG_NUMBER || !((GET_CUR_POS_BYTE(&cursor, 1) >= 80
+	if (src_reg > REG_NUMBER || src_reg == 0 ||
+			!((GET_CUR_POS_BYTE(&cursor, 1) >= 80
 			&& GET_CUR_POS_BYTE(&cursor, 1) <= 95)
 			|| (GET_CUR_POS_BYTE(&cursor, 1) >= 112
 			&& GET_CUR_POS_BYTE(&cursor, 1) <= 127)))
 	{
-		move_cursor(cursor, 4, 1);
+		move_cursor(cursor, 4, 1, 2);
 		return ;
 	}
 	if ((GET_CUR_POS_BYTE(&cursor, 1) & 0x30) == 48)
@@ -64,12 +65,12 @@ void	st(t_cursor *cursor, t_vm *vm) //потестить с типами
 	else if ((GET_CUR_POS_BYTE(&cursor, 1) & 0x10) == 16)
 	{
 		dest_reg = GET_CUR_POS_BYTE(&cursor, 3);
-		CHECK_REG(&cursor, dest_reg, 4, 1);
+		CHECK_REG(&cursor, dest_reg, 4, 1, 2);
 		cursor->reg[dest_reg - 1] = cursor->reg[src_reg - 1];
 	}
 	if (vm->ver == 1)
 		ft_printf("P %4d | st r%d %d\n", cursor->id, src_reg, temp);
-	move_cursor(cursor, 4, 1);
+	move_cursor(cursor, 4, 1, 2);
 }
 
 void	add(t_cursor *cursor, t_vm *vm)
@@ -80,15 +81,15 @@ void	add(t_cursor *cursor, t_vm *vm)
 
 	if (!(GET_CUR_POS_BYTE(&cursor, 1) >= 84 && GET_CUR_POS_BYTE(&cursor, 1) <= 87))
 	{
-		move_cursor(cursor, 4, 1);
+		move_cursor(cursor, 4, 1, 3);
 		return ;
 	}
 	src_reg_1 = GET_CUR_POS_BYTE(&cursor, 2);
 	src_reg_2 = GET_CUR_POS_BYTE(&cursor, 3);
 	dest_reg = GET_CUR_POS_BYTE(&cursor, 4);
-	CHECK_REG(&cursor, src_reg_1, 4, 1);
-	CHECK_REG(&cursor, src_reg_2, 4, 1);
-	CHECK_REG(&cursor, dest_reg, 4, 1);
+	CHECK_REG(&cursor, src_reg_1, 4, 1, 3);
+	CHECK_REG(&cursor, src_reg_2, 4, 1, 3);
+	CHECK_REG(&cursor, dest_reg, 4, 1, 3);
 	cursor->reg[dest_reg - 1] = cursor->reg[src_reg_1 - 1] + cursor->reg[src_reg_2 - 1];
 	if (cursor->reg[dest_reg - 1] == 0)
 		cursor->carry = true;
@@ -96,7 +97,7 @@ void	add(t_cursor *cursor, t_vm *vm)
 		cursor->carry = false;
 	if (vm->ver == 1)
 		ft_printf("P %4d | add r%d r%d r%d\n", cursor->id, src_reg_1, src_reg_2, dest_reg);
-	move_cursor(cursor, 4, 1);
+	move_cursor(cursor, 4, 1, 3);
 }
 
 void	sub(t_cursor *cursor, t_vm *vm)
@@ -108,15 +109,15 @@ void	sub(t_cursor *cursor, t_vm *vm)
 	if (!(GET_CUR_POS_BYTE(&cursor, 1) >= 84 &&
 		GET_CUR_POS_BYTE(&cursor, 1) <= 87))
 	{
-		move_cursor(cursor, 4, 1);
+		move_cursor(cursor, 4, 1, 3);
 		return ;
 	}
 	src_reg_1 = GET_CUR_POS_BYTE(&cursor, 2);
 	src_reg_2 = GET_CUR_POS_BYTE(&cursor, 3);
 	dest_reg = GET_CUR_POS_BYTE(&cursor, 4);
-	CHECK_REG(&cursor, src_reg_1, 4, 1);
-	CHECK_REG(&cursor, src_reg_2, 4, 1);
-	CHECK_REG(&cursor, dest_reg, 4, 1);
+	CHECK_REG(&cursor, src_reg_1, 4, 1, 3);
+	CHECK_REG(&cursor, src_reg_2, 4, 1, 3);
+	CHECK_REG(&cursor, dest_reg, 4, 1, 3);
 	cursor->reg[dest_reg - 1] = cursor->reg[src_reg_1 - 1] -
 		cursor->reg[src_reg_2 - 1];
 	if (cursor->reg[dest_reg - 1] == 0)
@@ -125,5 +126,5 @@ void	sub(t_cursor *cursor, t_vm *vm)
 		cursor->carry = false;
 	if (vm->ver == 1)
 		ft_printf("P %4d | sub r%d r%d r%d\n", cursor->id, src_reg_1, src_reg_2, dest_reg);
-	move_cursor(cursor, 4, 1);
+	move_cursor(cursor, 4, 1, 3);
 }

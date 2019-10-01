@@ -158,7 +158,7 @@ void	free_all(TTF_Font *font, t_vm *vm)
 	free(g_cursors);
 }
 
-void	check_alive_cursors(int last_cycle_check)
+void	check_alive_cursors(int last_cycle_check, int current_sycle)
 {
 	int			i;
 	int			j;
@@ -170,7 +170,7 @@ void	check_alive_cursors(int last_cycle_check)
 	j = -1;
 	alive_cursors = 0;
 	while (++i < g_cursors_amount)
-		if(ft_abs(CURSOR(i).last_alive - last_cycle_check) < last_cycle_check || (last_cycle_check == 0 && CURSOR(i).last_alive != 0))
+		if(current_sycle - CURSOR(i).last_alive < current_sycle - last_cycle_check || (last_cycle_check == 0 && CURSOR(i).last_alive != 0))
 			alive_cursors++;
 		else
 		{
@@ -185,7 +185,7 @@ void	check_alive_cursors(int last_cycle_check)
 	new = (t_cursor *)malloc(sizeof(t_cursor) * alive_cursors);
 	i = -1;
 	while (++i < g_cursors_amount)
-		if(ft_abs(CURSOR(i).last_alive - last_cycle_check) < last_cycle_check || (last_cycle_check == 0 && CURSOR(i).last_alive != 0))
+		if(current_sycle - CURSOR(i).last_alive < current_sycle - last_cycle_check || (last_cycle_check == 0 && CURSOR(i).last_alive != 0))
 			new[++j] = CURSOR(i);
 	g_cursors_amount = alive_cursors;
 	temp = g_cursors;

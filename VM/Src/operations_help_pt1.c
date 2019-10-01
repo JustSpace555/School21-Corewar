@@ -24,14 +24,15 @@ int		get_var_byte(unsigned char code, int offset, int label_size)
 	return (0);
 }
 
-int		get_amount_bytes_to_skip(unsigned char code, int label_size)
+int		get_amount_bytes_to_skip(unsigned char code, int label_size, int amount_arguments)
 {
 	int	skip;
+	int	i;
 
-	skip = get_var_byte(code, 0, label_size);
-	skip += get_var_byte(code, 2, label_size);
-	skip += get_var_byte(code, 4, label_size);
-	skip += get_var_byte(code, 6, label_size);
+	skip = 0;
+	i = -1;
+	while (++i < amount_arguments)
+		skip += get_var_byte(code, i * 2, label_size);
 	return (skip);
 }
 

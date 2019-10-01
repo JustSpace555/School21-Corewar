@@ -72,12 +72,15 @@ void	push_int_text(int data, char *info_text, float y, TTF_Font *font, SDL_Color
 	{
 		text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
 		SDL_FreeSurface(text_surface);
-		TTF_SizeText(font, temp_2, &coor.w, &coor.h);
+		if (text_texture)
+		{
+			TTF_SizeText(font, temp_2, &coor.w, &coor.h);
+			coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 50;
+			coor.y = y;
+			SDL_RenderCopy(g_main_render, text_texture, NULL, &coor);
+			SDL_DestroyTexture(text_texture);
+		}
 		ft_strdel(&temp_2);
-		coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 50;
-		coor.y = y;
-		SDL_RenderCopy(g_main_render, text_texture, NULL, &coor);
-		SDL_DestroyTexture(text_texture);
 	}
 }
 
@@ -100,12 +103,15 @@ void	push_int_slash_data(float y, TTF_Font *font, int data_1, int data_2, char *
 	{
 		text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
 		SDL_FreeSurface(text_surface);
-		TTF_SizeText(font, temp_3, &coor.w, &coor.h);
+		if (text_texture)
+		{
+			TTF_SizeText(font, temp_3, &coor.w, &coor.h);
+			coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 50;
+			coor.y = y;
+			SDL_RenderCopy(g_main_render, text_texture, NULL, &coor);
+			SDL_DestroyTexture(text_texture);
+		}
 		ft_strdel(&temp_3);
-		coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 50;
-		coor.y = y;
-		SDL_RenderCopy(g_main_render, text_texture, NULL, &coor);
-		SDL_DestroyTexture(text_texture);
 	}
 }
 
@@ -115,14 +121,22 @@ void	push_char_text(char *text, float y, TTF_Font *font, SDL_Color color)
 	SDL_Texture	*text_texture;
 	SDL_Rect	coor;
 
+	text_surface = NULL;
+	text_texture = NULL;
 	TTF_SizeText(font, text, &coor.w, &coor.h);
 	coor.x = SCREEN_WIDTH - INFORMATION_SIZE + 50;
 	coor.y = y;
 	text_surface = TTF_RenderText_Solid(font, text, color);
-	text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
-	SDL_FreeSurface(text_surface);
-	SDL_RenderCopy(g_main_render, text_texture, NULL, &coor);
-	SDL_DestroyTexture(text_texture);
+	if (text_surface)
+	{
+		text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
+		SDL_FreeSurface(text_surface);
+		if (text_texture)
+		{
+			SDL_RenderCopy(g_main_render, text_texture, NULL, &coor);
+			SDL_DestroyTexture(text_texture);
+		}
+	}
 }
 
 void	push_players(int start_y, int amount_players, TTF_Font *font)
@@ -148,6 +162,6 @@ void	push_players(int start_y, int amount_players, TTF_Font *font)
 			push_char_text("Player aff out: ", pos + 120, font, White);
 			push_char_text(PLAYER(i).aff_out, pos + 140, font, White);
 		}
-		pos += 180;
+		pos += 160;
 	}
 }

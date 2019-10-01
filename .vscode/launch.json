@@ -14,7 +14,7 @@
 			//"args": ["-v", "vm_champs/champs/championships/2018/bcozic/pai_mu_tan.cor", "vm_champs/champs/championships/2018/mbenjell3/fast.cor"],
 			//"args": ["-n", "3", "vm_champs/champs/jumper.cor", "vm_champs/champs/jumper.cor", "vm_champs/champs/jumper.cor", "-v", "1"],
 			// "args": ["vm_champs/champs/championships/2018/bcozic/pai_mu_tan.cor", "vm_champs/champs/championships/2018/mbenjell3/fast.cor", "vm_champs/champs/ex.cor", "-vi"],
-			"args": ["-v", "1", "vm_champs/champs/championships/2018/bcozic/pai_mu_tan.cor", "vm_champs/champs/championships/2018/mbenjell3/fast.cor", "vm_champs/champs/ex.cor", "-vi"],
+			"args": ["vm_champs/champs/championships/2018/arobion/tchupka.cor", "vm_champs/champs/championships/2018/chaydont/Bazou.cor", "-vi"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

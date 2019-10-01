@@ -24,8 +24,9 @@
 **		r = register
 **		l = label size (4 or 2)
 **		b = byte val (1 or 0)
+**		n = amount_arguments
 */
-# define CHECK_REG(c,r,l,b) if(r>REG_NUMBER||r==0){move_cursor(*c,l,b);return;}
+# define CHECK_REG(c,r,l,b,n) if(r>REG_NUMBER||r==0){move_cursor(*c,l,b,n);return;}
 
 /*
 **		c = cursor
@@ -142,7 +143,7 @@ void				free_g_players(int amount_players);
 void				choose_color(t_battlefield *cell, int i);
 int					choose_reverse_color(t_battlefield *cell);
 char				choose_color_char(int i);
-void				check_alive_cursors(int last_cycle_check);
+void				check_alive_cursors(int last_cycle_check, int current_sycle);
 void				free_all(TTF_Font *font, t_vm *vm);
 
 /*
@@ -196,13 +197,13 @@ int					check_for_cycle_exec(t_cursor *cursor);
 int					get_var_byte(unsigned char code, int offset,
 									int label_size);
 int					get_amount_bytes_to_skip(unsigned char code,
-												int label_size);
+									int label_size, int amount_arguments);
 short				get_short_data(short addres);
 unsigned int		get_int_data(short addres);
-unsigned int	get_first_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset);
+unsigned int		get_first_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset);
 unsigned int		get_second_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset);
 unsigned int		get_third_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset);
-void				move_cursor(t_cursor *cursor, int label_size, int byte_val);
+void				move_cursor(t_cursor *cursor, int label_size, int byte_val, int amount_arguments);
 void				write_amount_of_bytes_data(short addres, void *write, int size_of_write, char color);
 void				make_one_new_cursor(t_cursor cursor);
 #endif
