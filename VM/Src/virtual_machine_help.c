@@ -167,13 +167,13 @@ void	check_alive_cursors(int last_cycle_check, int current_sycle)
 	void		*temp;
 
 	i = -1;
-	j = -1;
 	alive_cursors = 0;
 	while (++i < g_cursors_amount)
 		if(current_sycle - CURSOR(i).last_alive < current_sycle - last_cycle_check || (last_cycle_check == 0 && CURSOR(i).last_alive != 0))
 			alive_cursors++;
 		else
 		{
+			j = 0;
 			g_battlefield[CURSOR(i).cur_pos].cursor = false;
 			while (PLAYER(j).identifier != CURSOR(i).id)
 				j++;
