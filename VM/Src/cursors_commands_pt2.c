@@ -353,11 +353,21 @@ void	sti(t_cursor *cursor, t_vm *vm)
 		third_arg = get_third_arg(cursor, codage, 2, &offset);
 
 	if((codage & 0x30) == 0x10 && (codage & 0xC) == 4)
-		address = cursor->cur_pos + ((cursor->reg[second_arg - 1] + cursor->reg[third_arg - 1]) % IDX_MOD);
+	{
+		CHECK_REG(&cursor, second_arg, 2, 1, 3);
+		CHECK_REG(&cursor, third_arg, 2, 1, 3);
+		address = cursor->cur_pos + ((int)(cursor->reg[second_arg - 1] + cursor->reg[third_arg - 1]) % IDX_MOD);
+	}
 	else if ((codage & 0x30) != 0x10 && (codage & 0xC) == 4)
-		address = cursor->cur_pos + ((second_arg + cursor->reg[third_arg - 1]) % IDX_MOD);
+	{
+		CHECK_REG(&cursor, third_arg, 2, 1, 3);
+		address = cursor->cur_pos + ((second_arg + (int)cursor->reg[third_arg - 1]) % IDX_MOD);
+	}
 	else if ((codage & 0x30) == 0x10 && (codage & 0xC) != 4)
-		address = cursor->cur_pos + ((cursor->reg[second_arg - 1] + third_arg - 1) % IDX_MOD);
+	{
+		CHECK_REG(&cursor, second_arg, 2, 1, 3);
+		address = cursor->cur_pos + (((int)cursor->reg[second_arg - 1] + third_arg - 1) % IDX_MOD);
+	}
 	else
 		address = cursor->cur_pos + (second_arg + third_arg) % IDX_MOD;
 	write_amount_of_bytes_data(address, &cursor->reg[src_reg - 1], 4, cursor->color);

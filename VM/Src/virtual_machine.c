@@ -173,7 +173,7 @@ void	virtual_machine(t_vm *vm)
 	}
 	cell.w = (float)(SCREEN_WIDTH - INFORMATION_SIZE) / 64;
 	cell.h = (float)SCREEN_HEIGHT / 64;
-	while (cycle_to_die > 0 && !quit)
+	while (!quit && g_cursors_amount > 0)
 	{
 		if (vm->vis == 1)
 			while(SDL_PollEvent(&event))
@@ -203,9 +203,9 @@ void	virtual_machine(t_vm *vm)
 				push_to_render_battlefield(cell);
 				push_info(current_cycle, cycle_to_die, font, vm->amount_players, repeate.amount_of_repeate, "**Running**");
 				SDL_RenderPresent(g_main_render);
-				SDL_Delay(SCREEN_TICKS_PER_FRAME / amount_checks);
+				// SDL_Delay(SCREEN_TICKS_PER_FRAME / amount_checks);
 			}
-			if (current_cycle - last_cycle_check >= cycle_to_die)
+			if (current_cycle - last_cycle_check >= cycle_to_die || cycle_to_die <= 0)
 			{
 				amount_checks++;
 				check_alive_cursors(last_cycle_check, current_cycle);
@@ -229,8 +229,6 @@ void	virtual_machine(t_vm *vm)
 				}
 				g_amount_live_operations = 0;
 				last_cycle_check = current_cycle;
-				if (g_cursors_amount <= 0)
-					break ;
 			}
 			if (cycle_to_die > 0 && vm->dump >= 0 && vm->dump == current_cycle)
 			{
@@ -245,9 +243,18 @@ void	virtual_machine(t_vm *vm)
 			SDL_RenderPresent(g_main_render);
 		}
 	}
+	if (vm->vis == 1)
+	{
+		push_to_render_battlefield(cell);
+		push_info(current_cycle, cycle_to_die, font, vm->amount_players, repeate.amount_of_repeate, "**Pause**");
+		SDL_RenderPresent(g_main_render);
+		push_winner(font, vm->amount_players);
+	}
+	else
+		push_winner_terminal(vm->amount_players);
 	free_all(font, vm);
-	printf("\nnum_r = %d\n", repeate.num_r);
-	printf("num_p_r = %d\n", repeate.num_p_r);
-	printf("CTD = %d\n", cycle_to_die);
-	printf("Cycles = %d\n", current_cycle);
+	// printf("\nnum_r = %d\n", repeate.num_r);
+	// printf("num_p_r = %d\n", repeate.num_p_r);
+	// printf("CTD = %d\n", cycle_to_die);
+	// printf("Cycles = %d\n", current_cycle);
 }

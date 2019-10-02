@@ -19,7 +19,7 @@ void			move_cursor(t_cursor *cursor, int label_size, int byte_val, int amount_ar
 		g_battlefield[cursor->cur_pos].cursor = false;
 	cursor->cur_pos += skip + 1; //учесть -1, 0
 	if (cursor->cur_pos >= MEM_SIZE)
-		cursor->cur_pos -= MEM_SIZE;
+		cursor->cur_pos %= MEM_SIZE;
 	g_battlefield[cursor->cur_pos].cursor = true;
 }
 

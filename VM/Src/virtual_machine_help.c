@@ -192,3 +192,20 @@ void	check_alive_cursors(int last_cycle_check, int current_sycle)
 	g_cursors = new;
 	free(temp);
 }
+
+void	push_winner_terminal(int amount_players)
+{
+	int	i;
+	int	id;
+	int	max;
+
+	i = -1;
+	max = 0;
+	while(++i < amount_players)
+		if (PLAYER(i).last_alive > max)
+		{
+			max = PLAYER(i).last_alive;
+			id = i;
+		}
+	ft_printf("Winner is: %s\n", PLAYER(id).name);
+}

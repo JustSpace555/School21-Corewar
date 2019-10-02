@@ -145,6 +145,7 @@ int					choose_reverse_color(t_battlefield *cell);
 char				choose_color_char(int i);
 void				check_alive_cursors(int last_cycle_check, int current_sycle);
 void				free_all(TTF_Font *font, t_vm *vm);
+void				push_winner_terminal(int amount_players);
 
 /*
 **					Main funcions

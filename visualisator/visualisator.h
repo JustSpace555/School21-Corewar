@@ -24,6 +24,7 @@ void			push_live_breakdown(int y, int amount_players);
 void			push_pause(TTF_Font *font);
 void			push_distribution(float y);
 void			push_players(int start_y, int amount_players, TTF_Font *font);
+void			push_winner(TTF_Font *font, int amount_players);
 void			set_render_draw_color(char color);
 void			set_sdl_color(SDL_Color *color, int i);
 int				init(void);
