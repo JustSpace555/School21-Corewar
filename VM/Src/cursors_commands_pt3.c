@@ -10,6 +10,7 @@ void	fork_lfork(t_cursor *cursor, int selector, t_vm *vm)
 	else
 		new.cur_pos = cursor->cur_pos + get_short_data(cursor->cur_pos + 1);
 	new.operation_code = '\0';
+	cursor->operation_code = '\0';
 	if (vm->ver == 1 && selector == 0)
 		ft_printf("P %4d | fork %d (%d)\n", cursor->id, new.cur_pos, cursor->cur_pos + new.cur_pos % IDX_MOD);
 	else if (vm->ver == 1 && selector >= 1)
