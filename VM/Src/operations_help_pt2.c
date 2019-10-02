@@ -35,7 +35,7 @@ void			make_one_new_cursor(t_cursor cursor)
 	while (++i < g_cursors_amount)
 		new[i] = g_cursors[i];
 	j = 0;
-	while (PLAYER(j).identifier != cursor.id)
+	while (PLAYER(j).identifier != cursor.player_id)
 		j++;
 	PLAYER(j).amount_cursors++;
 	new[i] = cursor;

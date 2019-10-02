@@ -59,7 +59,8 @@ typedef struct		s_vm
 
 typedef struct		s_cursor
 {
-	unsigned int	id;
+	unsigned int	player_id;
+	unsigned int	cursror_id;
 	t_bool			carry;
 	uint8_t			operation_code;
 	unsigned int	reg[REG_NUMBER];

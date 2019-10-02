@@ -12,9 +12,9 @@ void	fork_lfork(t_cursor *cursor, int selector, t_vm *vm)
 	new.operation_code = '\0';
 	cursor->operation_code = '\0';
 	if (vm->ver == 1 && selector == 0)
-		ft_printf("P %4d | fork %d (%d)\n", cursor->id, new.cur_pos, cursor->cur_pos + new.cur_pos % IDX_MOD);
+		ft_printf("P %4d | fork %d (%d)\n", cursor->player_id, new.cur_pos, cursor->cur_pos + new.cur_pos % IDX_MOD);
 	else if (vm->ver == 1 && selector >= 1)
-		ft_printf("P %4d | lfork %d (%d)\n", cursor->id, new.cur_pos, cursor->cur_pos + new.cur_pos);
+		ft_printf("P %4d | lfork %d (%d)\n", cursor->player_id, new.cur_pos, cursor->cur_pos + new.cur_pos);
 	move_cursor(cursor, 2, 0, 1);
 	make_one_new_cursor(new);
 }
@@ -32,7 +32,7 @@ void	aff(t_cursor *cursor, t_vm *vm)
 	if (vm->vis)
 	{
 		i = -1;
-		while (cursor->id != PLAYER(++i).identifier)
+		while (cursor->player_id != PLAYER(++i).identifier)
 			;
 		if (!PLAYER(i).aff_out)
 		{
@@ -49,6 +49,6 @@ void	aff(t_cursor *cursor, t_vm *vm)
 		}
 	}
 	else
-		ft_printf("Player #%u out: %c", cursor->id, cursor->reg[dest_reg - 1] % 256);
+		ft_printf("Player #%u out: %c", cursor->player_id, cursor->reg[dest_reg - 1] % 256);
 	move_cursor(cursor, 2, 0, 1);
 }

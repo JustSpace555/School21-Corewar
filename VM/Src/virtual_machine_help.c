@@ -175,7 +175,7 @@ void	check_alive_cursors(int last_cycle_check, int current_sycle)
 		{
 			j = 0;
 			g_battlefield[CURSOR(i).cur_pos].cursor = false;
-			while (PLAYER(j).identifier != CURSOR(i).id)
+			while (PLAYER(j).identifier != CURSOR(i).player_id)
 				j++;
 			PLAYER(j).amount_cursors--;
 		}

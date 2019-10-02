@@ -5,7 +5,7 @@ void	live(t_cursor *cursor, int cycle, t_vm *vm)
 	int	i;
 
 	i = 0;
-	while (PLAYER(i).identifier != cursor->id)
+	while (PLAYER(i).identifier != cursor->player_id)
 		i++;
 	if (get_int_data(cursor->cur_pos + 1) == -PLAYER(i).identifier)
 		PLAYER(i).last_alive = cycle;
@@ -13,7 +13,7 @@ void	live(t_cursor *cursor, int cycle, t_vm *vm)
 	cursor->last_alive = cycle;
 	g_battlefield[cursor->cur_pos].write_cycles = 100;
 	if (vm->ver == 1)
-		ft_printf("P %4d | live %d\n", cursor->id, cursor->reg[0]);
+		ft_printf("P %4d | live %d\n", cursor->player_id, cursor->reg[0]);
 	g_amount_live_operations++;
 	move_cursor(cursor, 4, 0, 1);
 }
@@ -37,7 +37,7 @@ void	ld(t_cursor *cursor, t_vm *vm)
 	cursor->carry = (num == 0) ? true : false;
 	cursor->reg[dest_reg - 1] = num;
 	if (vm->ver == 1)
-		ft_printf("P %4d | ld %d r%d\n", cursor->id, num, dest_reg);
+		ft_printf("P %4d | ld %d r%d\n", cursor->player_id, num, dest_reg);
 	move_cursor(cursor, 4, 1, 2);
 }
 
@@ -69,7 +69,7 @@ void	st(t_cursor *cursor, t_vm *vm) //потестить с типами
 		cursor->reg[dest_reg - 1] = cursor->reg[src_reg - 1];
 	}
 	if (vm->ver == 1)
-		ft_printf("P %4d | st r%d %d\n", cursor->id, src_reg, temp);
+		ft_printf("P %4d | st r%d %d\n", cursor->player_id, src_reg, temp);
 	move_cursor(cursor, 4, 1, 2);
 }
 
@@ -96,7 +96,7 @@ void	add(t_cursor *cursor, t_vm *vm)
 	else
 		cursor->carry = false;
 	if (vm->ver == 1)
-		ft_printf("P %4d | add r%d r%d r%d\n", cursor->id, src_reg_1, src_reg_2, dest_reg);
+		ft_printf("P %4d | add r%d r%d r%d\n", cursor->player_id, src_reg_1, src_reg_2, dest_reg);
 	move_cursor(cursor, 4, 1, 3);
 }
 
@@ -125,6 +125,6 @@ void	sub(t_cursor *cursor, t_vm *vm)
 	else
 		cursor->carry = false;
 	if (vm->ver == 1)
-		ft_printf("P %4d | sub r%d r%d r%d\n", cursor->id, src_reg_1, src_reg_2, dest_reg);
+		ft_printf("P %4d | sub r%d r%d r%d\n", cursor->player_id, src_reg_1, src_reg_2, dest_reg);
 	move_cursor(cursor, 4, 1, 3);
 }
