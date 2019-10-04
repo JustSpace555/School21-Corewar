@@ -154,6 +154,8 @@ void	free_all(TTF_Font *font, t_vm *vm)
 		if (PLAYER(i).aff_out)
 			free(PLAYER(i).aff_out);
 	}
+	free(vm->order_idtfrs);
+	free(vm->plr_nbr);
 	free(g_battlefield);
 	free(g_cursors);
 }
@@ -207,5 +209,5 @@ void	push_winner_terminal(int amount_players)
 			max = PLAYER(i).last_alive;
 			id = i;
 		}
-	ft_printf("Winner is: %s\n", PLAYER(id).name);
+	ft_printf("Contestant %d, \"%s\", has won !\n", id + 1, PLAYER(id).name);
 }

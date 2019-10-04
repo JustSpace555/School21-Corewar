@@ -39,10 +39,11 @@ void			make_one_new_cursor(t_cursor cursor)
 		j++;
 	PLAYER(j).amount_cursors++;
 	new[i] = cursor;
+	g_cursors_amount++;
+	new[i].cursror_id = g_cursors_amount;
 	temp = g_cursors;
 	g_cursors = new;
 	free(temp);
-	g_cursors_amount++;
 	g_battlefield[cursor.cur_pos].cursor = true;
 }
 

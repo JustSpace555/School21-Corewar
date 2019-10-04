@@ -87,6 +87,7 @@ void	initialize_cursors(int amount_players)
 		CURSOR(i).cur_pos = PLAYER(--plr_id).start_position;
 		CURSOR(i).cycle_exec = 0;
 		CURSOR(i).player_id = PLAYER(plr_id).identifier;
+		CURSOR(i).cursror_id = PLAYER(plr_id).identifier;
 		CURSOR(i).last_alive = 0;
 		CURSOR(i).operation_code = 0;
 		CURSOR(i).reg[0] = -PLAYER(plr_id).identifier;

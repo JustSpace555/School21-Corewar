@@ -101,9 +101,10 @@ void	print_battlefield(void)
 
 	print_bytes = 0;
 	c = -1;
+	ft_printf("0x%04x : ", print_bytes);
 	while (++c < MEM_SIZE)
 	{
-		if (print_bytes % CODE_PER_LINE == 0)
+		if (print_bytes % CODE_PER_LINE == 0 && print_bytes != 0)
 			ft_printf("\n0x%04x : ", print_bytes);
 		if (g_battlefield[c].cursor)
 			ft_printf(WHITE_BG"%{black}02hhx ", g_battlefield[c].code);

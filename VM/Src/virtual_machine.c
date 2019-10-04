@@ -192,6 +192,8 @@ void	virtual_machine(t_vm *vm)
 		if (!pause)
 		{
 			current_cycle++;
+			if (vm->ver == 2)
+				ft_printf("It is now cycle %d\n", current_cycle);
 			i = -1;
 			while(++i < g_cursors_amount)
 			{
@@ -209,6 +211,8 @@ void	virtual_machine(t_vm *vm)
 			{
 				amount_checks++;
 				check_alive_cursors(last_cycle_check, current_cycle);
+				if (cycle_to_die <= 0)
+					g_cursors_amount = 0;
 				i = -1;
 				while (++i < vm->amount_players)
 					PLAYER(i).nbr_live = 0;
@@ -229,6 +233,8 @@ void	virtual_machine(t_vm *vm)
 				}
 				g_amount_live_operations = 0;
 				last_cycle_check = current_cycle;
+				if (vm->ver == 2)
+					ft_printf("Cycle to die is now %d\n", cycle_to_die);
 			}
 			if (cycle_to_die > 0 && vm->dump >= 0 && vm->dump == current_cycle)
 			{
@@ -255,6 +261,4 @@ void	virtual_machine(t_vm *vm)
 	free_all(font, vm);
 	// printf("\nnum_r = %d\n", repeate.num_r);
 	// printf("num_p_r = %d\n", repeate.num_p_r);
-	// printf("CTD = %d\n", cycle_to_die);
-	// printf("Cycles = %d\n", current_cycle);
 }

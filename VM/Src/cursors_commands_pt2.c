@@ -135,15 +135,21 @@ void	zjmp(t_cursor *cursor, t_vm *vm)
 {
 	short	address;
 
+	address = get_short_data(cursor->cur_pos + 1) % IDX_MOD - 1;
 	if (cursor->carry == false)
 		move_cursor(cursor, 2, 0, 1);
 	else
-	{
-		address = get_short_data(cursor->cur_pos + 1) % IDX_MOD - 1;
 		move_cursor(cursor, address, 0, 1);
-	}	
 	if (vm->ver == 1)
-		ft_printf("P %4d | zjmp %d %s\n", cursor->player_id, address + 1, (cursor->carry) ? "OK" : "FAILED"); // ес че переписать move
+		ft_printf("P %4d | zjmp %d %s\n", cursor->cursror_id, address + 1, (cursor->carry) ? "OK" : "FAILED"); // ес че переписать move
+}
+
+void	ldi(t_cursor *cursor, int selector, t_vm *vm)
+{
+	unsigned char	codage;
+	unsigned char	dest_reg;
+
+
 }
 
 void	ldi_lldi(t_cursor *cursor, int selector, t_vm *vm)
@@ -166,8 +172,7 @@ void	ldi_lldi(t_cursor *cursor, int selector, t_vm *vm)
 			dest_reg = GET_CUR_POS_BYTE(&cursor, 4);
 			CHECK_REG(&cursor, dest_reg, 2, 1, 3);
 			if (selector == 0)
-				cursor->reg[dest_reg - 1] = get_int_data((
-					cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] +
+				cursor->reg[dest_reg - 1] = get_int_data((cursor->reg[GET_CUR_POS_BYTE(&cursor, 2) - 1] +
 					cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1])
 					% IDX_MOD);
 			else
@@ -322,7 +327,7 @@ unsigned int	get_third_arg(t_cursor *cursor, unsigned char codage, int label_siz
 
 void	print_sti(t_cursor *cursor, int reg, int sec_arg, int third_arg)
 {
-	ft_printf("P %4d | sti r%d %d %d\n", cursor->player_id, reg, sec_arg, third_arg);
+	ft_printf("P %4d | sti r%d %d %d\n", cursor->cursror_id, reg, sec_arg, third_arg);
 	ft_printf("      | -> store to %d + %d = %d (with pc and mod %d)\n", sec_arg, third_arg, sec_arg + third_arg, cursor->cur_pos + ((sec_arg + third_arg) % IDX_MOD));
 }
 

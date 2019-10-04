@@ -3,18 +3,20 @@
 void	fork_lfork(t_cursor *cursor, int selector, t_vm *vm)
 {
 	t_cursor	new;
+	short		address;
 
 	new = *cursor;
 	if (selector == 0)
-		new.cur_pos = cursor->cur_pos + get_short_data(cursor->cur_pos + 1) % IDX_MOD;
+		address = get_short_data(cursor->cur_pos + 1) % IDX_MOD;
 	else
-		new.cur_pos = cursor->cur_pos + get_short_data(cursor->cur_pos + 1);
+		address = get_short_data(cursor->cur_pos + 1);
+	new.cur_pos = cursor->cur_pos + address;
 	new.operation_code = '\0';
 	cursor->operation_code = '\0';
 	if (vm->ver == 1 && selector == 0)
-		ft_printf("P %4d | fork %d (%d)\n", cursor->player_id, new.cur_pos, cursor->cur_pos + new.cur_pos % IDX_MOD);
+		ft_printf("P %4d | fork %d (%d)\n", cursor->cursror_id, address, new.cur_pos);
 	else if (vm->ver == 1 && selector >= 1)
-		ft_printf("P %4d | lfork %d (%d)\n", cursor->player_id, new.cur_pos, cursor->cur_pos + new.cur_pos);
+		ft_printf("P %4d | lfork %d (%d)\n", cursor->cursror_id, address, new.cur_pos);
 	move_cursor(cursor, 2, 0, 1);
 	make_one_new_cursor(new);
 }
@@ -49,6 +51,6 @@ void	aff(t_cursor *cursor, t_vm *vm)
 		}
 	}
 	else
-		ft_printf("Player #%u out: %c", cursor->player_id, cursor->reg[dest_reg - 1] % 256);
+		ft_printf("Player #%u out: %c", cursor->cursror_id, cursor->reg[dest_reg - 1] % 256);
 	move_cursor(cursor, 2, 0, 1);
 }
