@@ -13,32 +13,33 @@ int 	*init_int_array(int size, int nbr)
 	return (array);
 }
 
-void	initialize_vm(t_vm *vm)
+void	initialize_vm(void)
 {
 	int i;
 
 	i = -1;
-	vm->dump = -1;
-	vm->vis = -1;
-	vm->ver = -1;
-	vm->last_live_player = 0;
-	vm->order_idtfrs = init_int_array(MAX_PLAYERS, 0);
-	vm->plr_nbr = malloc(sizeof(t_plr_nbr) * MAX_PLAYERS);
-	vm->amount_players = 0;
+	g_vm = (t_vm *)malloc(sizeof(t_vm));
+	g_vm->dump = -1;
+	g_vm->vis = -1;
+	g_vm->ver = -1;
+	g_vm->last_live_player = 0;
+	g_vm->order_idtfrs = init_int_array(MAX_PLAYERS, 0);
+	g_vm->plr_nbr = (t_plr_nbr *)malloc(sizeof(t_plr_nbr) * MAX_PLAYERS);
+	g_vm->amount_players = 0;
 	while (++i < MAX_PLAYERS)
 	{
-		vm->plr_nbr[i].index_file = 0;
-		vm->plr_nbr[i].identifier = 0;
+		g_vm->plr_nbr[i].index_file = 0;
+		g_vm->plr_nbr[i].identifier = 0;
 	}
 }
 
-void	initialize_g_players(int amount_players)
+void	initialize_g_players(void)
 {
 	int	i;
 
-	g_players = (t_player *)malloc(sizeof(t_player) * amount_players);
+	g_players = (t_player *)malloc(sizeof(t_player) * g_vm->amount_players);
 	i = -1;
-	while (++i < amount_players)
+	while (++i < g_vm->amount_players)
 	{
 		PLAYER(i).start_position = 0;
 		PLAYER(i).code = NULL;
@@ -71,16 +72,16 @@ void	initialize_battlefield(void)
 	}
 }
 
-void	initialize_cursors(int amount_players)
+void	initialize_cursors()
 {
 	int	i;
 	int	j;
 	int	plr_id;
 
-	g_cursors = (t_cursor *)malloc(sizeof(t_cursor) * amount_players);
+	g_cursors = (t_cursor *)malloc(sizeof(t_cursor) * g_vm->amount_players);
 	i = -1;
-	plr_id = amount_players;
-	while (++i < amount_players)
+	plr_id = g_vm->amount_players;
+	while (++i < g_vm->amount_players)
 	{
 		CURSOR(i).bytes_to_next_op = 0;
 		CURSOR(i).carry = false;
@@ -96,6 +97,19 @@ void	initialize_cursors(int amount_players)
 		while (++j < 16)
 			CURSOR(i).reg[j] = 0;
 	}
-	g_cursors_amount = amount_players;
+	g_cursors_amount = g_vm->amount_players;
 	g_amount_live_operations = 0;
+}
+
+void	initialise_main_info(t_cycles_to_die *repeate)
+{
+	CURRENT_CYCLE = 0;
+	CTD = CYCLE_TO_DIE;
+	LAST_CYCLE_CHECK = 0;
+	AMOUNT_CHECKS = 1;
+	VIS_QUIT = 0;
+	VIS_PAUSE = 0;
+	repeate->num_r = CYCLE_TO_DIE;
+	repeate->num_p_r = CYCLE_TO_DIE;
+	repeate->amount_of_repeate = 0;
 }

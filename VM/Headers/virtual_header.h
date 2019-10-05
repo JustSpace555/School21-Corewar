@@ -10,6 +10,7 @@
 # define NULL_BYTES 4
 # define BYTES_AFTER_CODE_SIZE BYTES_AFTER_NAME + NULL_BYTES + 4
 # define BYTES_AFTER_COMMENT BYTES_AFTER_CODE_SIZE + COMMENT_LENGTH
+
 # define PLAYER(i) g_players[i]
 # define CURSOR(i) g_cursors[i]
 # define GET_BYTE(pos) g_battlefield[pos].code
@@ -17,6 +18,14 @@
 # define GET_CUR_POS_BYTE(cursor, extra) GET_BYTE((*cursor)->cur_pos + extra)
 # define GET_REG_VALUE(cursor, reg_i) cursor->reg[reg_i]
 # define CODE_PER_LINE 64 // change to 32
+
+# define CURRENT_CYCLE g_main_info[0]
+# define CTD g_main_info[1]
+# define LAST_CYCLE_CHECK g_main_info[2]
+# define AMOUNT_CHECKS g_main_info[3]
+# define VIS_QUIT g_main_info[4]
+# define VIS_PAUSE g_main_info[5]
+
 # define CHECK_EXEC(cursor) if (check_for_cycle_exec(*cursor) == -1) return ;
 
 /*
@@ -112,23 +121,36 @@ int					g_cursors_amount;
 int					g_amount_live_operations;
 
 /*
+**					[0] = (int)current_cycle
+**					[1] = (int)cycle_to_die
+**					[2] = (int)last_cycle_check
+**					[3] = (int)amount_checks
+**					[4] = (int)quit
+**					[5] = (int)pause
+*/
+int					g_main_info[6];
+t_vm				*g_vm;
+
+/*
 **					Print
 */
 
 void				print_hex_data(char *file);
 void				show_bin_int(unsigned int i);
 void				show_bin_char(unsigned char c);
-void				print_players(int amount_players);
+void				print_players(void);
 void				print_battlefield(void);
+void				print_usage(void);
 
 /*
 **					Initialize
 */
 
-void				initialize_vm(t_vm *vm);
+void				initialize_vm(void);
 void				initialize_battlefield(void);
-void				initialize_cursors(int amount_players);
-void				initialize_g_players(int amount_players);
+void				initialize_cursors(void);
+void				initialize_g_players(void);
+void				initialise_main_info(t_cycles_to_die *repeate);
 
 /*
 **					Help
@@ -140,56 +162,47 @@ void				copy_bytes_to_string(char **str, u_int8_t buffer[4],
 int					check_for_header(u_int8_t buffer[4]);
 int					get_code_size(u_int8_t buffer[4]);
 int					ft_is_strdigit(char *str);
-void				free_g_players(int amount_players);
+void				free_g_players(void);
 void				choose_color(t_battlefield *cell, int i);
 int					choose_reverse_color(t_battlefield *cell);
 char				choose_color_char(int i);
-void				check_alive_cursors(int last_cycle_check, int current_sycle);
-void				free_all(TTF_Font *font, t_vm *vm);
-void				push_winner_terminal(int amount_players);
+void				check_alive_cursors(void);
+void				free_all(void);
+void				push_winner_terminal(void);
+void				push_winner(t_cycles_to_die repeate);
 
 /*
 **					Main funcions
 */
 
-void				virtual_machine(t_vm *vm);
-int					players_parser(int amount_players,
-									char **files_champions, t_vm vm);
-int					parsing_arguments(int argc, char **argv, t_vm *flags);
+void				virtual_machine(void);
+int					players_parser(char **files_champions);
+int					parsing_arguments(int argc, char **argv, t_vm *vm);
 
 /*
 **					Operations
 */
 
-void				live(t_cursor *cursor, int cycle, t_vm *vm);
-void				ld(t_cursor *cursor, t_vm *vm);
-void				st(t_cursor	*cursor, t_vm *vm);
-void				add(t_cursor *cursor, t_vm *vm);
-void				sub(t_cursor *cursor, t_vm *vm);
-
-/*
-**					selector == 0 -> and
-**					selector == 1 -> or
-**					selector >= 2 -> xor
-*/
-void				and_or_xor(t_cursor *cursor, int selector, t_vm *vm);
-void				zjmp(t_cursor *cursor, t_vm *vm);
-void				sti(t_cursor *cursor, t_vm *vm);
-
-/*
-**					selector == 0 -> ldi
-**					selector != 0 -> lldi
-*/
-void				ldi_lldi(t_cursor *cursor, int selector, t_vm *vm);
-
-void				lld(t_cursor *cursor, t_vm *vm);
+void				live(t_cursor *cursor);
+void				ld(t_cursor *cursor);
+void				st(t_cursor	*cursor);
+void				add(t_cursor *cursor);
+void				sub(t_cursor *cursor);
+void				and(t_cursor *cursor);
+void				or(t_cursor *cursor);
+void				xor(t_cursor *cursor);
+void				zjmp(t_cursor *cursor);
+void				sti(t_cursor *cursor);
+void				ldi(t_cursor *cursor);
+void				lldi(t_cursor *cursor);
+void				lld(t_cursor *cursor);
 
 /*
 **					selector == 0 -> fork
 **					selector != 1 -> lfork
 */
-void				fork_lfork(t_cursor *cursor, int selector, t_vm *vm);
-void				aff(t_cursor *cursor, t_vm *vm);
+void				fork_lfork(t_cursor *cursor, int selector);
+void				aff(t_cursor *cursor);
 
 /*
 **					Operations help
@@ -208,4 +221,6 @@ unsigned int		get_third_arg(t_cursor *cursor, unsigned char codage, int label_si
 void				move_cursor(t_cursor *cursor, int label_size, int byte_val, int amount_arguments);
 void				write_amount_of_bytes_data(short addres, void *write, int size_of_write, char color);
 void				make_one_new_cursor(t_cursor cursor);
+void				print_sti(t_cursor *cursor, int reg, int sec_arg, int third_arg);
+
 #endif

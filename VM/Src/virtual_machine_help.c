@@ -133,20 +133,20 @@ int		choose_reverse_color(t_battlefield *cell)
 	return (8);
 }
 
-void	free_all(TTF_Font *font, t_vm *vm)
+void	free_all(void)
 {
 	int	i;
 
-	if (vm->vis == 1)
+	if (g_vm->vis == 1)
 	{
-		TTF_CloseFont(font);
+		TTF_CloseFont(g_font);
 		TTF_Quit();
 		SDL_DestroyRenderer(g_main_render);
 		SDL_DestroyWindow(g_main_window);
 		SDL_Quit();
 	}
 	i = -1;
-	while (++i < vm->amount_players)
+	while (++i < g_vm->amount_players)
 	{
 		free(PLAYER(i).code);
 		free(PLAYER(i).comment);
@@ -154,13 +154,13 @@ void	free_all(TTF_Font *font, t_vm *vm)
 		if (PLAYER(i).aff_out)
 			free(PLAYER(i).aff_out);
 	}
-	free(vm->order_idtfrs);
-	free(vm->plr_nbr);
+	free(g_vm->order_idtfrs);
+	free(g_vm->plr_nbr);
 	free(g_battlefield);
 	free(g_cursors);
 }
 
-void	check_alive_cursors(int last_cycle_check, int current_sycle)
+void	check_alive_cursors(void)
 {
 	int			i;
 	int			j;
@@ -171,7 +171,7 @@ void	check_alive_cursors(int last_cycle_check, int current_sycle)
 	i = -1;
 	alive_cursors = 0;
 	while (++i < g_cursors_amount)
-		if(current_sycle - CURSOR(i).last_alive < current_sycle - last_cycle_check || (last_cycle_check == 0 && CURSOR(i).last_alive != 0))
+		if(CURRENT_CYCLE - CURSOR(i).last_alive < CURRENT_CYCLE - LAST_CYCLE_CHECK || (LAST_CYCLE_CHECK == 0 && CURSOR(i).last_alive != 0))
 			alive_cursors++;
 		else
 		{
@@ -187,7 +187,7 @@ void	check_alive_cursors(int last_cycle_check, int current_sycle)
 	new = (t_cursor *)malloc(sizeof(t_cursor) * alive_cursors);
 	i = -1;
 	while (++i < g_cursors_amount)
-		if(current_sycle - CURSOR(i).last_alive < current_sycle - last_cycle_check || (last_cycle_check == 0 && CURSOR(i).last_alive != 0))
+		if(CURRENT_CYCLE - CURSOR(i).last_alive < CURRENT_CYCLE - LAST_CYCLE_CHECK || (LAST_CYCLE_CHECK == 0 && CURSOR(i).last_alive != 0))
 			new[++j] = CURSOR(i);
 	g_cursors_amount = alive_cursors;
 	temp = g_cursors;
@@ -195,7 +195,7 @@ void	check_alive_cursors(int last_cycle_check, int current_sycle)
 	free(temp);
 }
 
-void	push_winner_terminal(int amount_players)
+void	push_winner_terminal(void)
 {
 	int	i;
 	int	id;
@@ -203,11 +203,24 @@ void	push_winner_terminal(int amount_players)
 
 	i = -1;
 	max = 0;
-	while(++i < amount_players)
+	while(++i < g_vm->amount_players)
 		if (PLAYER(i).last_alive > max)
 		{
 			max = PLAYER(i).last_alive;
 			id = i;
 		}
 	ft_printf("Contestant %d, \"%s\", has won !\n", id + 1, PLAYER(id).name);
+}
+
+void	push_winner(t_cycles_to_die repeate)
+{
+	if (g_vm->vis == 1 && !VIS_QUIT)
+	{
+		push_to_render_battlefield();
+		push_info(repeate.amount_of_repeate, "**Pause**");
+		SDL_RenderPresent(g_main_render);
+		push_winner_vis();
+	}
+	else if(g_vm->vis != 1 && !VIS_QUIT)
+		push_winner_terminal();
 }
