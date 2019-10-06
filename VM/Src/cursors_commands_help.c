@@ -94,14 +94,41 @@ t_bool			check_reg(unsigned char reg)
 	return (reg > 16 || reg == 0 ? false : true);
 }
 
-int				check_reg_write_arg(t_cursor *cursor, unsigned char codage, int *value)
+int				check_reg_write_arg(t_cursor *cursor, unsigned char codage, int *value, int arg_num)
 {
-	if ((codage & 0xC0) == 0x40 || (codage & 0x30) == 10 || (codage & 0xC) == 4)
+	if (arg_num == 1)
 	{
-		if (check_reg(*value))
-			*value = cursor->reg[(*value) - 1];
+		if ((codage & 0xC0) == 0x40)
+		{
+			if (check_reg(*value))
+				*value = cursor->reg[(*value) - 1];
+			else
+				return (0);
+		}
 		else
-			return (0);
+			return (1);
+	}
+	else if (arg_num == 2)
+	{
+		 if ((codage & 0x30) == 10)
+		 {
+			if (check_reg(*value))
+				*value = cursor->reg[(*value) - 1];
+			else
+				return (0);
+		 }
+		 else
+		 	return (1);
+	}
+	else if (arg_num == 3)
+	{
+		if ((codage & 0xC) == 4)
+		{
+			if (check_reg(*value))
+				*value = cursor->reg[(*value) - 1];
+			else
+				return (0);
+		}
 	}
 	return (1);
 }

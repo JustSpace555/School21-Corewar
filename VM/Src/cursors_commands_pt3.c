@@ -3,7 +3,7 @@
 void	sti(t_cursor *cursor)
 {
 	unsigned char	codage;
-	unsigned char	src_reg;
+	int				src_reg;
 	int				address;
 	int				second_arg;
 	int				third_arg;
@@ -22,12 +22,12 @@ void	sti(t_cursor *cursor)
 	}
 	second_arg = get_second_arg(cursor, codage, 2, &offset);
 	third_arg = get_third_arg(cursor, codage, 2, &offset);
-	if (check_reg_write_arg(cursor, codage, &second_arg) && check_reg_write_arg(cursor, codage, &third_arg))
+	if (g_vm->ver == 1)
+			print_sti(cursor, src_reg, second_arg, third_arg);
+	if (check_reg_write_arg(cursor, codage, &second_arg, 2) && check_reg_write_arg(cursor, codage, &third_arg, 3))
 	{
 		address = cursor->cur_pos + (second_arg + third_arg) % IDX_MOD;
 		write_amount_of_bytes_data(address, &cursor->reg[src_reg - 1], 4, cursor->color);
-		if (g_vm->ver == 1)
-			print_sti(cursor, src_reg, second_arg, third_arg);
 	}
 	move_cursor(cursor, 2, codage, 3);
 }
@@ -89,7 +89,7 @@ void	lldi(t_cursor *cursor)
 	t_arg = (int)get_third_arg(cursor, codage, 2, &offset);
 	if (!check_reg(t_arg))
 	{
-		if (!check_reg_write_arg(cursor, codage, &f_arg) || !check_reg_write_arg(cursor, codage, &s_arg))
+		if (!check_reg_write_arg(cursor, codage, &f_arg, 1) || !check_reg_write_arg(cursor, codage, &s_arg, 2))
 		{
 			move_cursor(cursor, 2, codage, 3);
 			return ;

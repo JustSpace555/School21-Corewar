@@ -157,6 +157,10 @@ void	process_operation(void)
 	int	i;
 
 	i = -1;
+	if (CURRENT_CYCLE == 140)
+	{
+		
+	}
 	while(++i < g_cursors_amount)
 	{
 		choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));

@@ -20,8 +20,8 @@ void	and(t_cursor *cursor)
 	third_arg = (int)get_third_arg(cursor, codage, 4, &offset);
 	if (check_reg(third_arg))
 	{
-		if (!check_reg_write_arg(cursor, codage, &first_arg) ||
-			!check_reg_write_arg(cursor, codage, &second_arg))
+		if (!check_reg_write_arg(cursor, codage, &first_arg, 1) ||
+			!check_reg_write_arg(cursor, codage, &second_arg, 2))
 		{
 			move_cursor(cursor, 4, codage, 3);
 			return ;
@@ -57,8 +57,8 @@ void	or(t_cursor *cursor)
 	third_arg = (int)get_third_arg(cursor, codage, 4, &offset);
 	if (check_reg(third_arg))
 	{
-		if (!check_reg_write_arg(cursor, codage, &first_arg) ||
-			!check_reg_write_arg(cursor, codage, &second_arg))
+		if (!check_reg_write_arg(cursor, codage, &first_arg, 1) ||
+			!check_reg_write_arg(cursor, codage, &second_arg, 2))
 		{
 			move_cursor(cursor, 4, codage, 3);
 			return ;
@@ -94,8 +94,8 @@ void	xor(t_cursor *cursor)
 	third_arg = (int)get_third_arg(cursor, codage, 4, &offset);
 	if (check_reg(third_arg))
 	{
-		if (!check_reg_write_arg(cursor, codage, &first_arg) ||
-			!check_reg_write_arg(cursor, codage, &second_arg))
+		if (!check_reg_write_arg(cursor, codage, &first_arg, 1) ||
+			!check_reg_write_arg(cursor, codage, &second_arg, 2))
 		{
 			move_cursor(cursor, 4, codage, 3);
 			return ;
@@ -174,7 +174,7 @@ void	ldi(t_cursor *cursor)
 	t_arg = (int)get_third_arg(cursor, codage, 2, &offset);
 	if (!check_reg(t_arg))
 	{
-		if (!check_reg_write_arg(cursor, codage, &f_arg) || !check_reg_write_arg(cursor, codage, &s_arg))
+		if (!check_reg_write_arg(cursor, codage, &f_arg, 1) || !check_reg_write_arg(cursor, codage, &s_arg, 2))
 		{
 			move_cursor(cursor, 2, codage, 3);
 			return ;
