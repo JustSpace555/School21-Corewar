@@ -11,7 +11,7 @@ void	and(t_cursor *cursor)
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	if ((codage & 0xC0) == 0 || (codage & 0x30) == 0 || (codage & 0xC) != 4)
 	{
-		move_cursor(cursor, 4, 1, 3);
+		move_cursor(cursor, 4, codage, 3);
 		return ;
 	}
 	offset = 2;
@@ -36,7 +36,7 @@ void	and(t_cursor *cursor)
 		cursor->carry = true;
 	else
 		cursor->carry = false;
-	move_cursor(cursor, 4, 1, 3);
+	move_cursor(cursor, 4, codage, 3);
 }
 
 void	or(t_cursor *cursor)
@@ -50,7 +50,7 @@ void	or(t_cursor *cursor)
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	if ((codage & 0xC0) == 0 || (codage & 0x30) == 0 || (codage & 0xC) != 4)
 	{
-		move_cursor(cursor, 4, 1, 3);
+		move_cursor(cursor, 4, codage, 3);
 		return ;
 	}
 	offset = 2;
@@ -75,7 +75,7 @@ void	or(t_cursor *cursor)
 		cursor->carry = true;
 	else
 		cursor->carry = false;
-	move_cursor(cursor, 4, 1, 3);
+	move_cursor(cursor, 4, codage, 3);
 }
 
 void	xor(t_cursor *cursor)
@@ -89,7 +89,7 @@ void	xor(t_cursor *cursor)
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	if ((codage & 0xC0) == 0 || (codage & 0x30) == 0 || (codage & 0xC) != 4)
 	{
-		move_cursor(cursor, 4, 1, 3);
+		move_cursor(cursor, 4, codage, 3);
 		return ;
 	}
 	offset = 2;
@@ -114,7 +114,7 @@ void	xor(t_cursor *cursor)
 		cursor->carry = true;
 	else
 		cursor->carry = false;
-	move_cursor(cursor, 4, 1, 3);
+	move_cursor(cursor, 4, codage, 3);
 }
 
 void	zjmp(t_cursor *cursor)
@@ -145,16 +145,16 @@ void	zjmp(t_cursor *cursor)
 	if ((codage & 0xC0) == 0x40)
 	{
 		if (f_arg <= REG_NUMBER && f_arg > 0)
-			f_arg =	cursor->reg[f_arg - 1]; 
+			f_arg =	cursor->reg[f_arg - 1];
 		else
-			return ;	
+			return ;
 	}
 	if ((codage & 0x30) == 0x10)
 	{
 		if (f_arg <= REG_NUMBER && f_arg > 0)
-			f_arg =	cursor->reg[f_arg - 1]; 
+			f_arg =	cursor->reg[f_arg - 1];
 		else
-			return ;	
+			return ;
 	}
 
 }*/
@@ -168,7 +168,7 @@ void	ldi(t_cursor *cursor)
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	if ((codage & 0xC0) == 0 || (codage & 0x30) > 0x20 || (codage & 0xC) > 4)
 	{
-		move_cursor(cursor, 2, 1, 3);
+		move_cursor(cursor, 2, codage, 3);
 		return ;
 	}
 	if ((codage & 0xC0) == 0x40)
@@ -219,5 +219,5 @@ void	ldi(t_cursor *cursor)
 		cursor->reg[dest_reg - 1] = get_int_data(
 			get_short_data(cursor->cur_pos + 2) % IDX_MOD);
 	}
-	move_cursor(cursor, 2, 1, 3);
+	move_cursor(cursor, 2, codage, 3);
 }

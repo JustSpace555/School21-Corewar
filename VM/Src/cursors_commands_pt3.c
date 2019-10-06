@@ -8,7 +8,7 @@ void	lldi(t_cursor *cursor)
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	if ((codage & 0xC0) == 0 || (codage & 0x30) > 0x20 || (codage & 0xC) > 4)
 	{
-		move_cursor(cursor, 2, 1, 3);
+		move_cursor(cursor, 2, codage, 3);
 		return ;
 	}
 	if ((codage & 0xC0) == 0x40)
@@ -59,7 +59,7 @@ void	lldi(t_cursor *cursor)
 		cursor->reg[dest_reg - 1] = get_int_data(
 			get_short_data(cursor->cur_pos + 2) % IDX_MOD);
 	}
-	move_cursor(cursor, 2, 1, 3);
+	move_cursor(cursor, 2, codage, 3);
 }
 
 void	sti(t_cursor *cursor)
@@ -79,7 +79,7 @@ void	sti(t_cursor *cursor)
 	if ((codage & 0xC0) > 0x40 || (codage & 0x30) == 0 || (codage & 0xC) > 8 ||
 		src_reg > REG_NUMBER || src_reg == 0)
 	{
-		move_cursor(cursor, 2, 1, 3);
+		move_cursor(cursor, 2, codage, 3);
 		return ;
 	}
 	second_arg = get_second_arg(cursor, codage, 2, &offset);
@@ -98,40 +98,9 @@ void	sti(t_cursor *cursor)
 	write_amount_of_bytes_data(address, &cursor->reg[src_reg - 1], 4, cursor->color);
 	if (g_vm->ver == 1)
 		print_sti(cursor, src_reg, second_arg, third_arg);
-	move_cursor(cursor, 2, 1, 3);
+	move_cursor(cursor, 2, codage, 3);
 }
 
-int		count_invalid_steps(unsigned char codage, int label_size, int args)
-{
-	int	steps;
-
-	steps = 0;
-	if ((codage & 0xC0) == 192)
-		steps += 2;
-	else if ((codage & 0x80) == 128)
-		steps += label_size;
-	else if ((codage & 0x40) == 64)
-		steps += 1;
-	if (args >= 2)
-	{
-		if ((codage & 0x30) == 48)
-			steps += 2;
-		else if ((codage & 0x20) == 32)
-			steps += label_size;
-		else if ((codage & 0x10) == 16)
-			steps += 1;
-		if (args == 3)
-		{
-			if ((codage & 0xC) == 12)
-				steps += 2;
-			else if ((codage & 0x8) == 8)
-				steps += label_size;
-			else if ((codage & 0x4) == 4)
-				steps += 1;
-		}
-	}
-	return (steps);
-}
 void	lld(t_cursor *cursor)
 {
 	unsigned char	codage;
@@ -142,7 +111,7 @@ void	lld(t_cursor *cursor)
 	reg = (codage >= 144 && codage <= 159) ? GET_CUR_POS_BYTE(&cursor, 6) : GET_CUR_POS_BYTE(&cursor, 4);
 	if (!((codage >= 144 && codage <= 159) || (codage >= 208 && codage <= 223)) || (reg > REG_NUMBER || reg == 0))
 	{
-		move_cursor(cursor, 4, 1, 2);
+		move_cursor(cursor, 4, codage, 2);
 		return ;
 	}
 	if (codage >= 144 && codage <= 159)
@@ -160,7 +129,7 @@ void	lld(t_cursor *cursor)
 	}
 	if (g_vm->ver == 1)
 		ft_printf("P %4d | lld %d r%d\n", cursor->cursror_id, value, reg);
-	move_cursor(cursor, 4, 1, 2);
+	move_cursor(cursor, 4, codage, 2);
 }
 
 

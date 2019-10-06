@@ -29,7 +29,7 @@ void	ld(t_cursor *cursor)
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	if (!((codage >= 144 && codage <= 159) || (codage >= 208 && codage <= 223)))
 	{
-		move_cursor(cursor, 4, 1, 2);
+		move_cursor(cursor, 4, codage, 2);
 		return ;
 	}
 	num = get_first_arg(cursor, codage, 4, &offset);
@@ -38,7 +38,7 @@ void	ld(t_cursor *cursor)
 	cursor->reg[dest_reg - 1] = num;
 	if (g_vm->ver == 1)
 		ft_printf("P %4d | ld %d r%d\n", cursor->cursror_id, num, dest_reg);
-	move_cursor(cursor, 4, 1, 2);
+	move_cursor(cursor, 4, codage, 2);
 }
 
 void	st(t_cursor *cursor) //потестить с типами
@@ -53,7 +53,7 @@ void	st(t_cursor *cursor) //потестить с типами
 	if (src_reg > REG_NUMBER || src_reg == 0 || !((codage >= 80 && codage <= 95)
 			|| (codage >= 112 && codage <= 127)))
 	{
-		move_cursor(cursor, 4, 1, 2);
+		move_cursor(cursor, 4, codage, 2);
 		return ;
 	}
 	if ((codage & 0x30) == 48)
@@ -70,7 +70,7 @@ void	st(t_cursor *cursor) //потестить с типами
 	}
 	if (g_vm->ver == 1)
 		ft_printf("P %4d | st r%d %d\n", cursor->cursror_id, src_reg, temp);
-	move_cursor(cursor, 4, 1, 2);
+	move_cursor(cursor, 4, codage, 2);
 }
 
 void	add(t_cursor *cursor)
@@ -78,11 +78,12 @@ void	add(t_cursor *cursor)
 	unsigned char	src_reg_1;
 	unsigned char	src_reg_2;
 	unsigned char	dest_reg;
+	unsigned char	codage;
 
-	if (!(GET_CUR_POS_BYTE(&cursor, 1) >= 84 &&
-			GET_CUR_POS_BYTE(&cursor, 1) <= 87))
+	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	if (!(codage >= 84 && codage <= 87))
 	{
-		move_cursor(cursor, 4, 1, 3);
+		move_cursor(cursor, 4, codage, 3);
 		return ;
 	}
 	src_reg_1 = GET_CUR_POS_BYTE(&cursor, 2);
@@ -100,7 +101,7 @@ void	add(t_cursor *cursor)
 	if (g_vm->ver == 1)
 		ft_printf("P %4d | add r%d r%d r%d\n",
 					cursor->cursror_id, src_reg_1, src_reg_2, dest_reg);
-	move_cursor(cursor, 4, 1, 3);
+	move_cursor(cursor, 4, codage, 3);
 }
 
 void	sub(t_cursor *cursor)
@@ -108,11 +109,12 @@ void	sub(t_cursor *cursor)
 	unsigned char	dest_reg;
 	unsigned char	src_reg_1;
 	unsigned char	src_reg_2;
+	unsigned char	codage;
 
-	if (!(GET_CUR_POS_BYTE(&cursor, 1) >= 84 &&
-		GET_CUR_POS_BYTE(&cursor, 1) <= 87))
+	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	if (!(codage >= 84 && codage <= 87))
 	{
-		move_cursor(cursor, 4, 1, 3);
+		move_cursor(cursor, 4, codage, 3);
 		return ;
 	}
 	src_reg_1 = GET_CUR_POS_BYTE(&cursor, 2);
@@ -130,5 +132,5 @@ void	sub(t_cursor *cursor)
 	if (g_vm->ver == 1)
 		ft_printf("P %4d | sub r%d r%d r%d\n",
 					cursor->cursror_id, src_reg_1, src_reg_2, dest_reg);
-	move_cursor(cursor, 4, 1, 3);
+	move_cursor(cursor, 4, codage, 3);
 }

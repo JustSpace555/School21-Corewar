@@ -1,13 +1,13 @@
 #include "../Headers/virtual_header.h"
 
-void			move_cursor(t_cursor *cursor, int label_size, int byte_val, int amount_arguments)
+void			move_cursor(t_cursor *cursor, int label_size, unsigned char byte_val, int amount_arguments)
 {
 	int	skip;
 	int	i;
 	int	amount_cursors_cell;
 
 	if (byte_val)
-		skip = get_amount_bytes_to_skip(GET_CUR_POS_BYTE(&cursor, 1), label_size, amount_arguments) + 1;
+		skip = get_amount_bytes_to_skip(byte_val, label_size, amount_arguments) + 1;
 	else
 		skip = label_size;
 	i = -1;
