@@ -39,7 +39,7 @@ int		get_amount_bytes_to_skip(unsigned char code, int label_size, int amount_arg
 short	arena_truncation(short address)
 {
 	if (address > MEM_SIZE)
-		address -= MEM_SIZE;
+		address %= MEM_SIZE;
 	if (address < 0)
 		address = MEM_SIZE + address;
 	return address;

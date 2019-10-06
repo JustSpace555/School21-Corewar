@@ -82,35 +82,19 @@ void	sti(t_cursor *cursor)
 		move_cursor(cursor, 2, 1, 3);
 		return ;
 	}
-	/*if ((codage & 0x30) == 0x30)
-		second_arg = (long int)get_second_arg(cursor, codage, 2, &offset);
-	else if ((codage & 0x30) == 0x20)*/
 	second_arg = get_second_arg(cursor, codage, 2, &offset);
-	/*else if ((codage & 0x30) == 0x10)
-		second_arg = get_second_arg(cursor, codage, 2, &offset);
-	if ((codage & 0xC) == 8)
-		third_arg = get_third_arg(cursor, codage, 2, &offset);
-	else if ((codage & 0xC) == 4)*/
 	third_arg = get_third_arg(cursor, codage, 2, &offset);
-
-	if((codage & 0x30) == 0x10 && (codage & 0xC) == 4)
+	if((codage & 0x30) == 0x10)
 	{
 		CHECK_REG(&cursor, second_arg, 2, 1, 3);
-		CHECK_REG(&cursor, third_arg, 2, 1, 3);
-		address = cursor->cur_pos + ((int)(cursor->reg[second_arg - 1] + cursor->reg[third_arg - 1]) % IDX_MOD);
+		second_arg = cursor->reg[second_arg - 1];
 	}
-	else if ((codage & 0x30) != 0x10 && (codage & 0xC) == 4)
+	if ((codage & 0xC) == 4)
 	{
 		CHECK_REG(&cursor, third_arg, 2, 1, 3);
-		address = cursor->cur_pos + ((second_arg + (int)cursor->reg[third_arg - 1]) % IDX_MOD);
+		third_arg = cursor->reg[third_arg - 1];
 	}
-	else if ((codage & 0x30) == 0x10 && (codage & 0xC) != 4)
-	{
-		CHECK_REG(&cursor, second_arg, 2, 1, 3);
-		address = cursor->cur_pos + (((int)cursor->reg[second_arg - 1] + third_arg - 1) % IDX_MOD);
-	}
-	else
-		address = cursor->cur_pos + (second_arg + third_arg) % IDX_MOD;
+	address = cursor->cur_pos + (second_arg + third_arg) % IDX_MOD;
 	write_amount_of_bytes_data(address, &cursor->reg[src_reg - 1], 4, cursor->color);
 	if (g_vm->ver == 1)
 		print_sti(cursor, src_reg, second_arg, third_arg);
@@ -144,7 +128,7 @@ int		count_invalid_steps(unsigned char codage, int label_size, int args)
 				steps += label_size;
 			else if ((codage & 0x4) == 4)
 				steps += 1;
-		}	
+		}
 	}
 	return (steps);
 }
@@ -166,13 +150,13 @@ void	lld(t_cursor *cursor)
 		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 6), 4, 1, 2);
 		value = get_int_data(cursor->cur_pos + 2);
 		reg = GET_CUR_POS_BYTE(&cursor, 6);
-		cursor->reg[reg - 1] = value;		
+		cursor->reg[reg - 1] = value;
 	}
 	else
 	{
 		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 4), 4, 1, 2);
 		value = get_int_data(arena_truncation(cursor->cur_pos + get_short_data(cursor->cur_pos + 2)));
-		cursor->reg[reg - 1] = value;		
+		cursor->reg[reg - 1] = value;
 	}
 	if (g_vm->ver == 1)
 		ft_printf("P %4d | lld %d r%d\n", cursor->cursror_id, value, reg);

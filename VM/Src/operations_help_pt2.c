@@ -52,9 +52,9 @@ short			get_short_data(short addres)
 	short	res;
 
 	res = 0;
-	res |= GET_BYTE(addres);
+	res |= GET_BYTE(addres % MEM_SIZE);
 	res <<= 8;
-	res |= GET_BYTE(addres + 1);
+	res |= GET_BYTE((addres + 1) % MEM_SIZE);
 	return (res);
 }
 
@@ -67,7 +67,7 @@ unsigned int	get_int_data(short addres)
 	i = -1;
 	while (++i < 4)
 	{
-		res |= GET_BYTE(addres + i);
+		res |= GET_BYTE((addres + i) % MEM_SIZE);
 		if (i <= 2)
 			res <<= 8;
 	}
