@@ -31,7 +31,7 @@ void	and(t_cursor *cursor)
 	}
 	cursor->reg[third_arg - 1] = (first_arg & second_arg);
 		if (g_vm->ver == 1)
-		ft_printf("P %4d | or %d %d r%d\n", cursor->cursror_id, first_arg, second_arg, third_arg);
+		ft_printf("P %4d | and %d %d r%d\n", cursor->cursror_id, first_arg, second_arg, third_arg);
 	if (cursor->reg[third_arg - 1] == 0)
 		cursor->carry = true;
 	else
@@ -109,7 +109,7 @@ void	xor(t_cursor *cursor)
 	}
 	cursor->reg[third_arg - 1] = (first_arg ^ second_arg);
 	if (g_vm->ver == 1)
-		ft_printf("P %4d | or %d %d r%d\n", cursor->cursror_id, first_arg, second_arg, third_arg);
+		ft_printf("P %4d | xor %d %d r%d\n", cursor->cursror_id, first_arg, second_arg, third_arg);
 	if (cursor->reg[third_arg - 1] == 0)
 		cursor->carry = true;
 	else

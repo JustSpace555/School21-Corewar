@@ -66,9 +66,9 @@ void	sti(t_cursor *cursor)
 {
 	unsigned char	codage;
 	unsigned char	src_reg;
-	int				address; // подумать насчет типа
-	long int		second_arg;
-	long int		third_arg;
+	int				address;
+	int				second_arg;
+	int				third_arg;
 	unsigned short	offset;
 
 	offset = 3;
