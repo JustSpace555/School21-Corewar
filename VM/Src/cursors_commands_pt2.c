@@ -1,5 +1,93 @@
 #include "../Headers/virtual_header.h"
 
+unsigned int	get_first_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset)
+{
+	unsigned int	result;
+	unsigned char	reg_i;
+	short			address;
+	unsigned short	pos;
+
+	result = 0;
+	pos = (cursor->cur_pos + *offset) % MEM_SIZE;
+	if ((codage & 0xC0) == 192)
+	{
+		address = arena_truncation(cursor->cur_pos + get_short_data(pos) % IDX_MOD);
+		result =  get_int_data(address);
+		*offset += 2;
+	}
+	else if ((codage & 0x80) == 128)
+	{
+		result = (label_size == 2) ? get_short_data(pos) : get_int_data(pos);
+		*offset += (label_size == 2) ? 2 : 4;
+	}
+	else if ((codage & 0x40) == 64)
+	{
+		reg_i = GET_BYTE(pos);
+		if (reg_i)
+		result = cursor->reg[reg_i - 1];
+		*offset += 1;
+	}
+	return (result);
+}
+
+unsigned int	get_second_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset)
+{
+	unsigned int	result;
+	unsigned char	reg_i;
+	short			address;
+	unsigned short	pos;
+
+	result = 0;
+	pos = (cursor->cur_pos + *offset) % MEM_SIZE;
+	if ((codage & 0x30) == 48)
+	{
+		address = arena_truncation(cursor->cur_pos + get_short_data(pos) % IDX_MOD);
+		result =  get_int_data(address);
+		*offset += 2;
+	}
+	else if ((codage & 0x20) == 32)
+	{
+		result = (label_size == 2) ? get_short_data(pos) : get_int_data(pos);
+		*offset += (label_size == 2) ? 2 : 4;
+	}
+	else if ((codage & 0x10) == 16) // нет проверки
+	{
+		reg_i = GET_BYTE(pos);
+		result = reg_i;
+		*offset += 1;
+	}
+	return (result);
+}
+
+unsigned int	get_third_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset)
+{
+	unsigned int	result;
+	unsigned char	reg_i;
+	short			address;
+	unsigned short	pos;
+
+	result = 0;
+	pos = (cursor->cur_pos + *offset) % MEM_SIZE;
+	if ((codage & 0xC) == 12) // 2 arg T_IND
+	{
+		address = arena_truncation(cursor->cur_pos + get_short_data(pos) % IDX_MOD);
+		result =  get_int_data(address); //проверить с учетом позиции каретки или нет
+		*offset += 2;
+	}
+	else if ((codage & 0x8) == 8)
+	{
+		result = (label_size == 2) ? get_short_data(pos) : get_int_data(pos);
+		*offset += (label_size == 2) ? 2 : 4;
+	}
+	else if ((codage & 0x4) == 4)
+	{
+		reg_i = GET_BYTE(pos);
+		result = reg_i;
+		*offset += 1;
+	}
+	return (result);
+}
+
 void	and_or_xor(t_cursor *cursor, int selector, t_vm *vm)
 {
 	unsigned char	dest_reg;
@@ -147,8 +235,29 @@ void	zjmp(t_cursor *cursor, t_vm *vm)
 void	ldi(t_cursor *cursor, int selector, t_vm *vm)
 {
 	unsigned char	codage;
-	unsigned char	dest_reg;
+	unsigned short	offset;
+	int				f_arg;
+	int				s_arg;
+	int				t_arg;
 
+	offset = 2;
+	f_arg = get_first_arg(cursor, codage, 2, &offset);
+	s_arg = get_second_arg(cursor, codage, 2, &offset);
+	t_arg = get_third_arg(cursor, codage, 2, &offset);
+	if ((codage & 0xC0) == 0x40)
+	{
+		if (f_arg <= REG_NUMBER && f_arg > 0)
+			f_arg =	cursor->reg[f_arg - 1]; 
+		else
+			return ;	
+	}
+	if ((codage & 0x30) == 0x10)
+	{
+		if (f_arg <= REG_NUMBER && f_arg > 0)
+			f_arg =	cursor->reg[f_arg - 1]; 
+		else
+			return ;	
+	}
 
 }
 
@@ -236,93 +345,6 @@ void	ldi_lldi(t_cursor *cursor, int selector, t_vm *vm)
 				get_short_data(cursor->cur_pos + 2) % IDX_MOD);
 	}
 	move_cursor(cursor, 2, 1, 3);
-}
-
-unsigned int	get_first_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset)
-{
-	unsigned int	result;
-	unsigned char	reg_i;
-	short			address;
-	unsigned short	pos;
-
-	result = 0;
-	pos = (cursor->cur_pos + *offset) % MEM_SIZE;
-	if ((codage & 0xC0) == 192) // 2 arg T_IND
-	{
-		address = get_short_data(pos) % IDX_MOD;
-		result =  get_int_data(cursor->cur_pos + address); //проверить с учетом позиции каретки или нет
-		*offset += 2;
-	}
-	else if ((codage & 0x80) == 128)
-	{
-		result = (label_size == 2) ? get_short_data(pos) : get_int_data(pos);
-		*offset += (label_size == 2) ? 2 : 4;
-	}
-	else if ((codage & 0x40) == 64)
-	{
-		reg_i = GET_BYTE(pos);
-		result = reg_i;
-		*offset += 1;
-	}
-	return (result);
-}
-
-unsigned int	get_second_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset)
-{
-	unsigned int	result;
-	unsigned char	reg_i;
-	short			address;
-	unsigned short	pos;
-
-	result = 0;
-	pos = (cursor->cur_pos + *offset) % MEM_SIZE;
-	if ((codage & 0x30) == 48)
-	{
-		address = get_short_data(pos) % IDX_MOD;
-		result =  get_int_data(cursor->cur_pos + address); //проверить с учетом позиции каретки или нет
-		*offset += 2;
-	}
-	else if ((codage & 0x20) == 32)
-	{
-		result = (label_size == 2) ? get_short_data(pos) : get_int_data(pos);
-		*offset += (label_size == 2) ? 2 : 4;
-	}
-	else if ((codage & 0x10) == 16) // нет проверки
-	{
-		reg_i = GET_BYTE(pos);
-		result = reg_i;
-		*offset += 1;
-	}
-	return (result);
-}
-
-unsigned int	get_third_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset)
-{
-	unsigned int	result;
-	unsigned char	reg_i;
-	short			address;
-	unsigned short	pos;
-
-	result = 0;
-	pos = (cursor->cur_pos + *offset) % MEM_SIZE;
-	if ((codage & 0xC) == 12) // 2 arg T_IND
-	{
-		address = get_short_data(pos) % IDX_MOD;
-		result =  get_int_data(cursor->cur_pos + address); //проверить с учетом позиции каретки или нет
-		*offset += 2;
-	}
-	else if ((codage & 0x8) == 8)
-	{
-		result = (label_size == 2) ? get_short_data(pos) : get_int_data(pos);
-		*offset += (label_size == 2) ? 2 : 4;
-	}
-	else if ((codage & 0x4) == 4)
-	{
-		reg_i = GET_BYTE(pos);
-		result = reg_i;
-		*offset += 1;
-	}
-	return (result);
 }
 
 void	print_sti(t_cursor *cursor, int reg, int sec_arg, int third_arg)

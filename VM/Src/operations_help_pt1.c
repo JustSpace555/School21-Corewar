@@ -36,6 +36,14 @@ int		get_amount_bytes_to_skip(unsigned char code, int label_size, int amount_arg
 	return (skip);
 }
 
+short	arena_truncation(short address)
+{
+	if (address > MEM_SIZE)
+		address -= MEM_SIZE;
+	if (address < 0)
+		address = MEM_SIZE + address;
+	return address;
+}
 void	write_amount_of_bytes_data(short addres, void *write, int size_of_write, char color)
 {
 	int				i;
@@ -43,10 +51,8 @@ void	write_amount_of_bytes_data(short addres, void *write, int size_of_write, ch
 	char			temp_2[4];
 
 	i = -1;
-	if (addres > MEM_SIZE)
-		addres -= MEM_SIZE;
-	if (addres < 0)
-		addres = MEM_SIZE + addres;
+
+	addres = arena_truncation(addres);
 	if (size_of_write == 2)
 	{
 		*(short *)temp_1 = *(short *)write;

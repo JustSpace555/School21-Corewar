@@ -208,4 +208,5 @@ unsigned int		get_third_arg(t_cursor *cursor, unsigned char codage, int label_si
 void				move_cursor(t_cursor *cursor, int label_size, int byte_val, int amount_arguments);
 void				write_amount_of_bytes_data(short addres, void *write, int size_of_write, char color);
 void				make_one_new_cursor(t_cursor cursor);
+short				arena_truncation(short address);
 #endif
