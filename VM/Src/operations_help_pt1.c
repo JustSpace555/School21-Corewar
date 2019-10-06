@@ -1,17 +1,5 @@
 #include "../Headers/virtual_header.h"
 
-int		check_for_cycle_exec(t_cursor *cursor)
-{
-	if (cursor->cycle_exec > 0)
-	{
-		cursor->cycle_exec--;
-		if (cursor->cycle_exec > 0)
-			return (-1);
-	}
-	cursor->cycle_exec = -1;
-	return (1);
-}
-
 int		get_var_byte(unsigned char code, int offset, int label_size)
 {
 	code <<= offset;
@@ -45,36 +33,37 @@ short	arena_truncation(short address)
 		address = MEM_SIZE + address;
 	return address;
 }
-void	write_amount_of_bytes_data(short addres, void *write,
-								int size_of_write, char color)
+
+void	write_short_data(short addres, short write, char color)
 {
-	int				i;
-	char			temp_1[2];
-	char			temp_2[4];
+	char	temp[2];
+	int		i;
 
 	i = -1;
-
+	*(short *)temp = write;
 	addres = arena_truncation(addres);
-	if (size_of_write == 2)
+	while (++i < 2)
 	{
-		*(short *)temp_1 = *(short *)write;
-		while (++i < 2)
-		{
-			g_battlefield[(addres + i) % MEM_SIZE].code = temp_1[1 - i];
-			g_battlefield[(addres + i) % MEM_SIZE].color = color;
-			choose_reverse_color(&g_battlefield[(addres + i) % MEM_SIZE]);
-			g_battlefield[(addres + i) % MEM_SIZE].write_cycles = 100;
-		}
+		g_battlefield[(addres + i) % MEM_SIZE].code = temp[1 - i];
+		g_battlefield[(addres + i) % MEM_SIZE].color = color;
+		choose_reverse_color(&g_battlefield[(addres + i) % MEM_SIZE]);
+		g_battlefield[(addres + i) % MEM_SIZE].write_cycles = 100;
 	}
-	else
+}
+
+void	write_int_data(short addres, unsigned int write, char color)
+{
+	char	temp[4];
+	int		i;
+
+	i = -1;
+	*(unsigned int *)temp = write;
+	addres = arena_truncation(addres);
+	while (++i < 4)
 	{
-		*(unsigned int *)temp_2 = *(unsigned int *)write;
-		while (++i < 4)
-		{
-			g_battlefield[(addres + i) % MEM_SIZE].code = temp_2[3 - i];
-			g_battlefield[(addres + i) % MEM_SIZE].color = color;
-			choose_reverse_color(&g_battlefield[(addres + i) % MEM_SIZE]);
-			g_battlefield[(addres + i) % MEM_SIZE].write_cycles = 100;
-		}
+		g_battlefield[(addres + i) % MEM_SIZE].code = temp[3 - i];
+		g_battlefield[(addres + i) % MEM_SIZE].color = color;
+		choose_reverse_color(&g_battlefield[(addres + i) % MEM_SIZE]);
+		g_battlefield[(addres + i) % MEM_SIZE].write_cycles = 100;
 	}
 }

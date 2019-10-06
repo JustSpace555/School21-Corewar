@@ -63,8 +63,8 @@ void	st(t_cursor *cursor)
 	if ((codage & 0x30) == 48)
 	{
 		temp = get_short_data(cursor->cur_pos + 3);
-		write_amount_of_bytes_data(cursor->cur_pos + temp % IDX_MOD,
-								&cursor->reg[src_reg - 1], 4, cursor->color);
+		write_int_data(cursor->cur_pos + temp % IDX_MOD,
+						cursor->reg[src_reg - 1], cursor->color);
 		if (g_vm->ver == 1)
 			ft_printf("P %4d | st r%d %d\n", cursor->cursror_id,
 											src_reg, temp);

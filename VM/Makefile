@@ -16,6 +16,7 @@ SRC =	$(SRC_FOLDER)main.c \
 		$(SRC_FOLDER)cursors_commands_pt3.c \
 		$(SRC_FOLDER)operations_help_pt1.c \
 		$(SRC_FOLDER)operations_help_pt2.c \
+		$(SRC_FOLDER)operations_help_pt3.c \
 		$(SRC_FOLDER)cursors_commands_help.c
 
 SRC_VIS_FOLDER = ../visualisator/

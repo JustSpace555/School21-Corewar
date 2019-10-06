@@ -29,8 +29,7 @@ void	sti(t_cursor *cursor)
 		check_reg_write_arg(cursor, codage, &third_arg, 3))
 	{
 		address = cursor->cur_pos + (second_arg + third_arg) % IDX_MOD;
-		write_amount_of_bytes_data(address, &cursor->reg[src_reg - 1],
-													4, cursor->color);
+		write_int_data(address, cursor->reg[src_reg - 1], cursor->color);
 	}
 	move_cursor(cursor, 2, codage, 3);
 }

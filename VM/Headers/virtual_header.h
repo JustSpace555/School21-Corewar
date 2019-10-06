@@ -231,7 +231,8 @@ unsigned int		get_first_arg(t_cursor *cursor, unsigned char codage, int label_si
 unsigned int		get_second_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset);
 unsigned int		get_third_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset);
 void				move_cursor(t_cursor *cursor, int label_size, unsigned char byte_val, int amount_arguments);
-void				write_amount_of_bytes_data(short addres, void *write, int size_of_write, char color);
+void				write_short_data(short addres, short write, char color);
+void				write_int_data(short addres, unsigned int write, char color);
 void				make_one_new_cursor(t_cursor cursor);
 short				arena_truncation(short address);
 void				print_sti(t_cursor *cursor, int reg, int sec_arg, int third_arg);
