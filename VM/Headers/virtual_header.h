@@ -170,6 +170,8 @@ void				check_alive_cursors(void);
 void				free_all(void);
 void				push_winner_terminal(void);
 void				push_winner(t_cycles_to_die repeate);
+t_bool				check_reg(unsigned char reg);
+int					check_reg_write_arg(t_cursor *cursor, unsigned char codage, int *value);
 
 /*
 **					Main funcions

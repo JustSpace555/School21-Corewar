@@ -179,6 +179,7 @@ void	virtual_machine(void)
 	if (g_vm->dump == 0)
 	{
 		print_battlefield();
+		free_all();
 		return ;
 	}
 	while (!VIS_QUIT && g_cursors_amount > 0)
@@ -190,10 +191,6 @@ void	virtual_machine(void)
 			CURRENT_CYCLE++;
 			if (g_vm->ver == 2)
 				ft_printf("It is now cycle %d\n", CURRENT_CYCLE);
-			if (CURRENT_CYCLE == 1056)
-			{
-
-			}
 			process_operation();
 			if (g_vm->vis == 1)
 			{
@@ -207,6 +204,7 @@ void	virtual_machine(void)
 			if (CTD > 0 && g_vm->dump >= 0 && g_vm->dump == CURRENT_CYCLE)
 			{
 				print_battlefield();
+				free_all();
 				return ;
 			}
 		}

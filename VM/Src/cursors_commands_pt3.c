@@ -1,17 +1,105 @@
 #include "../Headers/virtual_header.h"
 
-void	lldi(t_cursor *cursor)
+void	sti(t_cursor *cursor)
 {
 	unsigned char	codage;
-	unsigned char	dest_reg;
+	unsigned char	src_reg;
+	int				address;
+	int				second_arg;
+	int				third_arg;
+	unsigned short	offset;
 
+	offset = 3;
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
-	if ((codage & 0xC0) == 0 || (codage & 0x30) > 0x20 || (codage & 0xC) > 4)
+	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
+	second_arg = 0;
+	third_arg = 0;
+	if ((codage & 0xC0) != 0x40 || (codage & 0x30) == 0 || (codage & 0xC) == 0xC || (codage & 0xC) == 0 ||
+		src_reg > REG_NUMBER || src_reg == 0)
 	{
 		move_cursor(cursor, 2, codage, 3);
 		return ;
 	}
-	if ((codage & 0xC0) == 0x40)
+	second_arg = get_second_arg(cursor, codage, 2, &offset);
+	third_arg = get_third_arg(cursor, codage, 2, &offset);
+	if (check_reg_write_arg(cursor, codage, &second_arg) && check_reg_write_arg(cursor, codage, &third_arg))
+	{
+		address = cursor->cur_pos + (second_arg + third_arg) % IDX_MOD;
+		write_amount_of_bytes_data(address, &cursor->reg[src_reg - 1], 4, cursor->color);
+		if (g_vm->ver == 1)
+			print_sti(cursor, src_reg, second_arg, third_arg);
+	}
+	move_cursor(cursor, 2, codage, 3);
+}
+
+void	lld(t_cursor *cursor)
+{
+	unsigned char	codage;
+	unsigned short	offset;
+	int				f_arg;
+	int				s_arg;
+
+	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	if ((codage & 0xC0) == 0 || (codage & 0xC0) == 0x40 || (codage & 0x30) != 0x10)
+	{
+		move_cursor(cursor, 4, codage, 2);
+		return ;
+	}
+	offset = 2;
+	f_arg = get_first_arg(cursor, codage, 4, &offset);
+	s_arg = get_second_arg(cursor, codage, 4, &offset);
+	if (check_reg(s_arg))
+		cursor->reg[s_arg - 1] = f_arg;
+/*	if (codage >= 144 && codage <= 159)
+	{
+		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 6), 4, 1, 2);
+		value = get_int_data(cursor->cur_pos + 2);
+		reg = GET_CUR_POS_BYTE(&cursor, 6);
+		cursor->reg[reg - 1] = value;
+	}
+	else
+	{
+		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 4), 4, 1, 2);
+		value = get_int_data(arena_truncation(cursor->cur_pos + get_short_data(cursor->cur_pos + 2)));
+		cursor->reg[reg - 1] = value;
+	}
+	if (g_vm->ver == 1)
+		ft_printf("P %4d | lld %d r%d\n", cursor->cursror_id, value, reg);
+*/
+	move_cursor(cursor, 4, codage, 2);
+}
+
+void	lldi(t_cursor *cursor)
+{
+	unsigned char	codage;
+	unsigned short	offset;
+	int				f_arg;
+	int				s_arg;
+	int				t_arg;
+
+	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	if ((codage & 0xC0) == 0 || (codage & 0x30) == 0x30 || (codage & 0x30) == 0 || (codage & 0xC) != 4)
+	{
+		move_cursor(cursor, 2, codage, 3);
+		return ;
+	}
+	offset = 2;
+	f_arg = (int)get_first_arg(cursor, codage, 2, &offset);
+	s_arg = (int)get_second_arg(cursor, codage, 2, &offset);
+	t_arg = (int)get_third_arg(cursor, codage, 2, &offset);
+	if (!check_reg(t_arg))
+	{
+		if (!check_reg_write_arg(cursor, codage, &f_arg) || !check_reg_write_arg(cursor, codage, &s_arg))
+		{
+			move_cursor(cursor, 2, codage, 3);
+			return ;
+		}
+		if ((codage & 0xC0) == 0xC0)
+			cursor->reg[t_arg - 1] = get_int_data((f_arg) % IDX_MOD);
+		else
+			cursor->reg[t_arg - 1] = get_int_data(f_arg + s_arg);
+	}
+/*	if ((codage & 0xC0) == 0x40)
 	{
 		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 2), 2, 1, 3);
 		if ((codage & 0x30) == 0x10)
@@ -59,79 +147,9 @@ void	lldi(t_cursor *cursor)
 		cursor->reg[dest_reg - 1] = get_int_data(
 			get_short_data(cursor->cur_pos + 2) % IDX_MOD);
 	}
+*/
 	move_cursor(cursor, 2, codage, 3);
 }
-
-void	sti(t_cursor *cursor)
-{
-	unsigned char	codage;
-	unsigned char	src_reg;
-	int				address;
-	int				second_arg;
-	int				third_arg;
-	unsigned short	offset;
-
-	offset = 3;
-	codage = GET_CUR_POS_BYTE(&cursor, 1);
-	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
-	second_arg = 0;
-	third_arg = 0;
-	if ((codage & 0xC0) > 0x40 || (codage & 0x30) == 0 || (codage & 0xC) > 8 ||
-		src_reg > REG_NUMBER || src_reg == 0)
-	{
-		move_cursor(cursor, 2, codage, 3);
-		return ;
-	}
-	second_arg = get_second_arg(cursor, codage, 2, &offset);
-	third_arg = get_third_arg(cursor, codage, 2, &offset);
-	if((codage & 0x30) == 0x10)
-	{
-		CHECK_REG(&cursor, second_arg, 2, 1, 3);
-		second_arg = cursor->reg[second_arg - 1];
-	}
-	if ((codage & 0xC) == 4)
-	{
-		CHECK_REG(&cursor, third_arg, 2, 1, 3);
-		third_arg = cursor->reg[third_arg - 1];
-	}
-	address = cursor->cur_pos + (second_arg + third_arg) % IDX_MOD;
-	write_amount_of_bytes_data(address, &cursor->reg[src_reg - 1], 4, cursor->color);
-	if (g_vm->ver == 1)
-		print_sti(cursor, src_reg, second_arg, third_arg);
-	move_cursor(cursor, 2, codage, 3);
-}
-
-void	lld(t_cursor *cursor)
-{
-	unsigned char	codage;
-	int				value;
-	unsigned char	reg;
-
-	codage = GET_CUR_POS_BYTE(&cursor, 1);
-	reg = (codage >= 144 && codage <= 159) ? GET_CUR_POS_BYTE(&cursor, 6) : GET_CUR_POS_BYTE(&cursor, 4);
-	if (!((codage >= 144 && codage <= 159) || (codage >= 208 && codage <= 223)) || (reg > REG_NUMBER || reg == 0))
-	{
-		move_cursor(cursor, 4, codage, 2);
-		return ;
-	}
-	if (codage >= 144 && codage <= 159)
-	{
-		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 6), 4, 1, 2);
-		value = get_int_data(cursor->cur_pos + 2);
-		reg = GET_CUR_POS_BYTE(&cursor, 6);
-		cursor->reg[reg - 1] = value;
-	}
-	else
-	{
-		CHECK_REG(&cursor, GET_CUR_POS_BYTE(&cursor, 4), 4, 1, 2);
-		value = get_int_data(arena_truncation(cursor->cur_pos + get_short_data(cursor->cur_pos + 2)));
-		cursor->reg[reg - 1] = value;
-	}
-	if (g_vm->ver == 1)
-		ft_printf("P %4d | lld %d r%d\n", cursor->cursror_id, value, reg);
-	move_cursor(cursor, 4, codage, 2);
-}
-
 
 void	fork_lfork(t_cursor *cursor, int selector)
 {
