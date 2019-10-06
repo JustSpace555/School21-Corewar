@@ -1,5 +1,14 @@
 #include "../Headers/virtual_header.h"
 
+void	print_usage(void)
+{
+	ft_printf("Usage: ./corewar [-dump N -v -n N] <filename.cor> ...\n");
+	ft_printf("\t-dump N\t: Dumps memory after N cycles then exits\n");
+	ft_printf("\t-n N\t: set the champion number\n");
+	ft_printf("\t-v\t\t: verbose\n");
+	ft_printf("\t-vi\t\t: visual mode\n");
+}
+
 void	show_bin_int(unsigned int i)
 {
 	int j;
@@ -34,13 +43,13 @@ void	show_bin_char(unsigned char c)
 	write(1, "\n", 1);
 }
 
-void	print_players(int amount_players)
+void	print_players(void)
 {
 	int	i;
 	int	j;
 
 	i = -1;
-	while (++i < amount_players)
+	while (++i < g_vm->amount_players)
 	{
 		j = 0;
 		ft_printf("Player number = %d\n", PLAYER(i).identifier);
@@ -92,44 +101,4 @@ void	print_hex_data(char *file)
 		ft_printf("%d\n", count);
 	}
 	close(fd);
-}
-
-void	print_battlefield(void)
-{
-	int	print_bytes;
-	int	c;
-
-	print_bytes = 0;
-	c = -1;
-	ft_printf("0x%04x : ", print_bytes);
-	while (++c < MEM_SIZE)
-	{
-		if (print_bytes % CODE_PER_LINE == 0 && print_bytes != 0)
-			ft_printf("\n0x%04x : ", print_bytes);
-		if (g_battlefield[c].cursor)
-			ft_printf(WHITE_BG"%{black}02hhx ", g_battlefield[c].code);
-		else
-		{
-			if (g_battlefield[c].color == 'r')
-				ft_printf("%{red}02hhx ", g_battlefield[c].code);
-			else if (g_battlefield[c].color == 'y')
-				ft_printf("%{yellow}02hhx ", g_battlefield[c].code);
-			else if (g_battlefield[c].color == 'g')
-				ft_printf("%{green}02hhx ", g_battlefield[c].code);
-			else if (g_battlefield[c].color == 'b')
-				ft_printf("%{blue}02hhx ", g_battlefield[c].code);
-			else if (g_battlefield[c].color == 'p')
-				ft_printf("%{purple}02hhx ", g_battlefield[c].code);
-			else if (g_battlefield[c].color == 'c')
-				ft_printf("%{cyan}02hhx ", g_battlefield[c].code);
-			else if (g_battlefield[c].color == 'e')
-				ft_printf("%{grey}02hhx ", g_battlefield[c].code);
-			else if (g_battlefield[c].color == 'l')
-				ft_printf("%{black}02hhx ", g_battlefield[c].code);
-			else
-				ft_printf("%02hhx ", g_battlefield[c].code);
-		}
-		print_bytes++;
-	}
-	ft_printf("\n");
 }

@@ -40,17 +40,8 @@ void	set_identifiers(t_vm *vm, int argc, char **argv)
 	}
 }
 
-void	print_usage(void)
-{
-	ft_printf("Usage: ./corewar [-dump N -v -n N] <filename.cor> ...\n");
-	ft_printf("\t-dump N\t: Dumps memory after N cycles then exits\n");
-	ft_printf("\t-n N\t: set the champion number\n");
-	ft_printf("\t-v\t\t: verbose\n");
-	ft_printf("\t-vi\t\t: visual mode\n");
-}
 int		main(int argc, char *argv[])
 {
-	t_vm		vm;
 	char		**player_files;
 	int 		i;
 
@@ -61,36 +52,25 @@ int		main(int argc, char *argv[])
 	}
 	else
 	{
-		/*int j = 31;
-		unsigned int ui = 3000000000;
-		int	in = (int)ui;
-		while (j >= 0)
-		{
-			printf("%d", (in >> j) & 1);
-			j--;
-		}
-		unsigned int nui = (unsigned int)in;
-		printf("\n%u\n", nui);
-		return (1);*/
-		initialize_vm(&vm);
-		if (parsing_arguments(argc, argv, &vm) == -1)
+		initialize_vm();
+		if (parsing_arguments(argc, argv, g_vm) == -1)
 			return (1);
-		if (vm.amount_players > MAX_PLAYERS)
+		if (g_vm->amount_players > MAX_PLAYERS)
 		{
 			write(1, "Too many champions\n", 19);
 			return (2);
 		}
-		set_identifiers(&vm, argc, argv);
-		player_files = (char **)malloc(sizeof(char *) * vm.amount_players);
+		set_identifiers(g_vm, argc, argv);
+		player_files = (char **)malloc(sizeof(char *) * g_vm->amount_players);
 		i = -1;
-		while (++i < vm.amount_players)
-			player_files[i] = argv[vm.plr_nbr[i].index_file];
-		if (players_parser(vm.amount_players, player_files, vm) == -1)
+		while (++i < g_vm->amount_players)
+			player_files[i] = argv[g_vm->plr_nbr[i].index_file];
+		if (players_parser(player_files) == -1)
 		{
-			free_g_players(vm.amount_players);
+			free_g_players();
 			return (0);
 		}
-		virtual_machine(&vm);
+		virtual_machine();
 		i = -1;
 		free(player_files);
 	}

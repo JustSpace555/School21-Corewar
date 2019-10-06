@@ -1,27 +1,32 @@
 #include "visualisator.h"
 
-int			init(void)
+int			init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		printf("SDL could not initialize. SDL error: %s\n", SDL_GetError());
+		ft_printf("SDL could not initialize. SDL error: %s\n", SDL_GetError());
 		return (0);
 	}
 	g_main_window = SDL_CreateWindow("Corewar", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (g_main_window == NULL)
 	{
-		printf("SDL could not create window. SDL error: %s\n", SDL_GetError());
+		ft_printf("SDL could not create window. SDL error: %s\n", SDL_GetError());
 		return (0);
 	}
 	g_main_render = SDL_CreateRenderer(g_main_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if(g_main_render == NULL )
 	{
-		printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+		ft_printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
 		return (0);
 	}
 	if (TTF_Init() < 0)
 	{
-		printf("SDL_ttf couldn't initialize. SDL error: %s\n", TTF_GetError());
+		ft_printf("SDL_ttf couldn't initialize. SDL error: %s\n", TTF_GetError());
+		return (0);
+	}
+	if (!(g_font = TTF_OpenFont("visualisator/InputMono-Regular.ttf", 15)))
+	{
+		ft_printf("%s\n", TTF_GetError());
 		return (0);
 	}
 	return (1);
@@ -104,5 +109,24 @@ void	set_sdl_color(SDL_Color *color, int i)
 		color->r = 111;
 		color->g = 111;
 		color->b = 111;
+	}
+}
+
+void	visualisator_event(void)
+{
+	SDL_Event	event;
+
+	while(SDL_PollEvent(&event))
+	{
+		if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN
+			&& event.key.keysym.sym == SDLK_ESCAPE))
+			VIS_QUIT = 1;
+		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
+		{
+			if (VIS_PAUSE == 1)
+				VIS_PAUSE = 0;
+			else
+				VIS_PAUSE = 1;
+		}
 	}
 }
