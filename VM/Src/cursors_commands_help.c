@@ -110,7 +110,7 @@ int				check_reg_write_arg(t_cursor *cursor, unsigned char codage, int *value, i
 	}
 	else if (arg_num == 2)
 	{
-		 if ((codage & 0x30) == 10)
+		 if ((codage & 0x30) == 0x10)
 		 {
 			if (check_reg(*value))
 				*value = cursor->reg[(*value) - 1];
