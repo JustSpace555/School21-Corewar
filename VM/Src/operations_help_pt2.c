@@ -12,7 +12,8 @@ int		check_for_cycle_exec(t_cursor *cursor)
 	return (1);
 }
 
-void			move_cursor(t_cursor *cursor, int label_size, unsigned char byte_val, int amount_arguments)
+void			move_cursor(t_cursor *cursor, int label_size,
+							unsigned char byte_val, int amount_arguments)
 {
 	int	skip;
 	int	i;

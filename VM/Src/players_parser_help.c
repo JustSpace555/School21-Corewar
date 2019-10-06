@@ -15,7 +15,8 @@ int		make_4_byte_int(u_int8_t buffer[4])
 	return (temp);
 }
 
-void		copy_bytes_to_string(char **str, u_int8_t buffer[4], int amount_of_bytes, int code_size)
+void		copy_bytes_to_string(char **str, u_int8_t buffer[4],
+								int amount_of_bytes, int code_size)
 {
 	int	i;
 
