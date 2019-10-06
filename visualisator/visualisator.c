@@ -42,7 +42,7 @@ void	push_to_render_battlefield(void)
 				BATTLEFIELD_CELL(i, j, lines_count).color_r + BATTLEFIELD_CELL(i, j, lines_count).write_cycles,
 				BATTLEFIELD_CELL(i, j, lines_count).color_g + BATTLEFIELD_CELL(i, j, lines_count).write_cycles,
 				BATTLEFIELD_CELL(i, j, lines_count).color_b + BATTLEFIELD_CELL(i, j, lines_count).write_cycles, 255);
-			if (BATTLEFIELD_CELL(i, j, lines_count).write_cycles > 0)
+			if (!VIS_PAUSE && BATTLEFIELD_CELL(i, j, lines_count).write_cycles > 0)
 				BATTLEFIELD_CELL(i, j, lines_count).write_cycles--;
 			SDL_RenderFillRectF(g_main_render, &cell);
 		}

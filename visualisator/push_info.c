@@ -178,7 +178,7 @@ void	push_winner_vis(void)
 	int						max;
 
 	pos.x = SCREEN_WIDTH - INFORMATION_SIZE + 50;
-	pos.y = SCREEN_HEIGHT - 80;
+	pos.y = SCREEN_HEIGHT - 120;
 	i = -1;
 	max = 0;
 	text_surface = NULL;

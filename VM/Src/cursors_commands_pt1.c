@@ -27,21 +27,26 @@ void	ld(t_cursor *cursor)
 
 	offset = 2;
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
-	if ((codage & 0xC0) == 0 || (codage & 0xC0) == 0x40 || (codage & 0x30) != 0x10)
+	if ((codage & 0xC0) == 0 || (codage & 0xC0) == 0x40
+							|| (codage & 0x30) != 0x10)
 	{
 		move_cursor(cursor, 4, codage, 2);
 		return ;
 	}
 	num = get_first_arg(cursor, codage, 4, &offset);
 	dest_reg = get_second_arg(cursor, codage, 4, &offset);
-	cursor->carry = (num == 0) ? true : false;
-	cursor->reg[dest_reg - 1] = num;
-	if (g_vm->ver == 1)
-		ft_printf("P %4d | ld %d r%d\n", cursor->cursror_id, num, dest_reg);
+	if (check_reg(dest_reg))
+	{
+		cursor->carry = (num == 0) ? true : false;
+		cursor->reg[dest_reg - 1] = num;
+		if (g_vm->ver == 1)
+			ft_printf("P %4d | ld %d r%d\n", cursor->cursror_id,
+											num, dest_reg);
+	}
 	move_cursor(cursor, 4, codage, 2);
 }
 
-void	st(t_cursor *cursor) //потестить с типами
+void	st(t_cursor *cursor)
 {
 	unsigned char	src_reg;
 	short			temp;
@@ -49,7 +54,8 @@ void	st(t_cursor *cursor) //потестить с типами
 
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
-	if (!check_reg(src_reg) || (codage & 0xC0) != 0x40 || (codage & 0x30) == 0 || (codage & 0x30) == 0x20)
+	if (!check_reg(src_reg) || (codage & 0xC0) != 0x40 ||
+		(codage & 0x30) == 0 || (codage & 0x30) == 0x20)
 	{
 		move_cursor(cursor, 4, codage, 2);
 		return ;
@@ -60,11 +66,13 @@ void	st(t_cursor *cursor) //потестить с типами
 		write_amount_of_bytes_data(cursor->cur_pos + temp % IDX_MOD,
 								&cursor->reg[src_reg - 1], 4, cursor->color);
 		if (g_vm->ver == 1)
-			ft_printf("P %4d | st r%d %d\n", cursor->cursror_id, src_reg, temp);
+			ft_printf("P %4d | st r%d %d\n", cursor->cursror_id,
+											src_reg, temp);
 	}
 	else if ((codage & 0x10) == 16)
 		if (check_reg(GET_CUR_POS_BYTE(&cursor, 3)))
-			cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] = cursor->reg[src_reg - 1];
+			cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] =
+									cursor->reg[src_reg - 1];
 	move_cursor(cursor, 4, codage, 2);
 }
 
@@ -88,10 +96,7 @@ void	add(t_cursor *cursor)
 	{
 		cursor->reg[dest_reg - 1] = cursor->reg[src_reg_1 - 1]
 								+ cursor->reg[src_reg_2 - 1];
-		if (cursor->reg[dest_reg - 1] == 0)
-			cursor->carry = true;
-		else
-			cursor->carry = false;
+		cursor->carry = (cursor->reg[dest_reg - 1] == 0) ? true : false;
 		if (g_vm->ver == 1)
 			ft_printf("P %4d | add r%d r%d r%d\n",
 						cursor->cursror_id, src_reg_1, src_reg_2, dest_reg);
@@ -119,10 +124,7 @@ void	sub(t_cursor *cursor)
 	{
 		cursor->reg[dest_reg - 1] = cursor->reg[src_reg_1 - 1] -
 			cursor->reg[src_reg_2 - 1];
-		if (cursor->reg[dest_reg - 1] == 0)
-			cursor->carry = true;
-		else
-			cursor->carry = false;
+		cursor->carry = (cursor->reg[dest_reg - 1] == 0) ? true : false;
 		if (g_vm->ver == 1)
 			ft_printf("P %4d | sub r%d r%d r%d\n",
 						cursor->cursror_id, src_reg_1, src_reg_2, dest_reg);

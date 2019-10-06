@@ -24,7 +24,8 @@ int		get_var_byte(unsigned char code, int offset, int label_size)
 	return (0);
 }
 
-int		get_amount_bytes_to_skip(unsigned char code, int label_size, int amount_arguments)
+int		get_amount_bytes_to_skip(unsigned char code,
+				int label_size, int amount_arguments)
 {
 	int	skip;
 	int	i;
@@ -44,7 +45,8 @@ short	arena_truncation(short address)
 		address = MEM_SIZE + address;
 	return address;
 }
-void	write_amount_of_bytes_data(short addres, void *write, int size_of_write, char color)
+void	write_amount_of_bytes_data(short addres, void *write,
+								int size_of_write, char color)
 {
 	int				i;
 	char			temp_1[2];

@@ -30,7 +30,8 @@ unsigned int	get_first_arg(t_cursor *cursor, unsigned char codage,
 	return (result);
 }
 
-unsigned int	get_second_arg(t_cursor *cursor, unsigned char codage, int label_size, unsigned short *offset)
+unsigned int	get_second_arg(t_cursor *cursor, unsigned char codage,
+								int label_size, unsigned short *offset)
 {
 	unsigned int	result;
 	unsigned char	reg_i;
@@ -94,14 +95,14 @@ t_bool			check_reg(unsigned char reg)
 	return (reg > 16 || reg == 0 ? false : true);
 }
 
-int				check_reg_write_arg(t_cursor *cursor, unsigned char codage, int *value, int arg_num)
+int				check_reg_write_arg(t_cursor *cursor, unsigned char codage,
+													int *value, int arg_num)
 {
 	int	and_num;
 	int	eq_num;
 
 	and_num = 3 << 2 * (4 - arg_num);
 	eq_num = 1 << 2 * (4 - arg_num);
-
 	if((codage & and_num) == eq_num)
 	{
 		if (check_reg(*value))

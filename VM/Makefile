@@ -1,12 +1,14 @@
 SRC_FOLDER = Src/
 SRC =	$(SRC_FOLDER)main.c \
+		$(SRC_FOLDER)main_additions.c \
 		$(SRC_FOLDER)players_parser_help.c \
 		$(SRC_FOLDER)players_parser.c \
 		$(SRC_FOLDER)print_any_pt1.c \
 		$(SRC_FOLDER)print_any_pt2.c \
 		$(SRC_FOLDER)virtual_machine.c \
 		$(SRC_FOLDER)args_parser.c \
-		$(SRC_FOLDER)initializer.c \
+		$(SRC_FOLDER)initializer_pt1.c \
+		$(SRC_FOLDER)initializer_pt2.c \
 		$(SRC_FOLDER)extra_functions.c \
 		$(SRC_FOLDER)virtual_machine_help.c \
 		$(SRC_FOLDER)cursors_commands_pt1.c \

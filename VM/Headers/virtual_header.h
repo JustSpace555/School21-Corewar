@@ -132,6 +132,16 @@ int					g_main_info[6];
 t_vm				*g_vm;
 
 /*
+**					Main additions
+*/
+
+int					check_unattached_index(int index, t_plr_nbr *plr_nbr);
+int					find_unattached_file(t_vm *vm, char **argv, int argc);
+void				set_identifiers(t_vm *vm, int argc, char **argv);
+int					parsing(int argc, char **argv, char **player_files);
+void				free_player_files(char **player_files);
+
+/*
 **					Print
 */
 
