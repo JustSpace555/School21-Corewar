@@ -157,9 +157,9 @@ void	process_operation(void)
 	int	i;
 
 	i = -1;
-	if (CURRENT_CYCLE == 140)
+	if (CURRENT_CYCLE == 2170)
 	{
-		
+
 	}
 	while(++i < g_cursors_amount)
 	{

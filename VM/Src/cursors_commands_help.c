@@ -96,39 +96,18 @@ t_bool			check_reg(unsigned char reg)
 
 int				check_reg_write_arg(t_cursor *cursor, unsigned char codage, int *value, int arg_num)
 {
-	if (arg_num == 1)
+	int	and_num;
+	int	eq_num;
+
+	and_num = 3 << 2 * (4 - arg_num);
+	eq_num = 1 << 2 * (4 - arg_num);
+
+	if((codage & and_num) == eq_num)
 	{
-		if ((codage & 0xC0) == 0x40)
-		{
-			if (check_reg(*value))
-				*value = cursor->reg[(*value) - 1];
-			else
-				return (0);
-		}
+		if (check_reg(*value))
+			*value = cursor->reg[(*value) - 1];
 		else
-			return (1);
-	}
-	else if (arg_num == 2)
-	{
-		 if ((codage & 0x30) == 10)
-		 {
-			if (check_reg(*value))
-				*value = cursor->reg[(*value) - 1];
-			else
-				return (0);
-		 }
-		 else
-		 	return (1);
-	}
-	else if (arg_num == 3)
-	{
-		if ((codage & 0xC) == 4)
-		{
-			if (check_reg(*value))
-				*value = cursor->reg[(*value) - 1];
-			else
-				return (0);
-		}
+			return (0);
 	}
 	return (1);
 }
