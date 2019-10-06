@@ -155,7 +155,6 @@ void	vm_check(t_cycles_to_die *repeate)
 void	process_operation(void)
 {
 	int	i;
-
 	i = -1;
 	while(++i < g_cursors_amount)
 	{

@@ -21,8 +21,8 @@ void	sti(t_cursor *cursor)
 		move_cursor(cursor, 2, codage, 3);
 		return ;
 	}
-	second_arg = get_second_arg(cursor, codage, 2, &offset);
-	third_arg = get_third_arg(cursor, codage, 2, &offset);
+	second_arg = (int)get_second_arg(cursor, codage, 2, &offset);
+	third_arg = (int)get_third_arg(cursor, codage, 2, &offset);
 	if (g_vm->ver == 1)
 			print_sti(cursor, src_reg, second_arg, third_arg);
 	if (check_reg_write_arg(cursor, codage, &second_arg, 2) &&
