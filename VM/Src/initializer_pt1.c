@@ -73,31 +73,48 @@ void	initialize_battlefield(void)
 	fill_battlefield();
 }
 
-void	initialize_cursors()
+t_cursors_list	*make_new_cursors_list(void)
 {
-	int	i;
-	int	j;
-	int	plr_id;
+	t_cursors_list	*new;
 
-	g_cursors = (t_cursor *)malloc(sizeof(t_cursor) * g_vm->amount_players);
+	new = (t_cursors_list *)malloc(sizeof(t_cursors_list));
+	new->next = NULL;
+	return (new);
+}
+
+void	initialize_cursors(void)
+{
+	int				i;
+	int				j;
+	int				plr_id;
+	t_cursors_list *current;
+
 	i = -1;
+	g_cursors = make_new_cursors_list();
+	current = g_cursors;
 	plr_id = g_vm->amount_players;
 	while (++i < g_vm->amount_players)
 	{
-		CURSOR(i).bytes_to_next_op = 0;
-		CURSOR(i).carry = false;
-		CURSOR(i).cur_pos = PLAYER(--plr_id).start_position;
-		CURSOR(i).cycle_exec = 0;
-		CURSOR(i).player_id = PLAYER(plr_id).identifier;
-		CURSOR(i).cursror_id = PLAYER(plr_id).identifier;
-		CURSOR(i).last_alive = 0;
-		CURSOR(i).operation_code = 0;
-		CURSOR(i).reg[0] = -PLAYER(plr_id).identifier;
-		CURSOR(i).color = g_battlefield[CURSOR(i).cur_pos].color;
+		g_cursors->cursor.bytes_to_next_op = 0;
+		g_cursors->cursor.carry = false;
+		g_cursors->cursor.cur_pos = PLAYER(--plr_id).start_position;
+		g_cursors->cursor.cycle_exec = 0;
+		g_cursors->cursor.player_id = PLAYER(plr_id).identifier;
+		g_cursors->cursor.cursror_id = PLAYER(plr_id).identifier;
+		g_cursors->cursor.last_alive = 0;
+		g_cursors->cursor.operation_code = 0;
+		g_cursors->cursor.reg[0] = -PLAYER(plr_id).identifier;
+		g_cursors->cursor.color = g_battlefield[g_cursors->cursor.cur_pos].color;
 		j = 0;
 		while (++j < 16)
-			CURSOR(i).reg[j] = 0;
+			g_cursors->cursor.reg[j] = 0;
+		if (i != g_vm->amount_players - 1)
+		{
+			g_cursors->next = make_new_cursors_list();
+			g_cursors = g_cursors->next;
+		}
 	}
+	g_cursors = current;
 	g_cursors_amount = g_vm->amount_players;
 	g_amount_live_operations = 0;
 }

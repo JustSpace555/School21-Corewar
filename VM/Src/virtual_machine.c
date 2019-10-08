@@ -104,7 +104,6 @@ void	vm_check(t_cycles_to_die *repeate)
 void	*virtual_machine(void)
 {
 	t_cycles_to_die	repeate;
-	SDL_FRect		cell;
 
 	initialize_all(&repeate);
 	if (g_vm->dump == 0 || (g_vm->vis == 1 && !init()))

@@ -12,7 +12,7 @@
 # define BYTES_AFTER_COMMENT BYTES_AFTER_CODE_SIZE + COMMENT_LENGTH
 
 # define PLAYER(i) g_players[i]
-# define CURSOR(i) g_cursors[i]
+// # define CURSOR(i) g_cursors[i]
 # define GET_BYTE(pos) g_battlefield[pos].code
 # define BATTLEFIELD_CELL(i, j, l_c) g_battlefield[i + j + l_c]
 # define GET_CUR_POS_BYTE(cursor, extra) GET_BYTE((*cursor)->cur_pos + extra)
@@ -113,10 +113,16 @@ typedef struct		s_cyles_to_die
 	int				amount_of_repeate;
 }					t_cycles_to_die;
 
+typedef struct		s_cursors_list
+{
+	t_cursor		cursor;
+	struct s_cursors_list	*next;
+}					t_cursors_list;
+
 
 t_player			*g_players;
 t_battlefield		*g_battlefield;
-t_cursor			*g_cursors;
+t_cursors_list		*g_cursors;
 int					g_cursors_amount;
 int					g_amount_live_operations;
 
@@ -138,8 +144,7 @@ t_vm				*g_vm;
 int					check_unattached_index(int index, t_plr_nbr *plr_nbr);
 int					find_unattached_file(t_vm *vm, char **argv, int argc);
 void				set_identifiers(t_vm *vm, int argc, char **argv);
-int					parsing(int argc, char **argv, char **player_files);
-void				free_player_files(char **player_files);
+int					parsing(int argc, char **argv);
 
 /*
 **					Print
@@ -160,6 +165,7 @@ void				push_vis(t_cycles_to_die repeate, char *status);
 
 void				initialize_vm(void);
 void				initialize_battlefield(void);
+t_cursors_list		*make_new_cursors_list(void);
 void				initialize_cursors(void);
 void				initialize_g_players(void);
 void				initialise_main_info(t_cycles_to_die *repeate);

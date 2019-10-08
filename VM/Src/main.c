@@ -2,8 +2,6 @@
 
 int		main(int argc, char *argv[])
 {
-	char		**player_files;
-
 	if (argc < 2)
 	{
 		print_usage();
@@ -12,11 +10,8 @@ int		main(int argc, char *argv[])
 	else
 	{
 		initialize_vm();
-		if (!parsing(argc, argv, player_files))
-		{
-			free_player_files(player_files);
+		if (!parsing(argc, argv))
 			return (0);
-		}
 		virtual_machine();
 	}
 	return (1);

@@ -2,7 +2,8 @@
 
 void	free_all(void)
 {
-	int	i;
+	int				i;
+	t_cursors_list	*current;
 
 	if (g_vm->vis == 1)
 	{
@@ -24,46 +25,53 @@ void	free_all(void)
 	free(g_vm->order_idtfrs);
 	free(g_vm->plr_nbr);
 	free(g_battlefield);
-	free(g_cursors);
+	while (g_cursors)
+	{
+		current = g_cursors;
+		g_cursors = g_cursors->next;
+		free(current);
+	}
 }
 
 void	check_alive_cursors(void)
 {
-	int			i;
-	int			j;
-	int			alive_cursors;
-	t_cursor	*new;
-	void		*temp;
+	int				i;
+	t_cursors_list	*current;
+	t_cursors_list	*prev;
 
-	i = -1;
-	alive_cursors = 0;
-	while (++i < g_cursors_amount)
-		if(CURRENT_CYCLE - CURSOR(i).last_alive < CURRENT_CYCLE -
+	current = g_cursors;
+	prev = g_cursors;
+	while (current)
+	{
+		if (!(CURRENT_CYCLE - current->cursor.last_alive < CURRENT_CYCLE -
 			LAST_CYCLE_CHECK || (LAST_CYCLE_CHECK == 0 &&
-								CURSOR(i).last_alive != 0))
-			alive_cursors++;
+								current->cursor.last_alive != 0)))
+		{
+			i = 0;
+			g_battlefield[current->cursor.cur_pos].cursor = false;
+			while (PLAYER(i).identifier != current->cursor.player_id)
+				i++;
+			PLAYER(i).amount_cursors--;
+			current = current->next;
+			if (prev->next == current)
+			{
+				if (prev == g_cursors)
+					g_cursors = g_cursors->next;
+				free(prev);
+				prev = current;
+			}
+			else
+			{
+				free(prev->next);
+				prev->next = current;
+			}
+		}
 		else
 		{
-			j = 0;
-			g_battlefield[CURSOR(i).cur_pos].cursor = false;
-			while (PLAYER(j).identifier != CURSOR(i).player_id)
-				j++;
-			PLAYER(j).amount_cursors--;
+			prev = current;
+			current = current->next;
 		}
-	if (alive_cursors == g_cursors_amount)
-		return ;
-	j = -1;
-	new = (t_cursor *)malloc(sizeof(t_cursor) * alive_cursors);
-	i = -1;
-	while (++i < g_cursors_amount)
-		if(CURRENT_CYCLE - CURSOR(i).last_alive < CURRENT_CYCLE -
-			LAST_CYCLE_CHECK || (LAST_CYCLE_CHECK == 0 &&
-								CURSOR(i).last_alive != 0))
-			new[++j] = CURSOR(i);
-	g_cursors_amount = alive_cursors;
-	temp = g_cursors;
-	g_cursors = new;
-	free(temp);
+	}
 }
 
 void	push_winner_terminal(void)
@@ -119,13 +127,14 @@ void	*print_battlefield_and_free(void)
 
 void	process_operation(void)
 {
-	int	i;
+	t_cursors_list	*current;
 
-	i = -1;
-	while(++i < g_cursors_amount)
+	current = g_cursors;
+	while(current)
 	{
-		choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));
-		exec_operation(&g_cursors[i]);
+		choose_operaion(&current->cursor, GET_BYTE(current->cursor.cur_pos));
+		exec_operation(&current->cursor);
+		current = current->next;
 	}
 }
 

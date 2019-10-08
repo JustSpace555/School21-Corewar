@@ -61,6 +61,6 @@ void	introduce(void)
 void	push_vis(t_cycles_to_die repeate, char *status)
 {
 	push_to_render_battlefield();
-	push_info(repeate.amount_of_repeate, "**Running**");
+	push_info(repeate.amount_of_repeate, status);
 	SDL_RenderPresent(g_main_render);
 }

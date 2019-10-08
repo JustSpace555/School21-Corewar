@@ -15,8 +15,9 @@ int		check_unattached_index(int index, t_plr_nbr *plr_nbr)
 
 int		find_unattached_file(t_vm *vm, char **argv, int argc)
 {
-	static int i = 0;
+	static int i;
 
+	i = 0;
 	while (++i < argc)
 	{
 		if (ft_strstr(argv[i], ".cor") &&
@@ -41,18 +42,10 @@ void	set_identifiers(t_vm *vm, int argc, char **argv)
 	}
 }
 
-void	free_player_files(char **player_files)
+int		parsing(int argc, char **argv)
 {
-	int	i;
-
-	while (++i < g_vm->amount_players)
-		free(player_files[i]);
-	free(player_files);
-}
-
-int		parsing(int argc, char **argv, char **player_files)
-{
-	int	i;
+	int		i;
+	char	**player_files;
 
 	if (parsing_arguments(argc, argv, g_vm) == -1)
 		return (0);
@@ -69,8 +62,9 @@ int		parsing(int argc, char **argv, char **player_files)
 	if (players_parser(player_files) == -1)
 	{
 		free_g_players();
+		free(player_files);
 		return (0);
 	}
-	free_player_files(player_files);
+	free(player_files);
 	return (1);
 }

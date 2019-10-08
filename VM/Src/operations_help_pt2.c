@@ -16,18 +16,21 @@ void			move_cursor(t_cursor *cursor, int label_size,
 							unsigned char byte_val, int amount_arguments)
 {
 	int	skip;
-	int	i;
 	int	amount_cursors_cell;
+	t_cursors_list	*current;
 
+	current = g_cursors;
 	if (byte_val)
 		skip = get_amount_bytes_to_skip(byte_val, label_size, amount_arguments) + 1;
 	else
 		skip = label_size;
-	i = -1;
 	amount_cursors_cell = 0;
-	while (++i < g_cursors_amount)
-		if (g_cursors[i].cur_pos == cursor->cur_pos)
+	while (current)
+	{
+		if (current->cursor.cur_pos == cursor->cur_pos)
 			amount_cursors_cell++;
+		current = current->next;
+	}
 	if (amount_cursors_cell == 1)
 		g_battlefield[cursor->cur_pos].cursor = false;
 	cursor->cur_pos += skip + 1; //учесть -1, 0
