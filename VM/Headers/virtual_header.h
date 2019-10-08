@@ -164,7 +164,7 @@ void				initialize_all(t_cycles_to_die *repeate);
 */
 
 int					make_4_byte_int(u_int8_t buffer[4]);
-void				copy_bytes_to_string(char **str, u_int8_t buffer[4],
+void				copy_bytes_to_string(char *str, u_int8_t buffer[4],
 						int amount_of_bytes, int code_size);
 int					check_for_header(u_int8_t buffer[4]);
 int					get_code_size(u_int8_t buffer[4]);

@@ -3,7 +3,7 @@
 int		if_header_bytes(int amount_bytes, uint8_t buffer[4])
 {
 	if (amount_bytes == BYTES_AFTER_HEADER)
-		if (check_for_header(buffer) == -1)
+		if (!check_for_header(buffer))
 		{
 			ft_printf("Virtual Machine error: \
 						No magic header in file\n");
@@ -12,19 +12,14 @@ int		if_header_bytes(int amount_bytes, uint8_t buffer[4])
 	return (1);
 }
 
-void	make_g_player_name(int amount_bytes, uint8_t buffer[4], int i)
+void	make_g_player_name(int amount_bytes, uint8_t buffer[4], int i, int *string_size)
 {
-	char	*temp;
 	if (amount_bytes > BYTES_AFTER_HEADER &&
 			amount_bytes <= BYTES_AFTER_NAME)
-	{
-		temp = PLAYER(i).name;
-		PLAYER(i).name = ft_strjoin(PLAYER(i).name, (char *)buffer);
-		free(temp);
-	}
+		copy_bytes_to_string(PLAYER(i).name, buffer, *string_size, *string_size += 4);
 }
 
-int		make_g_player_size(int *amount_memory, int amount_bytes, uint8_t buffer[4], int i)
+int		make_g_player_size(int amount_bytes, uint8_t buffer[4], int i)
 {
 	if (amount_bytes > BYTES_AFTER_NAME + NULL_BYTES &&
 						amount_bytes <= BYTES_AFTER_CODE_SIZE)
@@ -37,34 +32,19 @@ int		make_g_player_size(int *amount_memory, int amount_bytes, uint8_t buffer[4],
 								PLAYER(i).code_size, CHAMP_MAX_SIZE);
 			return (0);
 		}
-		*amount_memory += PLAYER(i).code_size;
-		if (*amount_memory > MEM_SIZE)
-		{
-			printf("Virual machine error: players mem size bigger \
-				than permitted (%d > %d)\n", *amount_memory, MEM_SIZE);
-			return (0);
-		}
 	}
 	return (1);
 }
 
-void	make_g_player_comment(int amount_bytes, uint8_t buffer[4], int i)
+void	make_g_player_comment(int amount_bytes, uint8_t buffer[4], int i, int *string_size)
 {
-	char	*temp;
-
 	if (amount_bytes > BYTES_AFTER_CODE_SIZE &&
 			amount_bytes <= BYTES_AFTER_COMMENT)
-	{
-		temp = PLAYER(i).comment;
-		PLAYER(i).comment = ft_strjoin(PLAYER(i).comment, (char *)buffer);
-		free(temp);
-	}
+		copy_bytes_to_string(PLAYER(i).comment, buffer, *string_size, *string_size += 4);
 }
 
-void	make_g_player_code(int amount_bytes, int i, uint8_t buffer[4])
+void	make_g_player_code(int amount_bytes, int i, uint8_t buffer[4], int *string_size)
 {
-	char	*temp;
-
 	if (amount_bytes > BYTES_AFTER_COMMENT + NULL_BYTES)
 	{
 		if (!PLAYER(i).code)
@@ -73,9 +53,7 @@ void	make_g_player_code(int amount_bytes, int i, uint8_t buffer[4])
 									PLAYER(i).code_size);
 			ft_bzero(PLAYER(i).code, PLAYER(i).code_size);
 		}
-		temp = PLAYER(i).code;
-		PLAYER(i).code = ft_strjoin(PLAYER(i).code, (char *)buffer);
-		free(temp);
+		copy_bytes_to_string(PLAYER(i).code, buffer, *string_size, *string_size += 4);
 	}
 }
 
@@ -88,6 +66,36 @@ void	initialize_one_g_player(int i)
 	PLAYER(i).identifier = g_vm->plr_nbr[i].identifier;
 }
 
+void	zeroing_string_size(int *string_size, int amount_bytes)
+{
+	if ((amount_bytes > BYTES_AFTER_NAME &&
+		amount_bytes <= BYTES_AFTER_NAME + NULL_BYTES) ||
+		(amount_bytes > BYTES_AFTER_CODE_SIZE &&
+		amount_bytes <= BYTES_AFTER_CODE_SIZE + NULL_BYTES) ||
+		(amount_bytes > BYTES_AFTER_COMMENT &&
+		amount_bytes <= BYTES_AFTER_COMMENT + NULL_BYTES) ||
+		amount_bytes == BYTES_AFTER_HEADER)
+		*string_size = 0;
+}
+
+int		check_for_ovetflow(void)
+{
+	int	i;
+	int	amount_memory;
+
+	i = -1;
+	amount_memory = 0;
+	while (++i < g_vm->amount_players)
+		amount_memory += PLAYER(i).code_size;
+	if (amount_memory > MEM_SIZE)
+	{
+		printf("Virual machine error: players mem size bigger \
+			than permitted (%d > %d)\n", amount_memory, MEM_SIZE);
+		return (0);
+	}
+	return (1);
+}
+
 int		players_parser(char **files_champions)
 {
 	int			i;
@@ -95,6 +103,7 @@ int		players_parser(char **files_champions)
 	int			amount_bytes;
 	int			amount_memory;
 	u_int8_t	buffer[4];
+	int			string_size;
 
 	initialize_g_players();
 	i = -1;
@@ -107,15 +116,18 @@ int		players_parser(char **files_champions)
 		while (read(fd, buffer, 4))
 		{
 			amount_bytes += 4;
+			zeroing_string_size(&string_size, amount_bytes);
 			if (!if_header_bytes(amount_bytes, buffer))
 				return(0);
-			make_g_player_name(amount_bytes, buffer, i);
-			if (!make_g_player_size(&amount_memory, amount_bytes, buffer, i))
+			make_g_player_name(amount_bytes, buffer, i, &string_size);
+			if (!make_g_player_size(amount_bytes, buffer, i))
 				return(0);
-			make_g_player_comment(amount_memory, buffer, i);
-			make_g_player_code(amount_bytes, i, buffer);
+			make_g_player_comment(amount_memory, buffer, i, &string_size);
+			make_g_player_code(amount_bytes, i, buffer, &string_size);
 		}
 		close(fd);
 	}
+	if (!check_for_ovetflow())
+		return (0);
 	return (1);
 }

@@ -15,20 +15,20 @@ int		make_4_byte_int(u_int8_t buffer[4])
 	return (temp);
 }
 
-void	copy_bytes_to_string(char **str, u_int8_t buffer[4],
+void	copy_bytes_to_string(char *str, u_int8_t buffer[4],
 							int amount_of_bytes, int code_size)
 {
 	int	i;
 
 	i = -1;
 	while (++i < 4 && amount_of_bytes + i < code_size)
-		(*str)[amount_of_bytes + i] = buffer[i];
+		str[amount_of_bytes + i] = buffer[i];
 }
 
 int		check_for_header(u_int8_t buffer[4])
 {
 	if (make_4_byte_int(buffer) != COREWAR_EXEC_MAGIC)
-		return (-1);
+		return (0);
 	return (1);
 }
 
