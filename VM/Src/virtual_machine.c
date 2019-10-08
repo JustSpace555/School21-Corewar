@@ -30,7 +30,9 @@ void	choose_operaion(t_cursor *cursor, unsigned char byte)
 
 void	exec_operation_pt2(t_cursor *cursor)
 {
-	if (cursor->operation_code == 11)
+	if (cursor->operation_code == 10)
+			ldi(cursor);
+	else if (cursor->operation_code == 11)
 		sti(cursor);
 	else if (cursor->operation_code == 12)
 		fork_lfork(cursor, 0);
@@ -68,8 +70,6 @@ void	exec_operation(t_cursor *cursor)
 			xor(cursor);
 		else if (cursor->operation_code == 9)
 			zjmp(cursor);
-		else if (cursor->operation_code == 10)
-			ldi(cursor);
 		else
 			exec_operation_pt2(cursor);
 		cursor->operation_code = '\0';
@@ -84,9 +84,14 @@ void	vm_check(t_cycles_to_die *repeate)
 		g_cursors_amount = 0;
 	zeroing_nbr_live();
 	repeate->num_p_r = CTD;
-	repeate->amount_of_repeate = (CTD == repeate->num_r &&
-			CTD == repeate->num_p_r) ? repeate->amount_of_repeate + 1 : 0;
-	if (repeate->amount_of_repeate >= MAX_CHECKS || g_amount_live_operations >= NBR_LIVE)
+	if (CTD == repeate->num_r && CTD == repeate->num_p_r)
+		repeate->amount_of_repeate++;
+	else
+		repeate->amount_of_repeate = 0;
+	// repeate->amount_of_repeate = (CTD == repeate->num_r &&
+	// 		CTD == repeate->num_p_r) ? repeate->amount_of_repeate + 1 : 0;
+	if (repeate->amount_of_repeate >= MAX_CHECKS
+		|| g_amount_live_operations >= NBR_LIVE)
 	{
 		CTD -= CYCLE_DELTA * ((repeate->amount_of_repeate >= MAX_CHECKS
 						&& g_amount_live_operations >= NBR_LIVE) ? 2 : 1);
@@ -118,10 +123,7 @@ void	*virtual_machine(void)
 			if (g_vm->ver == 2)
 				ft_printf("It is now cycle %d\n", CURRENT_CYCLE);
 			process_operation();
-			if (g_vm->vis == 1)
-				push_vis(repeate, "**Running**");
-			if (CURRENT_CYCLE - LAST_CYCLE_CHECK >= CTD || CTD <= 0)
-				vm_check(&repeate);
+			vis_and_check(&repeate);
 			if (CTD > 0 && g_vm->dump == CURRENT_CYCLE)
 				return (print_battlefield_and_free());
 		}

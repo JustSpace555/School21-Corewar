@@ -64,3 +64,20 @@ void	push_vis(t_cycles_to_die repeate, char *status)
 	push_info(repeate.amount_of_repeate, status);
 	SDL_RenderPresent(g_main_render);
 }
+
+void	push_winner_terminal(void)
+{
+	int	i;
+	int	id;
+	int	max;
+
+	i = -1;
+	max = 0;
+	while(++i < g_vm->amount_players)
+		if (PLAYER(i).last_alive > max)
+		{
+			max = PLAYER(i).last_alive;
+			id = i;
+		}
+	ft_printf("Contestant %d, \"%s\", has won !\n", id + 1, PLAYER(id).name);
+}

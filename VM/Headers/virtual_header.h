@@ -12,12 +12,11 @@
 # define BYTES_AFTER_COMMENT BYTES_AFTER_CODE_SIZE + COMMENT_LENGTH
 
 # define PLAYER(i) g_players[i]
-// # define CURSOR(i) g_cursors[i]
 # define GET_BYTE(pos) g_battlefield[pos].code
 # define BATTLEFIELD_CELL(i, j, l_c) g_battlefield[i + j + l_c]
 # define GET_CUR_POS_BYTE(cursor, extra) GET_BYTE((*cursor)->cur_pos + extra)
 # define GET_REG_VALUE(cursor, reg_i) cursor->reg[reg_i]
-# define CODE_PER_LINE 64 // change to 32
+# define CODE_PER_LINE 64
 
 # define CURRENT_CYCLE g_main_info[0]
 # define CTD g_main_info[1]
@@ -25,22 +24,6 @@
 # define AMOUNT_CHECKS g_main_info[3]
 # define VIS_QUIT g_main_info[4]
 # define VIS_PAUSE g_main_info[5]
-
-# define CHECK_EXEC(cursor) if (check_for_cycle_exec(*cursor) == -1) return ;
-
-/*
-**		c = cursor
-**		r = register
-**		l = label size (4 or 2)
-**		b = byte val (1 or 0)
-**		n = amount_arguments
-*/
-# define CHECK_REG(c,r,l,b,n) if(r>REG_NUMBER||r==0){move_cursor(*c,l,b,n);return;}
-
-/*
-**		c = cursor
-**		w = cycles to wait
-*/
 # define CHECK_CYCLES(c, w) if((*c)->cycle_exec == 0) (*c)->cycle_exec = w;
 
 typedef enum
@@ -158,6 +141,7 @@ void				print_battlefield(void);
 void				print_usage(void);
 void				introduce(void);
 void				push_vis(t_cycles_to_die repeate, char *status);
+void				print_sti(t_cursor *cursor, int reg, int sec_arg, int third_arg);
 
 /*
 **					Initialize
@@ -197,6 +181,8 @@ void				exec_operation(t_cursor *cursor);
 void				choose_operaion(t_cursor *cursor, unsigned char byte);
 void				zeroing_nbr_live(void);
 void				process_operation(void);
+void				vis_and_check(t_cycles_to_die *repeate);
+void				vm_check(t_cycles_to_die *repeate);
 
 /*
 **					Main funcions
@@ -250,6 +236,5 @@ void				write_short_data(short addres, short write, char color);
 void				write_int_data(short addres, unsigned int write, char color);
 void				make_one_new_cursor(t_cursor cursor);
 short				arena_truncation(short address);
-void				print_sti(t_cursor *cursor, int reg, int sec_arg, int third_arg);
 
 #endif
