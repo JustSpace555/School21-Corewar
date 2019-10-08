@@ -107,6 +107,7 @@ void	vm_check(t_cycles_to_die *repeate)
 void	process_operation(void)
 {
 	int	i;
+
 	i = -1;
 	while(++i < g_cursors_amount)
 	{
@@ -115,7 +116,21 @@ void	process_operation(void)
 	}
 }
 
-void	virtual_machine(void)
+void	push_vis(t_cycles_to_die repeate, char *status)
+{
+	push_to_render_battlefield();
+	push_info(repeate.amount_of_repeate, "**Running**");
+	SDL_RenderPresent(g_main_render);
+}
+
+void	*print_battlefield_and_free(void)
+{
+	print_battlefield();
+	free_all();
+	return (NULL);
+}
+
+void	*virtual_machine(void)
 {
 	t_cycles_to_die	repeate;
 	SDL_FRect		cell;
@@ -125,11 +140,7 @@ void	virtual_machine(void)
 	initialise_main_info(&repeate);
 	introduce();
 	if (g_vm->dump == 0 || (g_vm->vis == 1 && !init()))
-	{
-		print_battlefield();
-		free_all();
-		return ;
-	}
+		return (print_battlefield_and_free());
 	while (!VIS_QUIT && g_cursors_amount > 0)
 	{
 		if (g_vm->vis == 1)
@@ -141,28 +152,17 @@ void	virtual_machine(void)
 				ft_printf("It is now cycle %d\n", CURRENT_CYCLE);
 			process_operation();
 			if (g_vm->vis == 1)
-			{
-				push_to_render_battlefield();
-				push_info(repeate.amount_of_repeate, "**Running**");
-				SDL_RenderPresent(g_main_render);
-				// SDL_Delay(SCREEN_TICKS_PER_FRAME / amount_checks);
-			}
+				push_vis(repeate, "**Running**");
 			if (CURRENT_CYCLE - LAST_CYCLE_CHECK >= CTD || CTD <= 0)
 				vm_check(&repeate);
-			if (CTD > 0 && g_vm->dump >= 0 && g_vm->dump == CURRENT_CYCLE)
-			{
-				print_battlefield();
-				free_all();
-				return ;
-			}
+			if (CTD > 0 && g_vm->dump == CURRENT_CYCLE)
+				return (print_battlefield_and_free());
 		}
 		else
-		{
-			push_to_render_battlefield();
-			push_info(repeate.amount_of_repeate, "**Pause**");
-			SDL_RenderPresent(g_main_render);
-		}
+			push_vis(repeate, "**Pause**");
 	}
-	push_winner(repeate);
+	if (!VIS_QUIT)
+		push_winner(repeate);
 	free_all();
+	return (NULL);
 }

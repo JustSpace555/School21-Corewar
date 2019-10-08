@@ -41,6 +41,15 @@ void	set_identifiers(t_vm *vm, int argc, char **argv)
 	}
 }
 
+void	free_player_files(char **player_files)
+{
+	int	i;
+
+	while (++i < g_vm->amount_players)
+		free(player_files[i]);
+	free(player_files);
+}
+
 int		parsing(int argc, char **argv, char **player_files)
 {
 	int	i;
@@ -62,14 +71,6 @@ int		parsing(int argc, char **argv, char **player_files)
 		free_g_players();
 		return (0);
 	}
+	free_player_files(player_files);
 	return (1);
-}
-
-void	free_player_files(char **player_files)
-{
-	int	i;
-
-	while (++i < g_vm->amount_players)
-		free(player_files[i]);
-	free(player_files);
 }

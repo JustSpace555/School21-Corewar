@@ -189,7 +189,7 @@ int					check_reg_write_arg(t_cursor *cursor, unsigned char codage, int *value, 
 **					Main funcions
 */
 
-void				virtual_machine(void);
+void				*virtual_machine(void);
 int					players_parser(char **files_champions);
 int					parsing_arguments(int argc, char **argv, t_vm *vm);
 
