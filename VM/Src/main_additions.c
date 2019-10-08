@@ -59,7 +59,7 @@ int		parsing(int argc, char **argv)
 	i = -1;
 	while (++i < g_vm->amount_players)
 		player_files[i] = argv[g_vm->plr_nbr[i].index_file];
-	if (players_parser(player_files) == -1)
+	if (!players_parser(player_files))
 	{
 		free_g_players();
 		free(player_files);

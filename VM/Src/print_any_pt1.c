@@ -73,8 +73,9 @@ void	print_hex_data(char *file)
 	int		fd;
 	int		i;
 	uint8_t	buffer[4];
-	int		count = 0;
+	int		count;
 
+	count = 0;
 	fd = open(file, O_RDONLY);
 	ft_printf("Filename = %s\n", file);
 	while (read(fd, &buffer, 4))
@@ -82,20 +83,7 @@ void	print_hex_data(char *file)
 		i = -1;
 		while (++i < 4)
 		{
-			if (count < 4 || (count >= PROG_NAME_LENGTH + 12 && count <
-					COMMENT_LENGTH + PROG_NAME_LENGTH + 12))
-				ft_printf(RED"%02hhx "NORMAL, buffer[i]);
-			else if (count >= 4 && count < PROG_NAME_LENGTH + 4)
-				ft_printf(YELLOW"%02hhx "NORMAL, buffer[i]);
-			else if ((count >= PROG_NAME_LENGTH + 4 && count <
-						PROG_NAME_LENGTH + 8) || (count >= COMMENT_LENGTH
-							+ 12 + PROG_NAME_LENGTH && count < COMMENT_LENGTH
-								+ 16 + PROG_NAME_LENGTH))
-				ft_printf(BLACK"%02hhx "NORMAL, buffer[i]);
-			else if (count >= COMMENT_LENGTH + 16 + PROG_NAME_LENGTH
-					|| (count >= PROG_NAME_LENGTH + 8 && count <
-						PROG_NAME_LENGTH + 12))
-				ft_printf(CYAN"%02hhx "NORMAL, buffer[i]);
+			print_hex_data_help(count, buffer, i);
 			count++;
 		}
 		ft_printf("%d\n", count);

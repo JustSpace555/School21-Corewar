@@ -1,13 +1,12 @@
 #include "../Headers/virtual_header.h"
 
-int 	*init_int_array(int size, int nbr)
+int		*init_int_array(int size, int nbr)
 {
 	int *array;
 	int i;
 
 	i = -1;
 	array = (int*)malloc(sizeof(int) * size);
-
 	while (++i < size)
 		array[i] = nbr;
 	return (array);
@@ -73,21 +72,12 @@ void	initialize_battlefield(void)
 	fill_battlefield();
 }
 
-t_cursors_list	*make_new_cursors_list(void)
-{
-	t_cursors_list	*new;
-
-	new = (t_cursors_list *)malloc(sizeof(t_cursors_list));
-	new->next = NULL;
-	return (new);
-}
-
 void	initialize_cursors(void)
 {
 	int				i;
 	int				j;
 	int				plr_id;
-	t_cursors_list *current;
+	t_cursors_list	*current;
 
 	i = -1;
 	g_cursors = make_new_cursors_list();
@@ -95,19 +85,7 @@ void	initialize_cursors(void)
 	plr_id = g_vm->amount_players;
 	while (++i < g_vm->amount_players)
 	{
-		g_cursors->cursor.bytes_to_next_op = 0;
-		g_cursors->cursor.carry = false;
-		g_cursors->cursor.cur_pos = PLAYER(--plr_id).start_position;
-		g_cursors->cursor.cycle_exec = 0;
-		g_cursors->cursor.player_id = PLAYER(plr_id).identifier;
-		g_cursors->cursor.cursror_id = PLAYER(plr_id).identifier;
-		g_cursors->cursor.last_alive = 0;
-		g_cursors->cursor.operation_code = 0;
-		g_cursors->cursor.reg[0] = -PLAYER(plr_id).identifier;
-		g_cursors->cursor.color = g_battlefield[g_cursors->cursor.cur_pos].color;
-		j = 0;
-		while (++j < 16)
-			g_cursors->cursor.reg[j] = 0;
+		zeroing_cursors_args(&plr_id);
 		if (i != g_vm->amount_players - 1)
 		{
 			g_cursors->next = make_new_cursors_list();

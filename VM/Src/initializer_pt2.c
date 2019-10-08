@@ -56,3 +56,12 @@ void	initialize_all(t_cycles_to_die *repeate)
 	initialise_main_info(repeate);
 	introduce();
 }
+
+t_cursors_list	*make_new_cursors_list(void)
+{
+	t_cursors_list	*new;
+
+	new = (t_cursors_list *)malloc(sizeof(t_cursors_list));
+	new->next = NULL;
+	return (new);
+}

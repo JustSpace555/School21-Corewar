@@ -11,6 +11,7 @@
 # define BYTES_AFTER_CODE_SIZE BYTES_AFTER_NAME + NULL_BYTES + 4
 # define BYTES_AFTER_COMMENT BYTES_AFTER_CODE_SIZE + COMMENT_LENGTH
 
+# define CURSOR g_cursors->cursor
 # define PLAYER(i) g_players[i]
 # define GET_BYTE(pos) g_battlefield[pos].code
 # define BATTLEFIELD_CELL(i, j, l_c) g_battlefield[i + j + l_c]
@@ -133,10 +134,12 @@ int					parsing(int argc, char **argv);
 **					Print
 */
 
+void				print_hex_data_help(int count, uint8_t *buffer, int i);
 void				print_hex_data(char *file);
 void				show_bin_int(unsigned int i);
 void				show_bin_char(unsigned char c);
 void				print_players(void);
+void				print_battlefield_help(int c);
 void				print_battlefield(void);
 void				print_usage(void);
 void				introduce(void);
@@ -183,6 +186,7 @@ void				zeroing_nbr_live(void);
 void				process_operation(void);
 void				vis_and_check(t_cycles_to_die *repeate);
 void				vm_check(t_cycles_to_die *repeate);
+void				zeroing_cursors_args(int *plr_id);
 
 /*
 **					Main funcions

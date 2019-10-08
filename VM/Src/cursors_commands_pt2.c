@@ -18,14 +18,10 @@ void	and(t_cursor *cursor)
 	first_arg = get_first_arg(cursor, codage, 4, &offset);
 	second_arg = get_second_arg(cursor, codage, 4, &offset);
 	third_arg = get_third_arg(cursor, codage, 4, &offset);
-	if (check_reg(third_arg))
+	if (check_reg(third_arg)
+		&& check_reg_write_arg(cursor, codage, &first_arg, 1)
+		&& check_reg_write_arg(cursor, codage, &second_arg, 2))
 	{
-		if (!check_reg_write_arg(cursor, codage, &first_arg, 1) ||
-			!check_reg_write_arg(cursor, codage, &second_arg, 2))
-		{
-			move_cursor(cursor, 4, codage, 3);
-			return ;
-		}
 		cursor->reg[third_arg - 1] = (first_arg & second_arg);
 		if (g_vm->ver == 1)
 			ft_printf("P %4d | and %d %d r%d\n", cursor->cursror_id,
@@ -53,14 +49,10 @@ void	or(t_cursor *cursor)
 	first_arg = get_first_arg(cursor, codage, 4, &offset);
 	second_arg = get_second_arg(cursor, codage, 4, &offset);
 	third_arg = get_third_arg(cursor, codage, 4, &offset);
-	if (check_reg(third_arg))
+	if (check_reg(third_arg)
+		&& check_reg_write_arg(cursor, codage, &first_arg, 1)
+		&& check_reg_write_arg(cursor, codage, &second_arg, 2))
 	{
-		if (!check_reg_write_arg(cursor, codage, &first_arg, 1) ||
-			!check_reg_write_arg(cursor, codage, &second_arg, 2))
-		{
-			move_cursor(cursor, 4, codage, 3);
-			return ;
-		}
 		cursor->reg[third_arg - 1] = (first_arg | second_arg);
 		if (g_vm->ver == 1)
 			ft_printf("P %4d | and %d %d r%d\n", cursor->cursror_id,
@@ -88,14 +80,10 @@ void	xor(t_cursor *cursor)
 	first_arg = get_first_arg(cursor, codage, 4, &offset);
 	second_arg = get_second_arg(cursor, codage, 4, &offset);
 	third_arg = get_third_arg(cursor, codage, 4, &offset);
-	if (check_reg(third_arg))
+	if (check_reg(third_arg)
+		&& check_reg_write_arg(cursor, codage, &first_arg, 1)
+		&& check_reg_write_arg(cursor, codage, &second_arg, 2))
 	{
-		if (!check_reg_write_arg(cursor, codage, &first_arg, 1) ||
-			!check_reg_write_arg(cursor, codage, &second_arg, 2))
-		{
-			move_cursor(cursor, 4, codage, 3);
-			return ;
-		}
 		cursor->reg[third_arg - 1] = (first_arg ^ second_arg);
 		if (g_vm->ver == 1)
 			ft_printf("P %4d | and %d %d r%d\n", cursor->cursror_id,
@@ -138,14 +126,10 @@ void	ldi(t_cursor *cursor)
 	f_arg = get_first_arg(cursor, codage, 2, &offset);
 	s_arg = get_second_arg(cursor, codage, 2, &offset);
 	t_arg = get_third_arg(cursor, codage, 2, &offset);
-	if (check_reg(t_arg))
+	if (check_reg(t_arg)
+		&& check_reg_write_arg(cursor, codage, &f_arg, 1)
+		&& check_reg_write_arg(cursor, codage, &s_arg, 2))
 	{
-		if (!check_reg_write_arg(cursor, codage, &f_arg, 1) ||
-			!check_reg_write_arg(cursor, codage, &s_arg, 2))
-		{
-			move_cursor(cursor, 2, codage, 3);
-			return ;
-		}
 		if ((codage & 0xC0) == 0xC0)
 			s_arg = 0;
 		cursor->reg[t_arg - 1] = get_int_data(cursor->cur_pos +

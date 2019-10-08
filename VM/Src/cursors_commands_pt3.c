@@ -130,28 +130,30 @@ void	aff(t_cursor *cursor)
 
 	temp = NULL;
 	dest_reg = GET_CUR_POS_BYTE(&cursor, 1);
-	CHECK_REG(&cursor, dest_reg, 4, 0, 1);
-	if (g_vm->vis)
+	if (check_reg(dest_reg))
 	{
-		i = -1;
-		while (cursor->player_id != PLAYER(++i).identifier)
-			;
-		if (!PLAYER(i).aff_out)
+		if (g_vm->vis)
 		{
-			PLAYER(i).aff_out = (char *)malloc(sizeof(char) * 2);
-			ft_bzero(PLAYER(i).aff_out, 2);
-			PLAYER(i).aff_out[0] = cursor->reg[dest_reg - 1] & 256;
+			i = -1;
+			while (cursor->player_id != PLAYER(++i).identifier)
+				;
+			if (!PLAYER(i).aff_out)
+			{
+				PLAYER(i).aff_out = (char *)malloc(sizeof(char) * 2);
+				ft_bzero(PLAYER(i).aff_out, 2);
+				PLAYER(i).aff_out[0] = cursor->reg[dest_reg - 1] & 256;
+			}
+			else
+			{
+				temp = PLAYER(i).aff_out;
+				out = cursor->reg[dest_reg - 1] % 256;
+				PLAYER(i).aff_out = ft_strjoin(PLAYER(i).aff_out, &out);
+				free(temp);
+			}
 		}
 		else
-		{
-			temp = PLAYER(i).aff_out;
-			out = cursor->reg[dest_reg - 1] % 256;
-			PLAYER(i).aff_out = ft_strjoin(PLAYER(i).aff_out, &out);
-			free(temp);
-		}
+			ft_printf("Player #%u out: %c", cursor->cursror_id,
+											cursor->reg[dest_reg - 1] % 256);
 	}
-	else
-		ft_printf("Player #%u out: %c", cursor->cursror_id,
-										cursor->reg[dest_reg - 1] % 256);
 	move_cursor(cursor, 2, 0, 1);
 }
