@@ -109,3 +109,31 @@ void	push_winner(t_cycles_to_die repeate)
 	else if(g_vm->vis != 1 && !VIS_QUIT)
 		push_winner_terminal();
 }
+
+void	*print_battlefield_and_free(void)
+{
+	print_battlefield();
+	free_all();
+	return (NULL);
+}
+
+void	process_operation(void)
+{
+	int	i;
+
+	i = -1;
+	while(++i < g_cursors_amount)
+	{
+		choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));
+		exec_operation(&g_cursors[i]);
+	}
+}
+
+void	zeroing_nbr_live(void)
+{
+	int	i;
+
+	i = -1;
+	while (++i < g_vm->amount_players)
+		PLAYER(i).nbr_live = 0;
+}

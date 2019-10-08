@@ -152,6 +152,7 @@ void				print_players(void);
 void				print_battlefield(void);
 void				print_usage(void);
 void				introduce(void);
+void				push_vis(t_cycles_to_die repeate, char *status);
 
 /*
 **					Initialize
@@ -163,6 +164,7 @@ void				initialize_cursors(void);
 void				initialize_g_players(void);
 void				initialise_main_info(t_cycles_to_die *repeate);
 void				fill_battlefield(void);
+void				initialize_all(t_cycles_to_die *repeate);
 
 /*
 **					Help
@@ -184,6 +186,11 @@ void				push_winner_terminal(void);
 void				push_winner(t_cycles_to_die repeate);
 t_bool				check_reg(unsigned char reg);
 int					check_reg_write_arg(t_cursor *cursor, unsigned char codage, int *value, int arg_num);
+void				*print_battlefield_and_free(void);
+void				exec_operation(t_cursor *cursor);
+void				choose_operaion(t_cursor *cursor, unsigned char byte);
+void				zeroing_nbr_live(void);
+void				process_operation(void);
 
 /*
 **					Main funcions

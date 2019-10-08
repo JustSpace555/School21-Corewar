@@ -48,3 +48,11 @@ void	initialise_main_info(t_cycles_to_die *repeate)
 	repeate->num_p_r = CYCLE_TO_DIE;
 	repeate->amount_of_repeate = 0;
 }
+
+void	initialize_all(t_cycles_to_die *repeate)
+{
+	initialize_battlefield();
+	initialize_cursors();
+	initialise_main_info(repeate);
+	introduce();
+}

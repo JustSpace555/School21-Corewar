@@ -24,10 +24,26 @@ void	choose_operaion(t_cursor *cursor, unsigned char byte)
 			cursor->cycle_exec = 1000;
 		else if (byte == 16)
 			cursor->cycle_exec = 2;
-		else
-			cursor->cycle_exec = 0;
 	}
 	cursor->cycle_exec = (cursor->cycle_exec > 0) ? --cursor->cycle_exec : 0;
+}
+
+void	exec_operation_pt2(t_cursor *cursor)
+{
+	if (cursor->operation_code == 11)
+		sti(cursor);
+	else if (cursor->operation_code == 12)
+		fork_lfork(cursor, 0);
+	else if (cursor->operation_code == 13)
+		lld(cursor);
+	else if (cursor->operation_code == 14)
+		lldi(cursor);
+	else if (cursor->operation_code == 15)
+		fork_lfork(cursor, 1);
+	else if (cursor->operation_code == 16)
+		aff(cursor);
+	else
+		move_cursor(cursor, 0, 0, 0);
 }
 
 void	exec_operation(t_cursor *cursor)
@@ -54,45 +70,26 @@ void	exec_operation(t_cursor *cursor)
 			zjmp(cursor);
 		else if (cursor->operation_code == 10)
 			ldi(cursor);
-		else if (cursor->operation_code == 11)
-			sti(cursor);
-		else if (cursor->operation_code == 12)
-			fork_lfork(cursor, 0);
-		else if (cursor->operation_code == 13)
-			lld(cursor);
-		else if (cursor->operation_code == 14)
-			lldi(cursor);
-		else if (cursor->operation_code == 15)
-			fork_lfork(cursor, 1);
-		else if (cursor->operation_code == 16)
-			aff(cursor);
 		else
-			move_cursor(cursor, 0, 0, 0);
+			exec_operation_pt2(cursor);
 		cursor->operation_code = '\0';
 	}
 }
 
 void	vm_check(t_cycles_to_die *repeate)
 {
-	int	i;
-
 	AMOUNT_CHECKS++;
 	check_alive_cursors();
 	if (CTD <= 0)
 		g_cursors_amount = 0;
-	i = -1;
-	while (++i < g_vm->amount_players)
-		PLAYER(i).nbr_live = 0;
+	zeroing_nbr_live();
 	repeate->num_p_r = CTD;
-	if (CTD == repeate->num_r && CTD == repeate->num_p_r)
-		repeate->amount_of_repeate++;
-	else
-		repeate->amount_of_repeate = 0;
+	repeate->amount_of_repeate = (CTD == repeate->num_r &&
+			CTD == repeate->num_p_r) ? repeate->amount_of_repeate + 1 : 0;
 	if (repeate->amount_of_repeate >= MAX_CHECKS || g_amount_live_operations >= NBR_LIVE)
 	{
-		if (repeate->amount_of_repeate >= MAX_CHECKS && g_amount_live_operations >= NBR_LIVE)
-			CTD -= CYCLE_DELTA;
-		CTD -= CYCLE_DELTA;
+		CTD -= CYCLE_DELTA * ((repeate->amount_of_repeate >= MAX_CHECKS
+						&& g_amount_live_operations >= NBR_LIVE) ? 2 : 1);
 		repeate->num_r = CTD;
 		repeate->amount_of_repeate = 0;
 		if (repeate->amount_of_repeate >= MAX_CHECKS)
@@ -104,41 +101,12 @@ void	vm_check(t_cycles_to_die *repeate)
 		ft_printf("Cycle to die is now %d\n", CTD);
 }
 
-void	process_operation(void)
-{
-	int	i;
-
-	i = -1;
-	while(++i < g_cursors_amount)
-	{
-		choose_operaion(&g_cursors[i], GET_BYTE(g_cursors[i].cur_pos));
-		exec_operation(&g_cursors[i]);
-	}
-}
-
-void	push_vis(t_cycles_to_die repeate, char *status)
-{
-	push_to_render_battlefield();
-	push_info(repeate.amount_of_repeate, "**Running**");
-	SDL_RenderPresent(g_main_render);
-}
-
-void	*print_battlefield_and_free(void)
-{
-	print_battlefield();
-	free_all();
-	return (NULL);
-}
-
 void	*virtual_machine(void)
 {
 	t_cycles_to_die	repeate;
 	SDL_FRect		cell;
 
-	initialize_battlefield();
-	initialize_cursors();
-	initialise_main_info(&repeate);
-	introduce();
+	initialize_all(&repeate);
 	if (g_vm->dump == 0 || (g_vm->vis == 1 && !init()))
 		return (print_battlefield_and_free());
 	while (!VIS_QUIT && g_cursors_amount > 0)

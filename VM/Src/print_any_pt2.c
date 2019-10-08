@@ -57,3 +57,10 @@ void	introduce(void)
 			PLAYER(i).identifier, PLAYER(i).code_size,
 			PLAYER(i).name, PLAYER(i).comment);
 }
+
+void	push_vis(t_cycles_to_die repeate, char *status)
+{
+	push_to_render_battlefield();
+	push_info(repeate.amount_of_repeate, "**Running**");
+	SDL_RenderPresent(g_main_render);
+}
