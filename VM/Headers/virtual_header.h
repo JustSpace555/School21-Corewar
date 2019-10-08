@@ -151,6 +151,7 @@ void				show_bin_char(unsigned char c);
 void				print_players(void);
 void				print_battlefield(void);
 void				print_usage(void);
+void				introduce(void);
 
 /*
 **					Initialize
@@ -161,6 +162,7 @@ void				initialize_battlefield(void);
 void				initialize_cursors(void);
 void				initialize_g_players(void);
 void				initialise_main_info(t_cycles_to_die *repeate);
+void				fill_battlefield(void);
 
 /*
 **					Help

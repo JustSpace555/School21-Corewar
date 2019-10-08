@@ -70,6 +70,7 @@ void	initialize_battlefield(void)
 		g_battlefield[i].write_cycles = 0;
 		g_battlefield[i].cursor = false;
 	}
+	fill_battlefield();
 }
 
 void	initialize_cursors()

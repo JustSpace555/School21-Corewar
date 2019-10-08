@@ -101,13 +101,9 @@ void	push_winner(t_cycles_to_die repeate)
 				if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN
 					&& event.key.keysym.sym == SDLK_ESCAPE))
 					VIS_QUIT = 1;
-				if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
-				{
-					if (VIS_PAUSE == 1)
-						VIS_PAUSE = 0;
-					else
-						VIS_PAUSE = 1;
-				}
+				if (event.type == SDL_KEYDOWN
+					&& event.key.keysym.sym == SDLK_SPACE)
+					VIS_PAUSE = 1;
 			}
 	}
 	else if(g_vm->vis != 1 && !VIS_QUIT)

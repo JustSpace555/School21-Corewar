@@ -1,41 +1,5 @@
 #include "../Headers/virtual_header.h"
 
-void	fill_battlefield(void)
-{
-	int		i;
-	int		j;
-	float	diff;
-	float	temp;
-	int		byte;
-
-	diff = (float)MEM_SIZE / g_vm->amount_players;
-	temp = diff;
-	i = -1;
-	byte = 0;
-	while (++i < g_vm->amount_players)
-	{
-		g_players[i].start_position = byte;
-		g_battlefield[byte].cursor = true;
-		j = -1;
-		while (++j < PLAYER(i).code_size)
-		{
-			g_battlefield[byte].code = PLAYER(i).code[j];
-			choose_color(&g_battlefield[byte], i);
-			byte++;
-		}
-		while ((float)byte < diff && byte < MEM_SIZE)
-		{
-			g_battlefield[byte].color_b = 111;
-			g_battlefield[byte].color_g = 111;
-			g_battlefield[byte].color_r = 111;
-			g_battlefield[byte].code = 0x0;
-			g_battlefield[byte].color = 'n';
-			byte++;
-		}
-		diff += temp;
-	}
-}
-
 void	choose_operaion(t_cursor *cursor, unsigned char byte)
 {
 	if (cursor->operation_code == '\0')
@@ -108,18 +72,6 @@ void	exec_operation(t_cursor *cursor)
 	}
 }
 
-void	introduce(void)
-{
-	int	i;
-
-	i = -1;
-	ft_printf("Introducing contestants...\n");
-	while (++i < g_vm->amount_players)
-		ft_printf("* Player %d, weighting %d bytes, \"%s\" (\"%s\") !\n",
-			PLAYER(i).identifier, PLAYER(i).code_size,
-			PLAYER(i).name, PLAYER(i).comment);
-}
-
 void	vm_check(t_cycles_to_die *repeate)
 {
 	int	i;
@@ -169,13 +121,10 @@ void	virtual_machine(void)
 	SDL_FRect		cell;
 
 	initialize_battlefield();
-	fill_battlefield();
 	initialize_cursors();
 	initialise_main_info(&repeate);
 	introduce();
-	if (g_vm->vis == 1 && !init())
-		return ;
-	if (g_vm->dump == 0)
+	if (g_vm->dump == 0 || (g_vm->vis == 1 && !init()))
 	{
 		print_battlefield();
 		free_all();
