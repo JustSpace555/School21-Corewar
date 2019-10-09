@@ -136,6 +136,8 @@ void	ldi(t_cursor *cursor)
 				s_arg = 0;
 			cursor->reg[t_arg - 1] = get_int_data(cursor->cur_pos +
 										(f_arg + s_arg) % IDX_MOD);
+			if (g_vm->ver == 1)
+				print_ldi(cursor, f_arg, s_arg, t_arg);
 		}
 	}
 	move_cursor(cursor, 2, codage, 3);
