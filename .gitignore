@@ -55,3 +55,4 @@ CMakeLists.txt
 cmake-build-debug
 .idea
 .vscode
+corewar

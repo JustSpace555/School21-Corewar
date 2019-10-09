@@ -25,7 +25,7 @@ void	close_vis(void)
 	SDL_Quit();
 }
 
-void	free_cursors()
+void	free_cursors(void)
 {
 	t_cursors_list	*current;
 
