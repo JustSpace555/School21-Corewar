@@ -16,7 +16,7 @@ void	live(t_cursor *cursor)
 	g_battlefield[cursor->cur_pos].write_cycles = 100;
 	if (g_vm->ver == 1)
 		ft_printf("P %4d | live %d\n", cursor->cursror_id, arg);
-	if 	(g_vm->ver == 3)
+	if (g_vm->ver == 3)
 		ft_printf("Player %d (%s) is said to be alive\n", -arg, PLAYER(i).name);
 	g_amount_live_operations++;
 	move_cursor(cursor, 4, 0, 1);

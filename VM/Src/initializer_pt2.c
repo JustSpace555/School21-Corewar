@@ -1,6 +1,6 @@
 #include "../Headers/virtual_header.h"
 
-void	fill_battlefield(void)
+void			fill_battlefield(void)
 {
 	int		i;
 	int		j;
@@ -23,20 +23,12 @@ void	fill_battlefield(void)
 			choose_color(&g_battlefield[byte], i);
 			byte++;
 		}
-		while ((float)byte < diff && byte < MEM_SIZE)
-		{
-			g_battlefield[byte].color_b = 111;
-			g_battlefield[byte].color_g = 111;
-			g_battlefield[byte].color_r = 111;
-			g_battlefield[byte].code = 0x0;
-			g_battlefield[byte].color = 'n';
-			byte++;
-		}
+		fill_free_space_battlefield(&byte, diff);
 		diff += temp;
 	}
 }
 
-void	initialise_main_info(t_cycles_to_die *repeate)
+void			initialise_main_info(t_cycles_to_die *repeate)
 {
 	CURRENT_CYCLE = 0;
 	CTD = CYCLE_TO_DIE;
@@ -49,7 +41,7 @@ void	initialise_main_info(t_cycles_to_die *repeate)
 	repeate->amount_of_repeate = 0;
 }
 
-void	initialize_all(t_cycles_to_die *repeate)
+void			initialize_all(t_cycles_to_die *repeate)
 {
 	initialize_battlefield();
 	initialize_cursors();

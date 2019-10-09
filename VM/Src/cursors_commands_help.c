@@ -13,7 +13,7 @@ unsigned int	get_first_arg(t_cursor *cursor, unsigned char codage,
 	if ((codage & 0xC0) == 192)
 	{
 		address = get_short_data(pos) % IDX_MOD;
-		result =  get_int_data(cursor->cur_pos + address);
+		result = get_int_data(cursor->cur_pos + address);
 		*offset += 2;
 	}
 	else if ((codage & 0x80) == 128)
@@ -43,7 +43,7 @@ unsigned int	get_second_arg(t_cursor *cursor, unsigned char codage,
 	if ((codage & 0x30) == 48)
 	{
 		address = get_short_data(pos) % IDX_MOD;
-		result =  get_int_data(cursor->cur_pos + address);
+		result = get_int_data(cursor->cur_pos + address);
 		*offset += 2;
 	}
 	else if ((codage & 0x20) == 32)
@@ -73,7 +73,7 @@ unsigned int	get_third_arg(t_cursor *cursor, unsigned char codage,
 	if ((codage & 0xC) == 12)
 	{
 		address = get_short_data(pos) % IDX_MOD;
-		result =  get_int_data(cursor->cur_pos + address);
+		result = get_int_data(cursor->cur_pos + address);
 		*offset += 2;
 	}
 	else if ((codage & 0x8) == 8)
@@ -103,7 +103,7 @@ int				check_reg_write_arg(t_cursor *cursor, unsigned char codage,
 
 	and_num = 3 << 2 * (4 - arg_num);
 	eq_num = 1 << 2 * (4 - arg_num);
-	if((codage & and_num) == eq_num)
+	if ((codage & and_num) == eq_num)
 	{
 		if (check_reg(*value))
 			*value = cursor->reg[(*value) - 1];
