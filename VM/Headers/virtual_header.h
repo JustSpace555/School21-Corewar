@@ -44,6 +44,7 @@ typedef struct		s_vm
 	int				dump;
 	int				vis;
 	int				ver;
+	int				color_print;
 	int				last_live_player;
 	int				*order_idtfrs;
 	int				amount_players;
