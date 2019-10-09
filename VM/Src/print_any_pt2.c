@@ -12,7 +12,10 @@ void	print_battlefield(void)
 	{
 		if (print_bytes % CODE_PER_LINE == 0 && print_bytes != 0)
 			ft_printf("\n0x%04x : ", print_bytes);
-		print_battlefield_help(c);
+		if (g_vm->color_print)
+			print_battlefield_help(c);
+		else
+			ft_printf("%02hhx ", g_battlefield[c].code);
 		print_bytes++;
 	}
 	ft_printf("\n");
