@@ -17,8 +17,8 @@ int		make_g_player_size(int amount_bytes, uint8_t buffer[4], int i)
 		PLAYER(i).code_size = make_4_byte_int(buffer);
 		if (PLAYER(i).code_size > CHAMP_MAX_SIZE)
 		{
-			ft_printf("Error: %s's players size bigger than permitted \
-							(%d bytes > %d bytes)\n", PLAYER(i).name,
+			ft_printf("Error: File %s has too large code \
+				(%d bytes > %d bytes)\n", PLAYER(i).name,
 								PLAYER(i).code_size, CHAMP_MAX_SIZE);
 			return (0);
 		}

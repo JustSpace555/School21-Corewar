@@ -21,7 +21,7 @@ void	initialize_vm(void)
 	g_vm->dump = -1;
 	g_vm->vis = -1;
 	g_vm->ver = -1;
-	g_vm->color_print = 1;
+	g_vm->color_print = 0;
 	g_vm->last_live_player = 0;
 	g_vm->order_idtfrs = init_int_array(MAX_PLAYERS, 0);
 	g_vm->plr_nbr = (t_plr_nbr *)malloc(sizeof(t_plr_nbr) * MAX_PLAYERS);
