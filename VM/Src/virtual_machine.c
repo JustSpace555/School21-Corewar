@@ -31,7 +31,7 @@ void	choose_operaion(t_cursor *cursor, unsigned char byte)
 void	exec_operation_pt2(t_cursor *cursor)
 {
 	if (cursor->operation_code == 10)
-			ldi(cursor);
+		ldi(cursor);
 	else if (cursor->operation_code == 11)
 		sti(cursor);
 	else if (cursor->operation_code == 12)
@@ -84,12 +84,8 @@ void	vm_check(t_cycles_to_die *repeate)
 		g_cursors_amount = 0;
 	zeroing_nbr_live();
 	repeate->num_p_r = CTD;
-	if (CTD == repeate->num_r && CTD == repeate->num_p_r)
-		repeate->amount_of_repeate++;
-	else
-		repeate->amount_of_repeate = 0;
-	// repeate->amount_of_repeate = (CTD == repeate->num_r &&
-	// 		CTD == repeate->num_p_r) ? repeate->amount_of_repeate + 1 : 0;
+	repeate->amount_of_repeate = (CTD == repeate->num_r &&
+		CTD == repeate->num_p_r) ? repeate->amount_of_repeate + 1 : 0;
 	if (repeate->amount_of_repeate >= MAX_CHECKS
 		|| g_amount_live_operations >= NBR_LIVE)
 	{

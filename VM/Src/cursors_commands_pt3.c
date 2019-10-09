@@ -49,7 +49,10 @@ void	lld(t_cursor *cursor)
 		return ;
 	}
 	offset = 2;
-	f_arg = get_first_arg(cursor, codage, 4, &offset); //убрать усечение % IDX_MOD
+	if ((codage & 0xC0) == 0xC0)
+		f_arg = get_int_data(get_short_data(cursor->cur_pos + 2));
+	else
+		f_arg = get_first_arg(cursor, codage, 4, &offset);
 	s_arg = get_second_arg(cursor, codage, 4, &offset);
 	if (check_reg(s_arg))
 	{

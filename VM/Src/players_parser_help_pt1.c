@@ -41,3 +41,15 @@ int		get_code_size(u_int8_t buffer[4])
 		return (-1);
 	return (temp);
 }
+
+int		if_header_bytes(int amount_bytes, uint8_t buffer[4])
+{
+	if (amount_bytes == BYTES_AFTER_HEADER)
+		if (!check_for_header(buffer))
+		{
+			ft_printf("Virtual Machine error: \
+						No magic header in file\n");
+			return (0);
+		}
+	return (1);
+}
