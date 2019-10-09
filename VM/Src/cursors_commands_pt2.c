@@ -55,7 +55,7 @@ void	or(t_cursor *cursor)
 	{
 		cursor->reg[third_arg - 1] = (first_arg | second_arg);
 		if (g_vm->ver == 1)
-			ft_printf("P %4d | and %d %d r%d\n", cursor->cursror_id,
+			ft_printf("P %4d | or %d %d r%d\n", cursor->cursror_id,
 									first_arg, second_arg, third_arg);
 		cursor->carry = (cursor->reg[third_arg - 1] == 0) ? true : false;
 	}
@@ -86,7 +86,7 @@ void	xor(t_cursor *cursor)
 	{
 		cursor->reg[third_arg - 1] = (first_arg ^ second_arg);
 		if (g_vm->ver == 1)
-			ft_printf("P %4d | and %d %d r%d\n", cursor->cursror_id,
+			ft_printf("P %4d | xor %d %d r%d\n", cursor->cursror_id,
 									first_arg, second_arg, third_arg);
 		cursor->carry = (cursor->reg[third_arg - 1] == 0) ? true : false;
 	}
@@ -105,6 +105,17 @@ void	zjmp(t_cursor *cursor)
 	if (g_vm->ver == 1)
 		ft_printf("P %4d | zjmp %d %s\n", cursor->cursror_id, address + 1,
 										(cursor->carry) ? "OK" : "FAILED");
+}
+
+
+void	print_ldi(t_cursor *cursor, int f_arg, int s_arg, int t_arg)
+{
+	ft_printf("P %4d | ldi %d %d r%d\n", cursor->cursror_id, f_arg, s_arg, t_arg);
+	ft_printf("       | -> load from %d + %d = %d (with pc and mod %d)\n",
+											f_arg,
+											s_arg,
+											f_arg + s_arg,
+											cursor->cur_pos + (f_arg + s_arg) % IDX_MOD);
 }
 
 void	ldi(t_cursor *cursor)
@@ -134,6 +145,8 @@ void	ldi(t_cursor *cursor)
 			s_arg = 0;
 		cursor->reg[t_arg - 1] = get_int_data(cursor->cur_pos +
 									(f_arg + s_arg) % IDX_MOD);
+		if (g_vm->ver == 1)
+			print_ldi(cursor, f_arg, s_arg, t_arg);							
 	}
 	move_cursor(cursor, 2, codage, 3);
 }

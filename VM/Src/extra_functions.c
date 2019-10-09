@@ -45,6 +45,10 @@ void	process_operation(void)
 	t_cursors_list	*current;
 
 	current = g_cursors;
+	if (CURRENT_CYCLE == 4981)
+	{
+		
+	}
 	while (current)
 	{
 		choose_operaion(&current->cursor, GET_BYTE(current->cursor.cur_pos));
