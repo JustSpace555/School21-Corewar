@@ -121,12 +121,10 @@ void	ldi(t_cursor *cursor)
 			&& check_reg_write_arg(cursor, codage, &f_arg, 1)
 			&& check_reg_write_arg(cursor, codage, &s_arg, 2))
 		{
-			if ((codage & 0xC0) == 0xC0)
-				s_arg = 0;
+			s_arg = ((codage & 0xC0) == 0xC0) ? 0 : s_arg;
 			cursor->reg[t_arg - 1] = get_int_data(cursor->cur_pos +
 										(f_arg + s_arg) % IDX_MOD);
-			if (g_vm->ver == 1)
-				print_ldi(cursor, f_arg, s_arg, t_arg);
+			check_and_print_ldi(cursor, f_arg, s_arg, t_arg);
 		}
 	}
 	move_cursor(cursor, 2, codage, 3);

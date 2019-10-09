@@ -157,6 +157,8 @@ void						print_ldi(t_cursor *cursor, int f_arg,
 											int s_arg, int t_arg);
 void						print_lldi(t_cursor *cursor, int f_arg,
 											int s_arg, int t_arg);
+void						check_and_print_ldi(t_cursor *cursor,
+								int f_arg, int s_arg, int t_arg);
 
 /*
 **							Initialize

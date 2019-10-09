@@ -36,3 +36,9 @@ void	print_lldi(t_cursor *cursor, int f_arg, int s_arg, int t_arg)
 											cursor->cur_pos
 											+ (f_arg + s_arg));
 }
+
+void	check_and_print_ldi(t_cursor *cursor, int f_arg, int s_arg, int t_arg)
+{
+	if (g_vm->ver == 1)
+		print_ldi(cursor, f_arg, s_arg, t_arg);
+}
