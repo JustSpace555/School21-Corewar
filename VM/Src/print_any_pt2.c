@@ -28,7 +28,7 @@ void	introduce(void)
 	i = -1;
 	ft_printf("Introducing contestants...\n");
 	while (++i < g_vm->amount_players)
-		ft_printf("* Player %d, weighting %d bytes, \"%s\" (\"%s\") !\n",
+		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
 			PLAYER(i).identifier, PLAYER(i).code_size,
 			PLAYER(i).name, PLAYER(i).comment);
 }
