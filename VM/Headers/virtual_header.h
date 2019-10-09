@@ -163,11 +163,6 @@ void				initialize_all(t_cycles_to_die *repeate);
 **					Help
 */
 
-int					make_4_byte_int(u_int8_t buffer[4]);
-void				copy_bytes_to_string(char *str, u_int8_t buffer[4],
-						int amount_of_bytes, int code_size);
-int					check_for_header(u_int8_t buffer[4]);
-int					get_code_size(u_int8_t buffer[4]);
 int					ft_is_strdigit(char *str);
 void				free_g_players(void);
 void				choose_color(t_battlefield *cell, int i);
@@ -187,6 +182,25 @@ void				process_operation(void);
 void				vis_and_check(t_cycles_to_die *repeate);
 void				vm_check(t_cycles_to_die *repeate);
 void				zeroing_cursors_args(int *plr_id);
+
+/*
+**					Players parser help
+*/
+
+int					make_4_byte_int(u_int8_t buffer[4]);
+void				copy_bytes_to_string(char *str, u_int8_t buffer[4],
+						int amount_of_bytes, int code_size);
+int					check_for_header(u_int8_t buffer[4]);
+int					get_code_size(u_int8_t buffer[4]);
+int					check_fd(int *fd, char *champion_file);
+void				initialize_one_g_player(int i);
+void				zeroing_string_size(int *string_size, int amount_bytes);
+int					if_header_bytes(int amount_bytes, uint8_t buffer[4]);
+void				make_g_player_name(int amount_bytes, uint8_t buffer[4], int i, int *string_size);
+int					make_g_player_size(int amount_bytes, uint8_t buffer[4], int i);
+void				make_g_player_comment(int amount_bytes, uint8_t buffer[4], int i, int *string_size);
+void				make_g_player_code(int amount_bytes, uint8_t buffer[4], int i, int *string_size);
+int					check_for_overflow(void);
 
 /*
 **					Main funcions

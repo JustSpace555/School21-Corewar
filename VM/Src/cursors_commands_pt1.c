@@ -69,10 +69,9 @@ void	st(t_cursor *cursor)
 			ft_printf("P %4d | st r%d %d\n", cursor->cursror_id,
 											src_reg, temp);
 	}
-	else if ((codage & 0x10) == 16)
-		if (check_reg(GET_CUR_POS_BYTE(&cursor, 3)))
-			cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] =
-									cursor->reg[src_reg - 1];
+	else if ((codage & 0x10) == 16 && check_reg(GET_CUR_POS_BYTE(&cursor, 3)))
+		cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] =
+								cursor->reg[src_reg - 1];
 	move_cursor(cursor, 4, codage, 2);
 }
 

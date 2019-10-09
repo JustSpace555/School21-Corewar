@@ -7,9 +7,9 @@ void	free_g_players(void)
 	i = -1;
 	while (++i < g_vm->amount_players)
 	{
-		free(PLAYER(i).code);
-		free(PLAYER(i).comment);
 		free(PLAYER(i).name);
+		free(PLAYER(i).comment);
+		free(PLAYER(i).code);
 		if (PLAYER(i).aff_out)
 			free(PLAYER(i).aff_out);
 	}
