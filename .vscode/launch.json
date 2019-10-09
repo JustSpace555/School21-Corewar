@@ -4,17 +4,19 @@
 	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 	"version": "0.2.0",
 	"configurations": [
+
 		{
 			"name": "(lldb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/corewar",
-			"args": ["vm_champs/champs/ex.cor"],
+			// "args": ["vm_champs/champs/championships/2018/bcozic/pai_mu_tan.cor", "vm_champs/champs/championships/2018/mbenjell3/fast.cor", "-vi"],
+			//"args": ["vm_champs/champs/championships/2018/arobion/tchupka.cor", "vm_champs/champs/championships/2018/chaydont/Bazou.cor", "-vi"],
+			"args": ["vm_champs/champs/jumper.cor", "vm_champs/champs/jumper.cor", "vm_champs/jumper.cor"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
-			"externalConsole": false,
+			"externalConsole": true,
 			"MIMode": "lldb"
 		}
-	]
-}
+	]}

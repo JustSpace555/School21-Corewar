@@ -1,10 +1,10 @@
 #include "../Headers/virtual_header.h"
 
-int 	check_file(char *argument)
+int		check_file(char *argument)
 {
-	int i;
-	int flag_dot;
-	char *extansion;
+	int		i;
+	int		flag_dot;
+	char	*extansion;
 
 	extansion = "cor";
 	flag_dot = 0;
@@ -32,7 +32,7 @@ int 	check_file(char *argument)
 	return (flag_dot == 1) ? -1 : 0;
 }
 
-int 	handler_n(int nbr, t_vm *flags, int index)
+int		handler_n(int nbr, t_vm *flags, int index)
 {
 	if (nbr < 1 || nbr > MAX_PLAYERS)
 		return (-1);
@@ -65,7 +65,8 @@ int		check_flags(int argc, char **argv, int *i, t_vm *vm)
 	else if (ft_strcmp("-n", argv[*i]) == 0)
 	{
 		if (*i + 2 != argc)
-			if (ft_is_strdigit(argv[*i + 1]) == 1 && check_file(argv[*i + 2]) == 1)
+			if (ft_is_strdigit(argv[*i + 1]) == 1
+				&& check_file(argv[*i + 2]) == 1)
 			{
 				rtn = handler_n(ft_atoi(argv[*i + 1]), vm, *i + 2);
 				vm->amount_players++;
@@ -73,6 +74,16 @@ int		check_flags(int argc, char **argv, int *i, t_vm *vm)
 			}
 	}
 	else if (ft_strcmp("-v", argv[*i]) == 0)
+	{
+		if (*i + 1 != argc)
+			if (ft_is_strdigit(argv[*i + 1]) == 1)
+			{
+				vm->ver = ft_atoi(argv[*i + 1]);
+				rtn = 1;
+				*i += 1;
+			}
+	}
+	else if (ft_strcmp("-vi", argv[*i]) == 0)
 	{
 		vm->vis = 1;
 		rtn = 1;
