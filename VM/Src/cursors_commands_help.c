@@ -10,10 +10,10 @@ unsigned int	get_first_arg(t_cursor *cursor, unsigned char codage,
 
 	result = 0;
 	pos = (cursor->cur_pos + *offset) % MEM_SIZE;
-	if ((codage & 0xC0) == 192) // 2 arg T_IND
+	if ((codage & 0xC0) == 192)
 	{
 		address = get_short_data(pos) % IDX_MOD;
-		result =  get_int_data(cursor->cur_pos + address); //проверить с учетом позиции каретки или нет
+		result =  get_int_data(cursor->cur_pos + address);
 		*offset += 2;
 	}
 	else if ((codage & 0x80) == 128)
@@ -43,7 +43,7 @@ unsigned int	get_second_arg(t_cursor *cursor, unsigned char codage,
 	if ((codage & 0x30) == 48)
 	{
 		address = get_short_data(pos) % IDX_MOD;
-		result =  get_int_data(cursor->cur_pos + address); //проверить с учетом позиции каретки или нет
+		result =  get_int_data(cursor->cur_pos + address);
 		*offset += 2;
 	}
 	else if ((codage & 0x20) == 32)
@@ -70,10 +70,10 @@ unsigned int	get_third_arg(t_cursor *cursor, unsigned char codage,
 
 	result = 0;
 	pos = (cursor->cur_pos + *offset) % MEM_SIZE;
-	if ((codage & 0xC) == 12) // 2 arg T_IND
+	if ((codage & 0xC) == 12)
 	{
 		address = get_short_data(pos) % IDX_MOD;
-		result =  get_int_data(cursor->cur_pos + address); //проверить с учетом позиции каретки или нет
+		result =  get_int_data(cursor->cur_pos + address);
 		*offset += 2;
 	}
 	else if ((codage & 0x8) == 8)

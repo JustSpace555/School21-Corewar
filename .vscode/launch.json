@@ -12,7 +12,7 @@
 			"program": "${workspaceFolder}/corewar",
 			// "args": ["vm_champs/champs/championships/2018/bcozic/pai_mu_tan.cor", "vm_champs/champs/championships/2018/mbenjell3/fast.cor", "-vi"],
 			//"args": ["vm_champs/champs/championships/2018/arobion/tchupka.cor", "vm_champs/champs/championships/2018/chaydont/Bazou.cor", "-vi"],
-			"args": ["champs/jumper.cor", "vm_champs/champs/jumper.cor"],
+			"args": ["vm_champs/champs/jumper.cor", "vm_champs/champs/jumper.cor"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

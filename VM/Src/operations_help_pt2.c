@@ -33,7 +33,7 @@ void			move_cursor(t_cursor *cursor, int label_size,
 	}
 	if (amount_cursors_cell == 1)
 		g_battlefield[cursor->cur_pos].cursor = false;
-	cursor->cur_pos += skip + 1; //учесть -1, 0
+	cursor->cur_pos += skip + 1;
 	if (cursor->cur_pos >= MEM_SIZE)
 		cursor->cur_pos %= MEM_SIZE;
 	g_battlefield[cursor->cur_pos].cursor = true;
