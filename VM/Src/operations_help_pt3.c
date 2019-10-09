@@ -1,6 +1,6 @@
 #include "../Headers/virtual_header.h"
 
-void	make_one_new_cursor(t_cursor cursor)
+void			make_one_new_cursor(t_cursor cursor)
 {
 	t_cursors_list	*current;
 	int				i;
@@ -8,7 +8,6 @@ void	make_one_new_cursor(t_cursor cursor)
 	current = make_new_cursors_list();
 	current->next = g_cursors;
 	g_cursors = current;
-
 	current->cursor = cursor;
 	current->cursor.cursror_id = g_cursors_amount + 1;
 	g_battlefield[cursor.cur_pos].cursor = true;
@@ -17,4 +16,12 @@ void	make_one_new_cursor(t_cursor cursor)
 		i++;
 	PLAYER(i).amount_cursors++;
 	g_cursors_amount++;
+}
+
+unsigned int	get_lldi_arg(unsigned char codage, int f_arg,
+								int s_arg, t_cursor *cursor)
+{
+	if ((codage & 0xC0) == 0xC0)
+		return (get_int_data(cursor->cur_pos + f_arg % IDX_MOD));
+	return (get_int_data(cursor->cur_pos + f_arg + s_arg));
 }

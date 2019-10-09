@@ -30,7 +30,6 @@ int		check_for_overflow(void)
 	return (1);
 }
 
-
 int		check_fd(int *fd, char *champion_file)
 {
 	*fd = open(champion_file, O_RDONLY);

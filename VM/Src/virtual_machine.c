@@ -115,9 +115,7 @@ void	*virtual_machine(void)
 			visualisator_event();
 		if (!VIS_PAUSE)
 		{
-			CURRENT_CYCLE++;
-			if (g_vm->ver == 2)
-				ft_printf("It is now cycle %d\n", CURRENT_CYCLE);
+			inc_current_cycle_and_print();
 			process_operation();
 			vis_and_check(&repeate);
 			if (CTD > 0 && g_vm->dump == CURRENT_CYCLE)

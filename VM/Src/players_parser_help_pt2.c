@@ -1,10 +1,12 @@
 #include "../Headers/virtual_header.h"
 
-void	make_g_player_name(int amount_bytes, uint8_t buffer[4], int i, int *string_size)
+void	make_g_player_name(int amount_bytes, uint8_t buffer[4],
+										int i, int *string_size)
 {
 	if (amount_bytes > BYTES_AFTER_HEADER &&
 			amount_bytes <= BYTES_AFTER_NAME)
-		copy_bytes_to_string(PLAYER(i).name, buffer, *string_size, *string_size += 4);
+		copy_bytes_to_string(PLAYER(i).name, buffer,
+					*string_size, *string_size += 4);
 }
 
 int		make_g_player_size(int amount_bytes, uint8_t buffer[4], int i)
@@ -24,14 +26,17 @@ int		make_g_player_size(int amount_bytes, uint8_t buffer[4], int i)
 	return (1);
 }
 
-void	make_g_player_comment(int amount_bytes, uint8_t buffer[4], int i, int *string_size)
+void	make_g_player_comment(int amount_bytes, uint8_t buffer[4],
+											int i, int *string_size)
 {
 	if (amount_bytes > BYTES_AFTER_CODE_SIZE &&
 			amount_bytes <= BYTES_AFTER_COMMENT)
-		copy_bytes_to_string(PLAYER(i).comment, buffer, *string_size, *string_size += 4);
+		copy_bytes_to_string(PLAYER(i).comment, buffer,
+						*string_size, *string_size += 4);
 }
 
-void	make_g_player_code(int amount_bytes, uint8_t buffer[4], int i, int *string_size)
+void	make_g_player_code(int amount_bytes, uint8_t buffer[4],
+										int i, int *string_size)
 {
 	if (amount_bytes > BYTES_AFTER_COMMENT + NULL_BYTES)
 	{
@@ -41,7 +46,8 @@ void	make_g_player_code(int amount_bytes, uint8_t buffer[4], int i, int *string_
 									PLAYER(i).code_size);
 			ft_bzero(PLAYER(i).code, PLAYER(i).code_size);
 		}
-		copy_bytes_to_string(PLAYER(i).code, buffer, *string_size, *string_size += 4);
+		copy_bytes_to_string(PLAYER(i).code, buffer,
+					*string_size, *string_size += 4);
 	}
 }
 

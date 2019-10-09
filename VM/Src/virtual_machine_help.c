@@ -1,6 +1,7 @@
 #include "../Headers/virtual_header.h"
 
-void	check_alive_cursors_cycle_body(t_cursors_list **current, t_cursors_list **prev)
+void	check_alive_cursors_cycle_body(t_cursors_list **current,
+										t_cursors_list **prev)
 {
 	int	i;
 
@@ -36,16 +37,15 @@ void	check_alive_cursors(void)
 	alive_cursors = 0;
 	while (current)
 	{
-		if (!(CURRENT_CYCLE - current->cursor.last_alive < CURRENT_CYCLE -
-			LAST_CYCLE_CHECK || (LAST_CYCLE_CHECK == 0 &&
-								current->cursor.last_alive != 0)))
-			check_alive_cursors_cycle_body(&current, &prev);
-		else
+		if (CURRENT_CYCLE - current->cursor.last_alive < CURRENT_CYCLE -
+			LAST_CYCLE_CHECK)
 		{
 			prev = current;
 			current = current->next;
 			alive_cursors++;
 		}
+		else
+			check_alive_cursors_cycle_body(&current, &prev);
 	}
 	g_cursors_amount = alive_cursors;
 }
@@ -75,4 +75,11 @@ void	push_winner(t_cycles_to_die repeate)
 	}
 	else if (g_vm->vis != 1 && !VIS_QUIT)
 		push_winner_terminal();
+}
+
+void	inc_current_cycle_and_print(void)
+{
+	CURRENT_CYCLE++;
+	if (g_vm->ver == 2)
+		ft_printf("It is now cycle %d\n", CURRENT_CYCLE);
 }

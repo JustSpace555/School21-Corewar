@@ -1,6 +1,6 @@
 #include "../Headers/virtual_header.h"
 
-int		check_for_cycle_exec(t_cursor *cursor)
+int				check_for_cycle_exec(t_cursor *cursor)
 {
 	if (cursor->cycle_exec > 0)
 	{
@@ -15,13 +15,14 @@ int		check_for_cycle_exec(t_cursor *cursor)
 void			move_cursor(t_cursor *cursor, int label_size,
 							unsigned char byte_val, int amount_arguments)
 {
-	int	skip;
-	int	amount_cursors_cell;
+	int				skip;
+	int				amount_cursors_cell;
 	t_cursors_list	*current;
 
 	current = g_cursors;
 	if (byte_val)
-		skip = get_amount_bytes_to_skip(byte_val, label_size, amount_arguments) + 1;
+		skip = get_amount_bytes_to_skip(byte_val,
+				label_size, amount_arguments) + 1;
 	else
 		skip = label_size;
 	amount_cursors_cell = 0;

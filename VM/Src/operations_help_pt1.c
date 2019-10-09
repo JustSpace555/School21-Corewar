@@ -31,7 +31,7 @@ short	arena_truncation(short address)
 		address %= MEM_SIZE;
 	if (address < 0)
 		address = MEM_SIZE + address;
-	return address;
+	return (address);
 }
 
 void	write_short_data(short addres, short write, char color)

@@ -49,7 +49,7 @@ void	push_winner_terminal(void)
 	i = -1;
 	max = 0;
 	while (++i < g_vm->amount_players)
-		if (PLAYER(i).last_alive > max)
+		if (PLAYER(i).last_alive >= max)
 		{
 			max = PLAYER(i).last_alive;
 			id = i;

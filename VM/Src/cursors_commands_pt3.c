@@ -4,7 +4,6 @@ void	sti(t_cursor *cursor)
 {
 	unsigned char	codage;
 	int				src_reg;
-	int				address;
 	int				second_arg;
 	int				third_arg;
 	unsigned short	offset;
@@ -14,22 +13,18 @@ void	sti(t_cursor *cursor)
 	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
 	second_arg = 0;
 	third_arg = 0;
-	if ((codage & 0xC0) != 0x40 || (codage & 0x30) == 0 ||
+	if (!((codage & 0xC0) != 0x40 || (codage & 0x30) == 0 ||
 		(codage & 0xC) == 0xC || (codage & 0xC) == 0 ||
-		src_reg > REG_NUMBER || src_reg == 0)
+		src_reg > REG_NUMBER || src_reg == 0))
 	{
-		move_cursor(cursor, 2, codage, 3);
-		return ;
-	}
-	second_arg = (int)get_second_arg(cursor, codage, 2, &offset);
-	third_arg = (int)get_third_arg(cursor, codage, 2, &offset);
-	if (g_vm->ver == 1)
+		second_arg = (int)get_second_arg(cursor, codage, 2, &offset);
+		third_arg = (int)get_third_arg(cursor, codage, 2, &offset);
+		if (g_vm->ver == 1)
 			print_sti(cursor, src_reg, second_arg, third_arg);
-	if (check_reg_write_arg(cursor, codage, &second_arg, 2) &&
-		check_reg_write_arg(cursor, codage, &third_arg, 3))
-	{
-		address = cursor->cur_pos + (second_arg + third_arg) % IDX_MOD;
-		write_int_data(address, cursor->reg[src_reg - 1], cursor->color);
+		if (check_reg_write_arg(cursor, codage, &second_arg, 2) &&
+			check_reg_write_arg(cursor, codage, &third_arg, 3))
+			write_int_data(cursor->cur_pos + (second_arg + third_arg) %
+						IDX_MOD, cursor->reg[src_reg - 1], cursor->color);
 	}
 	move_cursor(cursor, 2, codage, 3);
 }
@@ -42,24 +37,22 @@ void	lld(t_cursor *cursor)
 	int				s_arg;
 
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
-	if ((codage & 0xC0) == 0 || (codage & 0xC0) == 0x40 ||
-								(codage & 0x30) != 0x10)
+	if (!((codage & 0xC0) == 0 || (codage & 0xC0) == 0x40 ||
+								(codage & 0x30) != 0x10))
 	{
-		move_cursor(cursor, 4, codage, 2);
-		return ;
-	}
-	offset = 2;
-	if ((codage & 0xC0) == 0xC0)
-		f_arg = get_int_data(get_short_data(cursor->cur_pos + 2));
-	else
-		f_arg = get_first_arg(cursor, codage, 4, &offset);
-	s_arg = get_second_arg(cursor, codage, 4, &offset);
-	if (check_reg(s_arg))
-	{
-		cursor->reg[s_arg - 1] = f_arg;
-		if (g_vm->ver == 1)
-			ft_printf("P %4d | lld %d r%d\n", cursor->cursror_id,
-													f_arg, s_arg);
+		offset = 2;
+		if ((codage & 0xC0) == 0xC0)
+			f_arg = get_int_data(get_short_data(cursor->cur_pos + 2));
+		else
+			f_arg = get_first_arg(cursor, codage, 4, &offset);
+		s_arg = get_second_arg(cursor, codage, 4, &offset);
+		if (check_reg(s_arg))
+		{
+			cursor->reg[s_arg - 1] = f_arg;
+			if (g_vm->ver == 1)
+				ft_printf("P %4d | lld %d r%d\n", cursor->cursror_id,
+														f_arg, s_arg);
+		}
 	}
 	move_cursor(cursor, 4, codage, 2);
 }
@@ -73,32 +66,20 @@ void	lldi(t_cursor *cursor)
 	int				t_arg;
 
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
-	if ((codage & 0xC0) == 0 || (codage & 0x30) == 0x30 ||
-		(codage & 0x30) == 0 || (codage & 0xC) != 4)
+	if (!((codage & 0xC0) == 0 || (codage & 0x30) == 0x30 ||
+		(codage & 0x30) == 0 || (codage & 0xC) != 4))
 	{
-		move_cursor(cursor, 2, codage, 3);
-		return ;
-	}
-	offset = 2;
-	f_arg = (int)get_first_arg(cursor, codage, 2, &offset);
-	s_arg = (int)get_second_arg(cursor, codage, 2, &offset);
-	t_arg = (int)get_third_arg(cursor, codage, 2, &offset);
-	if (!check_reg(t_arg))
-	{
-		if (!check_reg_write_arg(cursor, codage, &f_arg, 1) ||
-			!check_reg_write_arg(cursor, codage, &s_arg, 2))
+		offset = 2;
+		f_arg = get_first_arg(cursor, codage, 2, &offset);
+		s_arg = get_second_arg(cursor, codage, 2, &offset);
+		t_arg = get_third_arg(cursor, codage, 2, &offset);
+		if (check_reg(t_arg) && check_reg_write_arg(cursor, codage, &f_arg, 1)
+			&& check_reg_write_arg(cursor, codage, &s_arg, 2))
 		{
-			move_cursor(cursor, 2, codage, 3);
-			return ;
+			cursor->reg[t_arg - 1] = get_lldi_arg(codage, f_arg, s_arg, cursor);
+			if (g_vm->ver == 1)
+				print_lldi(cursor, f_arg, s_arg, t_arg);
 		}
-		if ((codage & 0xC0) == 0xC0)
-			cursor->reg[t_arg - 1] = get_int_data(cursor->cur_pos +
-													f_arg % IDX_MOD);
-		else
-			cursor->reg[t_arg - 1] = get_int_data(cursor->cur_pos +
-													f_arg + s_arg);
-        if (g_vm->ver == 1)
-            print_lldi(cursor, f_arg, s_arg, t_arg)                                                    ;
 	}
 	move_cursor(cursor, 2, codage, 3);
 }
@@ -137,28 +118,22 @@ void	aff(t_cursor *cursor)
 	dest_reg = GET_CUR_POS_BYTE(&cursor, 1);
 	if (check_reg(dest_reg))
 	{
-		if (g_vm->vis)
+		i = -1;
+		while (cursor->player_id != PLAYER(++i).identifier)
+			;
+		if (!PLAYER(i).aff_out)
 		{
-			i = -1;
-			while (cursor->player_id != PLAYER(++i).identifier)
-				;
-			if (!PLAYER(i).aff_out)
-			{
-				PLAYER(i).aff_out = (char *)malloc(sizeof(char) * 2);
-				ft_bzero(PLAYER(i).aff_out, 2);
-				PLAYER(i).aff_out[0] = cursor->reg[dest_reg - 1] & 256;
-			}
-			else
-			{
-				temp = PLAYER(i).aff_out;
-				out = cursor->reg[dest_reg - 1] % 256;
-				PLAYER(i).aff_out = ft_strjoin(PLAYER(i).aff_out, &out);
-				free(temp);
-			}
+			PLAYER(i).aff_out = (char *)malloc(sizeof(char) * 2);
+			ft_bzero(PLAYER(i).aff_out, 2);
+			PLAYER(i).aff_out[0] = cursor->reg[dest_reg - 1] % 256;
 		}
-		else
-			ft_printf("Player #%u out: %c", cursor->cursror_id,
-											cursor->reg[dest_reg - 1] % 256);
+		temp = PLAYER(i).aff_out;
+		out = cursor->reg[dest_reg - 1] % 256;
+		PLAYER(i).aff_out = ft_strjoin(PLAYER(i).aff_out, &out);
+		free(temp);
+		if (g_vm->vis == -1) // Сделать отдельный флаг для aff
+			ft_printf("Player #%u out: %s\n", cursor->cursror_id,
+											PLAYER(i).aff_out);
 	}
 	move_cursor(cursor, 2, 0, 1);
 }
