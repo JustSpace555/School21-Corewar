@@ -101,17 +101,6 @@ void	zjmp(t_cursor *cursor)
 										(cursor->carry) ? "OK" : "FAILED");
 }
 
-
-void	print_ldi(t_cursor *cursor, int f_arg, int s_arg, int t_arg)
-{
-	ft_printf("P %4d | ldi %d %d r%d\n", cursor->cursror_id, f_arg, s_arg, t_arg);
-	ft_printf("       | -> load from %d + %d = %d (with pc and mod %d)\n",
-											f_arg,
-											s_arg,
-											f_arg + s_arg,
-											cursor->cur_pos + (f_arg + s_arg) % IDX_MOD);
-}
-
 void	ldi(t_cursor *cursor)
 {
 	unsigned char	codage;

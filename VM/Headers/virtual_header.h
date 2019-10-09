@@ -145,7 +145,13 @@ void				print_battlefield(void);
 void				print_usage(void);
 void				introduce(void);
 void				push_vis(t_cycles_to_die repeate, char *status);
+
+/*
+**					Print cursors help
+*/
 void				print_sti(t_cursor *cursor, int reg, int sec_arg, int third_arg);
+void				print_ldi(t_cursor *cursor, int f_arg, int s_arg, int t_arg);
+void				print_lldi(t_cursor *cursor, int f_arg, int s_arg, int t_arg);
 
 /*
 **					Initialize
@@ -157,6 +163,7 @@ t_cursors_list		*make_new_cursors_list(void);
 void				initialize_cursors(void);
 void				initialize_g_players(void);
 void				initialise_main_info(t_cycles_to_die *repeate);
+void				fill_free_space_battlefield(int *byte, int diff);
 void				fill_battlefield(void);
 void				initialize_all(t_cycles_to_die *repeate);
 

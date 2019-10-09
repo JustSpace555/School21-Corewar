@@ -64,16 +64,6 @@ void	lld(t_cursor *cursor)
 	move_cursor(cursor, 4, codage, 2);
 }
 
-void	print_lldi(t_cursor *cursor, int f_arg, int s_arg, int t_arg)
-{
-	ft_printf("P %4d | lldi %d %d r%d\n", cursor->cursror_id, f_arg, s_arg, t_arg);
-	ft_printf("       | -> load from %d + %d = %d (with pc %d)\n",
-											f_arg,
-											s_arg,
-											f_arg + s_arg,
-											cursor->cur_pos + (f_arg + s_arg));
-}
-
 void	lldi(t_cursor *cursor)
 {
 	unsigned char	codage;
