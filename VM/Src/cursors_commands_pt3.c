@@ -52,6 +52,7 @@ void	lld(t_cursor *cursor)
 			if (g_vm->ver == 1)
 				ft_printf("P %4d | lld %d r%d\n", cursor->cursror_id,
 														f_arg, s_arg);
+			cursor->carry = (cursor->reg[s_arg - 1] == 0) ? true : false;
 		}
 	}
 	move_cursor(cursor, 4, codage, 2);
@@ -79,6 +80,7 @@ void	lldi(t_cursor *cursor)
 			cursor->reg[t_arg - 1] = get_lldi_arg(codage, f_arg, s_arg, cursor);
 			if (g_vm->ver == 1)
 				print_lldi(cursor, f_arg, s_arg, t_arg);
+			cursor->carry = (cursor->reg[t_arg - 1] == 0) ? true : false;
 		}
 	}
 	move_cursor(cursor, 2, codage, 3);

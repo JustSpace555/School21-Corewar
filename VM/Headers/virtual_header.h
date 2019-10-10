@@ -25,7 +25,6 @@
 # define AMOUNT_CHECKS g_main_info[3]
 # define VIS_QUIT g_main_info[4]
 # define VIS_PAUSE g_main_info[5]
-# define CHECK_CYCLES(c, w) if((*c)->cycle_exec == 0) (*c)->cycle_exec = w;
 
 typedef enum
 {
