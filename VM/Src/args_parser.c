@@ -12,7 +12,7 @@ int		check_file(char *argument)
 	while (argument[++i])
 	{
 		if (argument[i] == '.')
-			flag_dot = 1;
+			flag_dot += 1;
 		else if (flag_dot == 1)
 		{
 			if (argument[i] == *extansion)
@@ -24,7 +24,9 @@ int		check_file(char *argument)
 			else
 				return (-1);
 		}
-		else if (flag_dot == 2)
+		else if (flag_dot == 2 && argument[i] == '/')
+			flag_dot = 0;
+		else if (flag_dot >= 2)
 			return (-1);
 	}
 	if (flag_dot == 2)

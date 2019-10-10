@@ -42,17 +42,17 @@ void	push_vis(t_cycles_to_die repeate, char *status)
 
 void	push_winner_terminal(void)
 {
-	int	i;
-	int	id;
-	int	max;
+	// int	i;
+	// int	id;
+	// int	max;
 
-	i = -1;
-	max = 0;
-	while (++i < g_vm->amount_players)
-		if (PLAYER(i).last_alive >= max)
-		{
-			max = PLAYER(i).last_alive;
-			id = i;
-		}
-	ft_printf("Contestant %d, \"%s\", has won !\n", id + 1, PLAYER(id).name);
+	// i = -1;
+	// max = 0;
+	// while (++i < g_vm->amount_players)
+	// 	if (PLAYER(i).last_alive >= max)
+	// 	{
+	// 		max = PLAYER(i).last_alive;
+	// 		id = i;
+	// 	}
+	ft_printf("Contestant %d, \"%s\", has won !\n", g_vm->last_live_player, PLAYER(g_vm->last_live_player - 1).name);
 }

@@ -5,12 +5,18 @@ void	live(t_cursor *cursor)
 	int	i;
 	int	arg;
 
+	if (CURRENT_CYCLE == 24366)
+	{
+		
+	}
 	i = 0;
 	while (PLAYER(i).identifier != cursor->player_id)
 		i++;
 	arg = get_int_data(cursor->cur_pos + 1);
 	if (arg == -PLAYER(i).identifier)
 		PLAYER(i).last_alive = CURRENT_CYCLE;
+	if (ft_abs(arg) > 0 && ft_abs(arg) <= g_vm->amount_players)
+		g_vm->last_live_player = ft_abs(arg);
 	PLAYER(i).nbr_live++;
 	cursor->last_alive = CURRENT_CYCLE;
 	g_battlefield[cursor->cur_pos].write_cycles = 100;
