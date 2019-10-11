@@ -1,30 +1,15 @@
 #include "../Headers/virtual_header.h"
 
-int				check_for_cycle_exec(t_cursor *cursor)
-{
-	if (cursor->cycle_exec > 0)
-	{
-		cursor->cycle_exec--;
-		if (cursor->cycle_exec > 0)
-			return (-1);
-	}
-	cursor->cycle_exec = -1;
-	return (1);
-}
-
-void			move_cursor(t_cursor *cursor, int label_size,
-							unsigned char byte_val, int amount_arguments)
+void			jump_to_next_op(t_cursor *cursor, unsigned char codage,
+									int label_size, int amount_arguments)
 {
 	int				skip;
 	int				amount_cursors_cell;
 	t_cursors_list	*current;
 
 	current = g_cursors;
-	if (byte_val)
-		skip = get_amount_bytes_to_skip(byte_val,
-				label_size, amount_arguments) + 1;
-	else
-		skip = label_size;
+	skip = get_amount_bytes_to_skip(codage,
+			label_size, amount_arguments) + 1;
 	amount_cursors_cell = 0;
 	while (current)
 	{
@@ -35,6 +20,27 @@ void			move_cursor(t_cursor *cursor, int label_size,
 	if (amount_cursors_cell == 1)
 		g_battlefield[cursor->cur_pos].cursor = false;
 	cursor->cur_pos += skip + 1;
+	if (cursor->cur_pos >= MEM_SIZE)
+		cursor->cur_pos %= MEM_SIZE;
+	g_battlefield[cursor->cur_pos].cursor = true;
+}
+
+void			move_cursor(t_cursor *cursor, int skip)
+{
+	t_cursors_list	*current;
+	int				amount_cursors_cell;
+
+	current = g_cursors;
+	amount_cursors_cell = 0;
+	while (current)
+	{
+		if (current->cursor.cur_pos == cursor->cur_pos)
+			amount_cursors_cell++;
+		current = current->next;
+	}
+	if (amount_cursors_cell == 1)
+		g_battlefield[cursor->cur_pos].cursor = false;
+	cursor->cur_pos += skip;
 	if (cursor->cur_pos >= MEM_SIZE)
 		cursor->cur_pos %= MEM_SIZE;
 	g_battlefield[cursor->cur_pos].cursor = true;

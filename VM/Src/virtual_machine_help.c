@@ -38,14 +38,20 @@ void	check_alive_cursors(void)
 	while (current)
 	{
 		if (CURRENT_CYCLE - current->cursor.last_alive < CURRENT_CYCLE -
-			LAST_CYCLE_CHECK)
+			LAST_CYCLE_CHECK && CTD > 0)
 		{
 			prev = current;
 			current = current->next;
 			alive_cursors++;
 		}
 		else
+		{
+			if (g_vm->ver == 4 || g_vm->ver == 30)
+				ft_printf("Process %d hasn't lived for %d cycles (CTD = %d)\n",
+													current->cursor.cursror_id,
+							CURRENT_CYCLE - current->cursor.last_alive, CTD);
 			check_alive_cursors_cycle_body(&current, &prev);
+		}
 	}
 	g_cursors_amount = alive_cursors;
 }

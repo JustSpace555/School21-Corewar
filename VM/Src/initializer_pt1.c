@@ -26,6 +26,7 @@ void	initialize_vm(void)
 	g_vm->order_idtfrs = init_int_array(MAX_PLAYERS, 0);
 	g_vm->plr_nbr = (t_plr_nbr *)malloc(sizeof(t_plr_nbr) * MAX_PLAYERS);
 	g_vm->amount_players = 0;
+	g_vm->cursors_id_iter = 1;
 	while (++i < MAX_PLAYERS)
 	{
 		g_vm->plr_nbr[i].index_file = 0;

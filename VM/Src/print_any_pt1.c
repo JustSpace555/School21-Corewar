@@ -6,6 +6,11 @@ void	print_usage(void)
 	ft_printf("\t-dump N\t: Dumps memory after N cycles then exits\n");
 	ft_printf("\t-n N\t: set the champion number\n");
 	ft_printf("\t-v\t\t: verbose\n");
+	ft_printf("\t\t\t\t- 1\t: Opearions");
+	ft_printf("\t\t\t\t- 2\t: Cycles");
+	ft_printf("\t\t\t\t- 3\t: Lives");
+	ft_printf("\t\t\t\t- 4\t: Deaths");
+	ft_printf("\t\t\t\t- 5\t: PC movement");
 	ft_printf("\t-vi\t\t: visual mode\n");
 }
 

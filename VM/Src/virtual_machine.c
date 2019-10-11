@@ -45,7 +45,7 @@ void	exec_operation_pt2(t_cursor *cursor)
 	else if (cursor->operation_code == 16)
 		aff(cursor);
 	else
-		move_cursor(cursor, 0, 0, 0);
+		move_cursor(cursor, 1);
 }
 
 void	exec_operation(t_cursor *cursor)
@@ -80,8 +80,6 @@ void	vm_check(t_cycles_to_die *repeate)
 {
 	AMOUNT_CHECKS++;
 	check_alive_cursors();
-	if (CTD <= 0)
-		g_cursors_amount = 0;
 	zeroing_nbr_live();
 	repeate->num_p_r = CTD;
 	repeate->amount_of_repeate = (CTD == repeate->num_r &&
@@ -91,6 +89,8 @@ void	vm_check(t_cycles_to_die *repeate)
 	{
 		CTD -= CYCLE_DELTA * ((repeate->amount_of_repeate >= MAX_CHECKS
 						&& g_amount_live_operations >= NBR_LIVE) ? 2 : 1);
+		if (g_vm->ver == 2)
+			ft_printf("Cycle to die is now %d\n", CTD);
 		repeate->num_r = CTD;
 		repeate->amount_of_repeate = 0;
 		if (repeate->amount_of_repeate >= MAX_CHECKS)
@@ -98,8 +98,6 @@ void	vm_check(t_cycles_to_die *repeate)
 	}
 	g_amount_live_operations = 0;
 	LAST_CYCLE_CHECK = CURRENT_CYCLE;
-	if (g_vm->ver == 2)
-		ft_printf("Cycle to die is now %d\n", CTD);
 }
 
 void	*virtual_machine(void)

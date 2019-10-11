@@ -9,19 +9,11 @@ void			make_one_new_cursor(t_cursor cursor)
 	current->next = g_cursors;
 	g_cursors = current;
 	current->cursor = cursor;
-	current->cursor.cursror_id = g_cursors_amount + 1;
+	current->cursor.cursror_id = g_vm->cursors_id_iter++;
 	g_battlefield[cursor.cur_pos].cursor = true;
 	i = 0;
 	while (PLAYER(i).identifier != cursor.player_id)
 		i++;
 	PLAYER(i).amount_cursors++;
 	g_cursors_amount++;
-}
-
-unsigned int	get_lldi_arg(unsigned char codage, int f_arg,
-								int s_arg, t_cursor *cursor)
-{
-	if ((codage & 0xC0) == 0xC0)
-		return (get_int_data(cursor->cur_pos + f_arg % IDX_MOD));
-	return (get_int_data(cursor->cur_pos + f_arg + s_arg));
 }

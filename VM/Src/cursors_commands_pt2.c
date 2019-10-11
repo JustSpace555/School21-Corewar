@@ -20,13 +20,13 @@ void	and(t_cursor *cursor)
 			&& check_reg_write_arg(cursor, codage, &second_arg, 2))
 		{
 			cursor->reg[third_arg - 1] = (first_arg & second_arg);
-			if (g_vm->ver == 1)
+			if (g_vm->ver == 1 || g_vm->ver == 30)
 				ft_printf("P %4d | and %d %d r%d\n", cursor->cursror_id,
 										first_arg, second_arg, third_arg);
 			cursor->carry = (cursor->reg[third_arg - 1] == 0) ? true : false;
 		}
 	}
-	move_cursor(cursor, 4, codage, 3);
+	jump_to_next_op(cursor, codage, 4, 3);
 }
 
 void	or(t_cursor *cursor)
@@ -49,13 +49,13 @@ void	or(t_cursor *cursor)
 			&& check_reg_write_arg(cursor, codage, &second_arg, 2))
 		{
 			cursor->reg[third_arg - 1] = (first_arg | second_arg);
-			if (g_vm->ver == 1)
+			if (g_vm->ver == 1 || g_vm->ver == 30)
 				ft_printf("P %4d | or %d %d r%d\n", cursor->cursror_id,
 										first_arg, second_arg, third_arg);
 			cursor->carry = (cursor->reg[third_arg - 1] == 0) ? true : false;
 		}
 	}
-	move_cursor(cursor, 4, codage, 3);
+	jump_to_next_op(cursor, codage, 4, 3);
 }
 
 void	xor(t_cursor *cursor)
@@ -78,24 +78,24 @@ void	xor(t_cursor *cursor)
 			&& check_reg_write_arg(cursor, codage, &second_arg, 2))
 		{
 			cursor->reg[third_arg - 1] = (first_arg ^ second_arg);
-			if (g_vm->ver == 1)
+			if (g_vm->ver == 1 || g_vm->ver == 30)
 				ft_printf("P %4d | xor %d %d r%d\n", cursor->cursror_id,
 										first_arg, second_arg, third_arg);
 			cursor->carry = (cursor->reg[third_arg - 1] == 0) ? true : false;
 		}
 	}
-	move_cursor(cursor, 4, codage, 3);
+	jump_to_next_op(cursor, codage, 4, 3);
 }
 
 void	zjmp(t_cursor *cursor)
 {
 	short	address;
 
-	address = get_short_data(cursor->cur_pos + 1) % IDX_MOD - 1;
+	address = get_short_data(cursor->cur_pos + 1) % IDX_MOD;
 	if (cursor->carry == false)
-		move_cursor(cursor, 2, 0, 1);
+		move_cursor(cursor, 3);
 	else
-		move_cursor(cursor, address, 0, 1);
+		move_cursor(cursor, address);
 	if (g_vm->ver == 1)
 		ft_printf("P %4d | zjmp %d %s\n", cursor->cursror_id, address + 1,
 										(cursor->carry) ? "OK" : "FAILED");
@@ -121,11 +121,10 @@ void	ldi(t_cursor *cursor)
 			&& check_reg_write_arg(cursor, codage, &f_arg, 1)
 			&& check_reg_write_arg(cursor, codage, &s_arg, 2))
 		{
-			// s_arg = ((codage & 0xC0) == 0xC0) ? 0 : s_arg;
 			cursor->reg[t_arg - 1] = get_int_data(cursor->cur_pos +
 										(f_arg + s_arg) % IDX_MOD);
 			check_and_print_ldi(cursor, f_arg, s_arg, t_arg);
 		}
 	}
-	move_cursor(cursor, 2, codage, 3);
+	jump_to_next_op(cursor, codage, 2, 3);
 }

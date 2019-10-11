@@ -19,14 +19,14 @@ void	sti(t_cursor *cursor)
 	{
 		second_arg = get_second_arg(cursor, codage, 2, &offset);
 		third_arg = get_third_arg(cursor, codage, 2, &offset);
-		if (g_vm->ver == 1)
+		if (g_vm->ver == 1 || g_vm->ver == 30)
 			print_sti(cursor, src_reg, second_arg, third_arg);
 		if (check_reg_write_arg(cursor, codage, &second_arg, 2) &&
 			check_reg_write_arg(cursor, codage, &third_arg, 3))
 			write_int_data(cursor->cur_pos + (second_arg + third_arg) %
 						IDX_MOD, cursor->reg[src_reg - 1], cursor->color);
 	}
-	move_cursor(cursor, 2, codage, 3);
+	jump_to_next_op(cursor, codage, 2, 3);
 }
 
 void	lld(t_cursor *cursor)
@@ -55,7 +55,7 @@ void	lld(t_cursor *cursor)
 			cursor->carry = (cursor->reg[s_arg - 1] == 0) ? true : false;
 		}
 	}
-	move_cursor(cursor, 4, codage, 2);
+	jump_to_next_op(cursor, codage, 4, 2);
 }
 
 void	lldi(t_cursor *cursor)
@@ -77,13 +77,14 @@ void	lldi(t_cursor *cursor)
 		if (check_reg(t_arg) && check_reg_write_arg(cursor, codage, &f_arg, 1)
 			&& check_reg_write_arg(cursor, codage, &s_arg, 2))
 		{
-			cursor->reg[t_arg - 1] = get_int_data(cursor->cur_pos + f_arg + s_arg);
-			if (g_vm->ver == 1)
+			cursor->reg[t_arg - 1] = get_int_data(cursor->cur_pos
+												+ f_arg + s_arg);
+			if (g_vm->ver == 1 || g_vm->ver == 30)
 				print_lldi(cursor, f_arg, s_arg, t_arg);
 			cursor->carry = (cursor->reg[t_arg - 1] == 0) ? true : false;
 		}
 	}
-	move_cursor(cursor, 2, codage, 3);
+	jump_to_next_op(cursor, codage, 2, 3);
 }
 
 void	fork_lfork(t_cursor *cursor, int selector)
@@ -96,16 +97,18 @@ void	fork_lfork(t_cursor *cursor, int selector)
 		address = get_short_data(cursor->cur_pos + 1) % IDX_MOD;
 	else
 		address = get_short_data(cursor->cur_pos + 1);
+	address = (address < 0) ? MEM_SIZE + address : address;
 	new.cur_pos = cursor->cur_pos + address;
+	new.cur_pos = (new.cur_pos >= MEM_SIZE) ? new.cur_pos % MEM_SIZE : new.cur_pos;
 	new.operation_code = '\0';
 	cursor->operation_code = '\0';
-	if (g_vm->ver == 1 && selector == 0)
+	if ((g_vm->ver == 1 || g_vm->ver == 30) && selector == 0)
 		ft_printf("P %4d | fork %d (%d)\n", cursor->cursror_id,
 											address, new.cur_pos);
-	else if (g_vm->ver == 1 && selector >= 1)
+	else if ((g_vm->ver == 1 || g_vm->ver == 30) && selector >= 1)
 		ft_printf("P %4d | lfork %d (%d)\n", cursor->cursror_id,
 											address, new.cur_pos);
-	move_cursor(cursor, 2, 0, 1);
+	move_cursor(cursor, 3);
 	make_one_new_cursor(new);
 }
 
@@ -137,5 +140,5 @@ void	aff(t_cursor *cursor)
 			ft_printf("Player #%u out: %s\n", cursor->cursror_id,
 											PLAYER(i).aff_out);
 	}
-	move_cursor(cursor, 2, 0, 1);
+	move_cursor(cursor, 2);
 }

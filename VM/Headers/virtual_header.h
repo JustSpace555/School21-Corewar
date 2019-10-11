@@ -47,6 +47,7 @@ typedef struct				s_vm
 	int						last_live_player;
 	int						*order_idtfrs;
 	int						amount_players;
+	int						cursors_id_iter;
 	t_plr_nbr				*plr_nbr;
 }							t_vm;
 
@@ -199,8 +200,6 @@ void						vis_and_check(t_cycles_to_die *repeate);
 void						vm_check(t_cycles_to_die *repeate);
 void						zeroing_cursors_args(int *plr_id);
 void						inc_current_cycle_and_print(void);
-unsigned int				get_lldi_arg(unsigned char codage, int f_arg,
-											int s_arg, t_cursor *cursor);
 
 /*
 **							Players parser help
@@ -283,8 +282,11 @@ unsigned int				get_third_arg(t_cursor *cursor,
 											unsigned char codage,
 											int label_size,
 											unsigned short *offset);
-void						move_cursor(t_cursor *cursor, int label_size,
-								unsigned char byte_val, int amount_arguments);
+void						jump_to_next_op(t_cursor *cursor,
+											unsigned char codage,
+											int label_size,
+											int amount_arguments);
+void						move_cursor(t_cursor *cursor, int skip);
 void						write_short_data(short addres,
 								short write, char color);
 void						write_int_data(short addres,

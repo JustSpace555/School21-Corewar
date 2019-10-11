@@ -27,6 +27,7 @@ void	zeroing_cursors_args(int *plr_id)
 	CURSOR.operation_code = 0;
 	CURSOR.reg[0] = -PLAYER(*plr_id).identifier;
 	CURSOR.color = g_battlefield[CURSOR.cur_pos].color;
+	g_vm->cursors_id_iter++;
 	i = 0;
 	while (++i < 16)
 		CURSOR.reg[i] = 0;
