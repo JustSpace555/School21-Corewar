@@ -92,7 +92,14 @@ int		check_flags(int argc, char **argv, int *i, t_vm *vm)
 	}
 	else if (ft_strcmp("-dumpc", argv[*i]) == 0)
 	{
-		vm->color_print = 1;
+		if (*i + 1 != argc)
+			if (ft_is_strdigit(argv[*i + 1]) == 1)
+			{
+				vm->dump = ft_atoi(argv[*i + 1]);
+				vm->color_print = 1;
+				rtn = 1;
+				*i += 1;
+			}
 		rtn = 1;
 	}
 	return (rtn);

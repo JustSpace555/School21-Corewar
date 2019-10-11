@@ -12,7 +12,7 @@ void	live(t_cursor *cursor)
 	if (arg == -PLAYER(i).identifier)
 	{
 		PLAYER(i).last_alive = CURRENT_CYCLE;
-		if (g_vm->ver == 3 || g_vm->ver == 30)
+		if (g_vm->ver == 3)
 			ft_printf("Player %d (%s) is said to be alive\n",
 										-arg, PLAYER(i).name);
 	}
@@ -21,9 +21,10 @@ void	live(t_cursor *cursor)
 	PLAYER(i).nbr_live++;
 	cursor->last_alive = CURRENT_CYCLE;
 	g_battlefield[cursor->cur_pos].write_cycles = 100;
-	if (g_vm->ver == 1)
-		ft_printf("P %4d\n", cursor->cursror_id, arg);
+	if (g_vm->ver == 1 || g_vm->ver == 30)
+		ft_printf("P%5d | live %d\n", cursor->cursror_id, arg);
 	g_amount_live_operations++;
+	print_pc_movement(cursor, 5);
 	move_cursor(cursor, 5);
 }
 
@@ -79,8 +80,13 @@ void	st(t_cursor *cursor)
 											src_reg, temp);
 	}
 	else if ((codage & 0x10) == 16 && check_reg(GET_CUR_POS_BYTE(&cursor, 3)))
+	{
 		cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] =
 								cursor->reg[src_reg - 1];
+		if (g_vm->ver == 1 || g_vm->ver == 30)
+			ft_printf("P %4d | st r%d %d\n", cursor->cursror_id,
+							src_reg, GET_CUR_POS_BYTE(&cursor, 3));
+	}
 	jump_to_next_op(cursor, codage, 4, 2);
 }
 

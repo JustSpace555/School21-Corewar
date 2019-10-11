@@ -147,6 +147,7 @@ void						print_battlefield(void);
 void						print_usage(void);
 void						introduce(void);
 void						push_vis(t_cycles_to_die repeate, char *status);
+void						print_pc_movement(t_cursor *cursor, int skip);
 
 /*
 **							Print cursors help

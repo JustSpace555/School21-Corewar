@@ -19,6 +19,7 @@ void			jump_to_next_op(t_cursor *cursor, unsigned char codage,
 	}
 	if (amount_cursors_cell == 1)
 		g_battlefield[cursor->cur_pos].cursor = false;
+	print_pc_movement(cursor, skip + 1);
 	cursor->cur_pos += skip + 1;
 	if (cursor->cur_pos >= MEM_SIZE)
 		cursor->cur_pos %= MEM_SIZE;

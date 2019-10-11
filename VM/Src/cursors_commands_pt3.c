@@ -42,14 +42,17 @@ void	lld(t_cursor *cursor)
 	{
 		offset = 2;
 		if ((codage & 0xC0) == 0xC0)
-			f_arg = get_int_data(get_short_data(cursor->cur_pos + 2));
+		{
+			f_arg = get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 2));
+			offset = 4;
+		}
 		else
 			f_arg = get_first_arg(cursor, codage, 4, &offset);
 		s_arg = get_second_arg(cursor, codage, 4, &offset);
 		if (check_reg(s_arg))
 		{
 			cursor->reg[s_arg - 1] = f_arg;
-			if (g_vm->ver == 1)
+			if (g_vm->ver == 1 || g_vm->ver == 30)
 				ft_printf("P %4d | lld %d r%d\n", cursor->cursror_id,
 														f_arg, s_arg);
 			cursor->carry = (cursor->reg[s_arg - 1] == 0) ? true : false;
@@ -93,21 +96,21 @@ void	fork_lfork(t_cursor *cursor, int selector)
 	short		address;
 
 	new = *cursor;
+	address = get_short_data(cursor->cur_pos + 1);
+	if ((g_vm->ver == 1 || g_vm->ver == 30) && selector == 0)
+		ft_printf("P %4d | fork %d (%d)\n", cursor->cursror_id,
+					address, cursor->cur_pos + address % IDX_MOD);
+	else if ((g_vm->ver == 1 || g_vm->ver == 30) && selector >= 1)
+		ft_printf("P %4d | lfork %d (%d)\n", cursor->cursror_id,
+											address, address);
 	if (selector == 0)
-		address = get_short_data(cursor->cur_pos + 1) % IDX_MOD;
-	else
-		address = get_short_data(cursor->cur_pos + 1);
+		address %= IDX_MOD;
 	address = (address < 0) ? MEM_SIZE + address : address;
 	new.cur_pos = cursor->cur_pos + address;
 	new.cur_pos = (new.cur_pos >= MEM_SIZE) ? new.cur_pos % MEM_SIZE : new.cur_pos;
 	new.operation_code = '\0';
 	cursor->operation_code = '\0';
-	if ((g_vm->ver == 1 || g_vm->ver == 30) && selector == 0)
-		ft_printf("P %4d | fork %d (%d)\n", cursor->cursror_id,
-											address, new.cur_pos);
-	else if ((g_vm->ver == 1 || g_vm->ver == 30) && selector >= 1)
-		ft_printf("P %4d | lfork %d (%d)\n", cursor->cursror_id,
-											address, new.cur_pos);
+	print_pc_movement(cursor, 3);
 	move_cursor(cursor, 3);
 	make_one_new_cursor(new);
 }
@@ -140,5 +143,6 @@ void	aff(t_cursor *cursor)
 			ft_printf("Player #%u out: %s\n", cursor->cursror_id,
 											PLAYER(i).aff_out);
 	}
+	print_pc_movement(cursor, 3);
 	move_cursor(cursor, 2);
 }

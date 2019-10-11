@@ -91,14 +91,19 @@ void	zjmp(t_cursor *cursor)
 {
 	short	address;
 
-	address = get_short_data(cursor->cur_pos + 1) % IDX_MOD;
+	address = get_short_data(cursor->cur_pos + 1);
 	if (cursor->carry == false)
+	{
+		ft_printf("P %4d | zjmp %d %s\n", cursor->cursror_id, address, "FAILED");
+		print_pc_movement(cursor, 3);
 		move_cursor(cursor, 3);
+	}
 	else
-		move_cursor(cursor, address);
-	if (g_vm->ver == 1)
-		ft_printf("P %4d | zjmp %d %s\n", cursor->cursror_id, address + 1,
-										(cursor->carry) ? "OK" : "FAILED");
+	{
+		move_cursor(cursor, address % IDX_MOD);
+		if (g_vm->ver == 1 || g_vm->ver == 30)
+			ft_printf("P %4d | zjmp %d %s\n", cursor->cursror_id, address, "OK");
+	}
 }
 
 void	ldi(t_cursor *cursor)

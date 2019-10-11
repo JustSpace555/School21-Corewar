@@ -54,10 +54,20 @@ void	push_winner_terminal(void)
 			max = PLAYER(i).last_alive;
 			id = i;
 		}
-	ft_printf("Contestant %d, \"%s\", has won !\n", g_vm->last_live_player, PLAYER(g_vm->last_live_player - 1).name);
+	// ft_printf("Contestant %d, \"%s\", has won !\n", g_vm->last_live_player, PLAYER(g_vm->last_live_player - 1).name);
+	ft_printf("Contestant %d, \"%s\", has won !\n", id + 1, PLAYER(id).name);
 }
 
 void	print_pc_movement(t_cursor *cursor, int skip)
 {
-	// if (g_vm->ver == 5 || g_vm->ver == 30)
+	int	i;
+
+	if (g_vm->ver == 5 || g_vm->ver == 30)
+	{
+		i = -1;
+		ft_printf("ADV %d (0x%04x -> 0x%04x) ", skip, cursor->cur_pos, cursor->cur_pos + skip);
+		while (++i < skip)
+			ft_printf("%02hhx ", g_battlefield[(cursor->cur_pos + i)].code);
+		ft_printf("\n");
+	}
 }
