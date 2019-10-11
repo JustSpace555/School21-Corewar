@@ -90,6 +90,11 @@ int		check_flags(int argc, char **argv, int *i, t_vm *vm)
 		vm->vis = 1;
 		rtn = 1;
 	}
+	else if (ft_strcmp("-c", argv[*i]) == 0)
+	{
+		vm->color_print = 1;
+		rtn = 1;
+	}
 	return (rtn);
 }
 

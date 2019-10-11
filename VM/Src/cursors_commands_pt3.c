@@ -17,8 +17,8 @@ void	sti(t_cursor *cursor)
 		(codage & 0xC) == 0xC || (codage & 0xC) == 0 ||
 		src_reg > REG_NUMBER || src_reg == 0))
 	{
-		second_arg = (int)get_second_arg(cursor, codage, 2, &offset);
-		third_arg = (int)get_third_arg(cursor, codage, 2, &offset);
+		second_arg = get_second_arg(cursor, codage, 2, &offset);
+		third_arg = get_third_arg(cursor, codage, 2, &offset);
 		if (g_vm->ver == 1)
 			print_sti(cursor, src_reg, second_arg, third_arg);
 		if (check_reg_write_arg(cursor, codage, &second_arg, 2) &&
@@ -77,7 +77,7 @@ void	lldi(t_cursor *cursor)
 		if (check_reg(t_arg) && check_reg_write_arg(cursor, codage, &f_arg, 1)
 			&& check_reg_write_arg(cursor, codage, &s_arg, 2))
 		{
-			cursor->reg[t_arg - 1] = get_lldi_arg(codage, f_arg, s_arg, cursor);
+			cursor->reg[t_arg - 1] = get_int_data(cursor->cur_pos + f_arg + s_arg);
 			if (g_vm->ver == 1)
 				print_lldi(cursor, f_arg, s_arg, t_arg);
 			cursor->carry = (cursor->reg[t_arg - 1] == 0) ? true : false;
