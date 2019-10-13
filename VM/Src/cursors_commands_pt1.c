@@ -9,20 +9,19 @@ void	live(t_cursor *cursor)
 	while (PLAYER(i).identifier != cursor->player_id)
 		i++;
 	arg = get_int_data(cursor->cur_pos + 1);
-	if (arg == -PLAYER(i).identifier)
-	{
-		PLAYER(i).last_alive = CURRENT_CYCLE;
-		if (g_vm->ver == 3)
-			ft_printf("Player %d (%s) is said to be alive\n",
-										-arg, PLAYER(i).name);
-	}
-	if (ft_abs(arg) > 0 && ft_abs(arg) <= g_vm->amount_players)
-		g_vm->last_live_player = ft_abs(arg);
 	PLAYER(i).nbr_live++;
 	cursor->last_alive = CURRENT_CYCLE;
 	g_battlefield[cursor->cur_pos].write_cycles = 100;
 	if (g_vm->ver == 1 || g_vm->ver == 30)
 		ft_printf("P%5d | live %d\n", cursor->cursror_id, arg);
+	if (arg <= -1 && arg >= -g_vm->amount_players)
+	{
+		g_vm->last_live_player = ft_abs(arg);
+		PLAYER(i).last_alive = CURRENT_CYCLE;
+		if (g_vm->ver == 3)
+			ft_printf("Player %d (%s) is said to be alive\n",
+										(arg < 0) ? -arg : arg, PLAYER((arg < 0) ? -arg : arg - 1).name);
+	}	
 	g_amount_live_operations++;
 	print_pc_movement(cursor, 5);
 	move_cursor(cursor, 5);

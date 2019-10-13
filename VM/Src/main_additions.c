@@ -66,5 +66,6 @@ int		parsing(int argc, char **argv)
 		return (0);
 	}
 	free(player_files);
+	g_vm->last_live_player = g_vm->amount_players;
 	return (1);
 }

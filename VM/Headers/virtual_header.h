@@ -43,6 +43,7 @@ typedef struct				s_vm
 	int						dump;
 	int						vis;
 	int						ver;
+	int						aff;
 	int						color_print;
 	int						last_live_player;
 	int						*order_idtfrs;
@@ -186,7 +187,6 @@ int							choose_reverse_color(t_battlefield *cell);
 char						choose_color_char(int i);
 void						check_alive_cursors(void);
 void						free_all(void);
-void						push_winner_terminal(void);
 void						push_winner(t_cycles_to_die repeate);
 t_bool						check_reg(unsigned char reg);
 int							check_reg_write_arg(t_cursor *cursor,

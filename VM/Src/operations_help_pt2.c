@@ -51,6 +51,7 @@ short			get_short_data(short addres)
 {
 	short	res;
 
+	addres = arena_truncation(addres);
 	res = 0;
 	res |= GET_BYTE(addres % MEM_SIZE);
 	res <<= 8;
@@ -65,6 +66,7 @@ unsigned int	get_int_data(short addres)
 
 	res = 0;
 	i = -1;
+	addres = arena_truncation(addres);
 	while (++i < 4)
 	{
 		res |= GET_BYTE((addres + i) % MEM_SIZE);

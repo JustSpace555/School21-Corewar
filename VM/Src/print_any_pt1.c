@@ -3,6 +3,7 @@
 void	print_usage(void)
 {
 	ft_printf("Usage: ./corewar [-dump N -v -n N] <filename.cor> ...\n");
+	ft_printf("\t-a \t: aff\n");
 	ft_printf("\t-dump N\t: Dumps memory after N cycles then exits\n");
 	ft_printf("\t-n N\t: set the champion number\n");
 	ft_printf("\t-v\t\t: verbose\n");

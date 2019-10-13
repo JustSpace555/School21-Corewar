@@ -80,7 +80,7 @@ void	push_winner(t_cycles_to_die repeate)
 			}
 	}
 	else if (g_vm->vis != 1 && !VIS_QUIT)
-		push_winner_terminal();
+		ft_printf("Contestant %d, \"%s\", has won !\n", g_vm->last_live_player, PLAYER(g_vm->last_live_player - 1).name);
 }
 
 void	inc_current_cycle_and_print(void)

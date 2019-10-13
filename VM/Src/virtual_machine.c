@@ -89,7 +89,7 @@ void	vm_check(t_cycles_to_die *repeate)
 	{
 		CTD -= CYCLE_DELTA * ((repeate->amount_of_repeate >= MAX_CHECKS
 						&& g_amount_live_operations >= NBR_LIVE) ? 2 : 1);
-		if (g_vm->ver == 2)
+		if (g_vm->ver == 2 || g_vm->ver == 30)
 			ft_printf("Cycle to die is now %d\n", CTD);
 		repeate->num_r = CTD;
 		repeate->amount_of_repeate = 0;
@@ -107,6 +107,8 @@ void	*virtual_machine(void)
 	initialize_all(&repeate);
 	if (g_vm->dump == 0 || (g_vm->vis == 1 && !init()))
 		return (print_battlefield_and_free());
+	//g_battlefield[4].code = 0x00;
+	//g_battlefield[5].code = 0xff;
 	while (!VIS_QUIT && g_cursors_amount > 0)
 	{
 		if (g_vm->vis == 1)

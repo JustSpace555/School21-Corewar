@@ -1,5 +1,29 @@
 #include "../Headers/virtual_header.h"
 
+int		handler_dots(char *argument, int *flag_dot, char **extansion, int i)
+{
+	if (argument[i] == '.')
+		*flag_dot += 1;
+	else if (*flag_dot == 1)
+	{
+		if (argument[i] == **extansion)
+		{
+			(*extansion)++;
+			if (!(**extansion))
+				*flag_dot = 2;
+		}
+		else if (argument[i + 1] != 0)
+			*flag_dot = 0;
+		else	
+			return (-1);
+	}
+	else if (*flag_dot == 2 && argument[i] == '/')
+		*flag_dot = 0;
+	else if (*flag_dot >= 2)
+		return (-1);
+	return (1);
+}
+
 int		check_file(char *argument)
 {
 	int		i;
@@ -11,22 +35,7 @@ int		check_file(char *argument)
 	i = -1;
 	while (argument[++i])
 	{
-		if (argument[i] == '.')
-			flag_dot += 1;
-		else if (flag_dot == 1)
-		{
-			if (argument[i] == *extansion)
-			{
-				extansion++;
-				if (!(*extansion))
-					flag_dot = 2;
-			}
-			else
-				return (-1);
-		}
-		else if (flag_dot == 2 && argument[i] == '/')
-			flag_dot = 0;
-		else if (flag_dot >= 2)
+		if (handler_dots(argument, &flag_dot, &extansion, i) == -1)
 			return (-1);
 	}
 	if (flag_dot == 2)
@@ -88,6 +97,11 @@ int		check_flags(int argc, char **argv, int *i, t_vm *vm)
 	else if (ft_strcmp("-vi", argv[*i]) == 0)
 	{
 		vm->vis = 1;
+		rtn = 1;
+	}
+	else if (ft_strcmp("-a", argv[*i]))
+	{
+		vm->aff = 1;
 		rtn = 1;
 	}
 	else if (ft_strcmp("-dumpc", argv[*i]) == 0)

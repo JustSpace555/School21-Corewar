@@ -102,7 +102,7 @@ void	fork_lfork(t_cursor *cursor, int selector)
 					address, cursor->cur_pos + address % IDX_MOD);
 	else if ((g_vm->ver == 1 || g_vm->ver == 30) && selector >= 1)
 		ft_printf("P %4d | lfork %d (%d)\n", cursor->cursror_id,
-											address, address);
+											address, cursor->cur_pos + address);
 	if (selector == 0)
 		address %= IDX_MOD;
 	address = (address < 0) ? MEM_SIZE + address : address;
@@ -118,31 +118,48 @@ void	fork_lfork(t_cursor *cursor, int selector)
 void	aff(t_cursor *cursor)
 {
 	unsigned char	dest_reg;
-	char			*temp;
 	char			out;
 	int				i;
 
-	temp = NULL;
 	dest_reg = GET_CUR_POS_BYTE(&cursor, 1);
 	if (check_reg(dest_reg))
 	{
-		i = -1;
-		while (cursor->player_id != PLAYER(++i).identifier)
-			;
-		if (!PLAYER(i).aff_out)
-		{
-			PLAYER(i).aff_out = (char *)malloc(sizeof(char) * 2);
-			ft_bzero(PLAYER(i).aff_out, 2);
-			PLAYER(i).aff_out[0] = cursor->reg[dest_reg - 1] % 256;
-		}
-		temp = PLAYER(i).aff_out;
-		out = cursor->reg[dest_reg - 1] % 256;
-		PLAYER(i).aff_out = ft_strjoin(PLAYER(i).aff_out, &out);
-		free(temp);
-		if (g_vm->vis == -1) // Сделать отдельный флаг для aff
-			ft_printf("Player #%u out: %s\n", cursor->cursror_id,
-											PLAYER(i).aff_out);
+		out = (char)cursor->reg[dest_reg - 1];
+		if (g_vm->aff == 1) // Сделать отдельный флаг для aff
+			ft_printf("Aff: %c\n", out);
 	}
 	print_pc_movement(cursor, 3);
 	move_cursor(cursor, 2);
 }
+
+// void	aff(t_cursor *cursor)
+// {
+// 	unsigned char	dest_reg;
+// 	char			*temp;
+// 	char			out;
+// 	int				i;
+
+// 	temp = NULL;
+// 	dest_reg = GET_CUR_POS_BYTE(&cursor, 1);
+// 	if (check_reg(dest_reg))
+// 	{
+// 		i = -1;
+// 		while (cursor->player_id != PLAYER(++i).identifier)
+// 			;
+// 		if (!PLAYER(i).aff_out)
+// 		{
+// 			PLAYER(i).aff_out = (char *)malloc(sizeof(char) * 2);
+// 			ft_bzero(PLAYER(i).aff_out, 2);
+// 			PLAYER(i).aff_out[0] = cursor->reg[dest_reg - 1] % 256;
+// 		}
+// 		temp = PLAYER(i).aff_out;
+// 		out = cursor->reg[dest_reg - 1] % 256;
+// 		PLAYER(i).aff_out = ft_strjoin(PLAYER(i).aff_out, &out);
+// 		free(temp);
+// 		if (g_vm->vis == -1) // Сделать отдельный флаг для aff
+// 			ft_printf("Player #%u out: %s\n", cursor->cursror_id,
+// 											PLAYER(i).aff_out);
+// 	}
+// 	print_pc_movement(cursor, 3);
+// 	move_cursor(cursor, 2);
+// }

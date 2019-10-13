@@ -94,7 +94,8 @@ void	zjmp(t_cursor *cursor)
 	address = get_short_data(cursor->cur_pos + 1);
 	if (cursor->carry == false)
 	{
-		ft_printf("P %4d | zjmp %d %s\n", cursor->cursror_id, address, "FAILED");
+		if (g_vm->ver == 1 || g_vm->ver == 30)
+			ft_printf("P %4d | zjmp %d %s\n", cursor->cursror_id, address, "FAILED");
 		print_pc_movement(cursor, 3);
 		move_cursor(cursor, 3);
 	}
