@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cursors_commands_pt2.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/14 13:04:55 by qmebble           #+#    #+#             */
+/*   Updated: 2019/10/14 13:04:56 by qmebble          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Headers/virtual_header.h"
 
 void	and(t_cursor *cursor)
@@ -95,7 +107,8 @@ void	zjmp(t_cursor *cursor)
 	if (cursor->carry == false)
 	{
 		if (g_vm->ver == 1 || g_vm->ver == 30)
-			ft_printf("P %4d | zjmp %d %s\n", cursor->cursror_id, address, "FAILED");
+			ft_printf("P %4d | zjmp %d %s\n",
+				cursor->cursror_id, address, "FAILED");
 		print_pc_movement(cursor, 3);
 		move_cursor(cursor, 3);
 	}
@@ -103,7 +116,8 @@ void	zjmp(t_cursor *cursor)
 	{
 		move_cursor(cursor, address % IDX_MOD);
 		if (g_vm->ver == 1 || g_vm->ver == 30)
-			ft_printf("P %4d | zjmp %d %s\n", cursor->cursror_id, address, "OK");
+			ft_printf("P %4d | zjmp %d %s\n",
+				cursor->cursror_id, address, "OK");
 	}
 }
 

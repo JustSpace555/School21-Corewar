@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cursors_commands_pt3.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/14 13:04:58 by qmebble           #+#    #+#             */
+/*   Updated: 2019/10/14 13:04:59 by qmebble          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Headers/virtual_header.h"
 
 void	sti(t_cursor *cursor)
@@ -40,21 +52,17 @@ void	lld(t_cursor *cursor)
 	if (!((codage & 0xC0) == 0 || (codage & 0xC0) == 0x40 ||
 								(codage & 0x30) != 0x10))
 	{
-		offset = 2;
+		offset = (codage & 0xC0) == 0xC0 ? 4 : 2;
 		if ((codage & 0xC0) == 0xC0)
-		{
-			f_arg = get_int_data(cursor->cur_pos + get_short_data(cursor->cur_pos + 2));
-			offset = 4;
-		}
+			f_arg = get_int_data(cursor->cur_pos +
+					get_short_data(cursor->cur_pos + 2));
 		else
 			f_arg = get_first_arg(cursor, codage, 4, &offset);
 		s_arg = get_second_arg(cursor, codage, 4, &offset);
 		if (check_reg(s_arg))
 		{
 			cursor->reg[s_arg - 1] = f_arg;
-			if (g_vm->ver == 1 || g_vm->ver == 30)
-				ft_printf("P %4d | lld %d r%d\n", cursor->cursror_id,
-														f_arg, s_arg);
+			check_and_print_lld(cursor, f_arg, s_arg);
 			cursor->carry = (cursor->reg[s_arg - 1] == 0) ? true : false;
 		}
 	}
@@ -107,7 +115,8 @@ void	fork_lfork(t_cursor *cursor, int selector)
 		address %= IDX_MOD;
 	address = (address < 0) ? MEM_SIZE + address : address;
 	new.cur_pos = cursor->cur_pos + address;
-	new.cur_pos = (new.cur_pos >= MEM_SIZE) ? new.cur_pos % MEM_SIZE : new.cur_pos;
+	new.cur_pos = (new.cur_pos >= MEM_SIZE) ?
+					new.cur_pos % MEM_SIZE : new.cur_pos;
 	new.operation_code = '\0';
 	cursor->operation_code = '\0';
 	print_pc_movement(cursor, 3);

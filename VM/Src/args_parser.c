@@ -40,8 +40,8 @@ int		check_file(char *argument)
 	}
 	if (flag_dot == 2)
 		return (1);
-	if (*extansion != '\0')
-		return (-1);
+	// if (*extansion != '\0')
+	// 	return (-1);
 	return (flag_dot == 1) ? -1 : 0;
 }
 
