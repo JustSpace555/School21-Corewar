@@ -33,6 +33,8 @@ int		check_file(char *argument)
 	extansion = "cor";
 	flag_dot = 0;
 	i = -1;
+	if (argument[0] == '-')
+		return (0);
 	while (argument[++i])
 	{
 		if (handler_dots(argument, &flag_dot, &extansion, i) == -1)
@@ -40,8 +42,8 @@ int		check_file(char *argument)
 	}
 	if (flag_dot == 2)
 		return (1);
-	if (*extansion != '\0')
-		return (-1);
+	// if (*extansion != '\0')
+	// 	return (-1);
 	return (flag_dot == 1) ? -1 : 0;
 }
 
@@ -123,7 +125,7 @@ int		parsing_arguments(int argc, char **argv, t_vm *vm)
 		res = check_file(argv[i]);
 		if (res == -1)
 		{
-			ft_fprintf(2, "%s - invalid file name\n", argv[i]);
+			ft_fprintf(2, "Can't read source file %s\n", argv[i]);
 			return (-1);
 		}
 		else if (res == 1)
@@ -132,7 +134,11 @@ int		parsing_arguments(int argc, char **argv, t_vm *vm)
 			continue;
 		}
 		else
-			res = check_flags(argc, argv, &i, vm);
+			if ((res = check_flags(argc, argv, &i, vm)) == - 1)
+			{
+				ft_fprintf(2, "Can't read source file %s\n", argv[i]);
+				return (-1);
+			}	
 	}
 	return (res);
 }

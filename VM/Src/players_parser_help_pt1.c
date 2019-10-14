@@ -48,7 +48,7 @@ int		if_header_bytes(int amount_bytes, uint8_t buffer[4])
 		if (!check_for_header(buffer))
 		{
 			ft_printf("Virtual Machine error: \
-						No magic header in file\n");
+No magic header in file\n");
 			return (0);
 		}
 	return (1);

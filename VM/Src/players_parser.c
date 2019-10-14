@@ -8,17 +8,17 @@ int		parse_champion_file_byte(char *champion_file,
 	int		string_size;
 
 	initialize_one_g_player(i);
-	if (!check_fd(&fd, champion_file))
-		return (0);
+	if (check_fd(&fd, champion_file) == -1)
+		return (-1);
 	while (read(fd, buffer, 4))
 	{
 		*amount_bytes += 4;
 		zeroing_string_size(&string_size, *amount_bytes);
 		if (!if_header_bytes(*amount_bytes, buffer))
-			return (0);
+			return (-1);
 		make_g_player_name(*amount_bytes, buffer, i, &string_size);
-		if (!make_g_player_size(*amount_bytes, buffer, i))
-			return (0);
+		if (!make_g_player_size(*amount_bytes, buffer, i, champion_file))
+			return (-1);
 		make_g_player_comment(*amount_bytes, buffer, i, &string_size);
 		make_g_player_code(*amount_bytes, buffer, i, &string_size);
 	}
@@ -36,10 +36,10 @@ int		players_parser(char **files_champions)
 	while (++i < g_vm->amount_players)
 	{
 		amount_bytes = 0;
-		if (!parse_champion_file_byte(files_champions[i], i, &amount_bytes))
-			return (0);
+		if (parse_champion_file_byte(files_champions[i], i, &amount_bytes) == - 1)
+			return (-1);
 	}
-	if (!check_for_overflow())
-		return (0);
+	if (check_for_overflow() == -1)
+		return (-1);
 	return (1);
 }

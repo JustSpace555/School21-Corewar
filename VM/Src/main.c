@@ -10,7 +10,7 @@ int		main(int argc, char *argv[])
 	else
 	{
 		initialize_vm();
-		if (!parsing(argc, argv))
+		if (parsing(argc, argv) == -1)
 			return (-1);	
 		virtual_machine();
 	}

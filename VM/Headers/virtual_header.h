@@ -220,7 +220,7 @@ int							if_header_bytes(int amount_bytes,
 void						make_g_player_name(int amount_bytes,
 								uint8_t buffer[4], int i, int *string_size);
 int							make_g_player_size(int amount_bytes,
-										uint8_t buffer[4], int i);
+										uint8_t buffer[4], int i, char *player_file);
 void						make_g_player_comment(int amount_bytes,
 								uint8_t buffer[4], int i, int *string_size);
 void						make_g_player_code(int amount_bytes,
