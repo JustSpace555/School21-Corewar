@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:06:20 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:06:21 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/14 13:09:27 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,17 +197,14 @@ void						initialize_all(t_cycles_to_die *repeate);
 */
 
 int							ft_is_strdigit(char *str);
-void						free_g_players(void);
 void						choose_color(t_battlefield *cell, int i);
 int							choose_reverse_color(t_battlefield *cell);
 char						choose_color_char(int i);
 void						check_alive_cursors(void);
-void						free_all(void);
 void						push_winner(t_cycles_to_die repeate);
 t_bool						check_reg(unsigned char reg);
 int							check_reg_write_arg(t_cursor *cursor,
 								unsigned char codage, int *value, int arg_num);
-void						*print_battlefield_and_free(void);
 void						exec_operation(t_cursor *cursor);
 void						choose_operaion(t_cursor *cursor,
 											unsigned char byte);
@@ -217,6 +214,14 @@ void						vis_and_check(t_cycles_to_die *repeate);
 void						vm_check(t_cycles_to_die *repeate);
 void						zeroing_cursors_args(int *plr_id);
 void						inc_current_cycle_and_print(void);
+
+/*
+**							Free memory
+*/
+
+void						free_all(void);
+void						free_g_players(void);
+void						*print_battlefield_and_free(void);
 
 /*
 **							Players parser help
