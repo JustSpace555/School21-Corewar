@@ -73,7 +73,12 @@ int		parsing_arguments(int argc, char **argv)
 			res = check_flags(argc, argv, &i);
 	}
 	if (res == -1)
-		ft_fprintf(2, "Can't read source file %s\n", argv[i]);	
+		ft_fprintf(2, "Can't read source file %s\n", argv[i]);
+	else if (g_vm->amount_players == 0)
+	{
+		print_usage();
+		return (-1);
+	}
 	return (res);
 }
 

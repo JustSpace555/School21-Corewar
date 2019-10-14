@@ -15,16 +15,17 @@
 void	print_usage(void)
 {
 	ft_printf("Usage: ./corewar [-dump N -v -n N] <filename.cor> ...\n");
-	ft_printf("\t-a \t: aff\n");
+	ft_printf("\t-a \t: Print output from \"aff\"\n");
 	ft_printf("\t-dump N\t: Dumps memory after N cycles then exits\n");
 	ft_printf("\t-n N\t: set the champion number\n");
-	ft_printf("\t-v\t\t: verbose\n");
-	ft_printf("\t\t\t\t- 1\t: Opearions");
-	ft_printf("\t\t\t\t- 2\t: Cycles");
-	ft_printf("\t\t\t\t- 3\t: Lives");
-	ft_printf("\t\t\t\t- 4\t: Deaths");
-	ft_printf("\t\t\t\t- 5\t: PC movement");
-	ft_printf("\t-vi\t\t: visual mode\n");
+	ft_printf("\t-vi\t: visual mode\n");
+	ft_printf("\t-v N\t: verbose\n");
+	ft_printf("\t\t - 1 : Opearions\n");
+	ft_printf("\t\t - 2 : Cycles\n");
+	ft_printf("\t\t - 3 : Lives\n");
+	ft_printf("\t\t - 4 : Deaths\n");
+	ft_printf("\t\t - 5 : PC movement\n");
+	ft_printf("\t\t - 30 : Print all exlcude \"lives\"\n");
 }
 
 void	show_bin_int(unsigned int i)
