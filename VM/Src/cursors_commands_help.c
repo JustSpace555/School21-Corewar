@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cursors_commands_help.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/14 13:04:49 by qmebble           #+#    #+#             */
+/*   Updated: 2019/10/14 13:04:50 by qmebble          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Headers/virtual_header.h"
 
 unsigned int	get_first_arg(t_cursor *cursor, unsigned char codage,

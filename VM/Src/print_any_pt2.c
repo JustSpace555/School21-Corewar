@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_any_pt2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/14 13:05:50 by qmebble           #+#    #+#             */
+/*   Updated: 2019/10/14 13:05:51 by qmebble          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Headers/virtual_header.h"
 
 void	print_battlefield(void)
@@ -47,9 +59,11 @@ void	print_pc_movement(t_cursor *cursor, int skip)
 	if (g_vm->ver == 5 || g_vm->ver == 30)
 	{
 		i = -1;
-		ft_printf("ADV %d (0x%04x -> 0x%04x) ", skip, cursor->cur_pos, cursor->cur_pos + skip);
+		ft_printf("ADV %d (0x%04x -> 0x%04x) ", skip,
+			cursor->cur_pos, cursor->cur_pos + skip);
 		while (++i < skip)
-			ft_printf("%02hhx ", g_battlefield[(cursor->cur_pos + i) % MEM_SIZE].code);
+			ft_printf("%02hhx ",
+				g_battlefield[(cursor->cur_pos + i) % MEM_SIZE].code);
 		ft_printf("\n");
 	}
 }

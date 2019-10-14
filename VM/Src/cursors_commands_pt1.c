@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cursors_commands_pt1.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/14 13:04:52 by qmebble           #+#    #+#             */
+/*   Updated: 2019/10/14 13:04:53 by qmebble          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Headers/virtual_header.h"
 
 void	live(t_cursor *cursor)
@@ -20,8 +32,8 @@ void	live(t_cursor *cursor)
 		PLAYER(i).last_alive = CURRENT_CYCLE;
 		if (g_vm->ver == 3)
 			ft_printf("Player %d (%s) is said to be alive\n",
-										(arg < 0) ? -arg : arg, PLAYER((arg < 0) ? -arg : arg - 1).name);
-	}	
+			(arg < 0) ? -arg : arg, PLAYER((arg < 0) ? -arg : arg - 1).name);
+	}
 	g_amount_live_operations++;
 	print_pc_movement(cursor, 5);
 	move_cursor(cursor, 5);
@@ -63,28 +75,23 @@ void	st(t_cursor *cursor)
 
 	codage = GET_CUR_POS_BYTE(&cursor, 1);
 	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
-	if (!check_reg(src_reg) || (codage & 0xC0) != 0x40 ||
-		(codage & 0x30) == 0 || (codage & 0x30) == 0x20)
+	if (check_reg(src_reg) && (codage & 0xC0) == 0x40 &&
+		(codage & 0x30) != 0 && (codage & 0x30) != 0x20)
 	{
-		jump_to_next_op(cursor, codage, 4, 2);
-		return ;
-	}
-	if ((codage & 0x30) == 48)
-	{
-		temp = get_short_data(cursor->cur_pos + 3);
-		write_int_data(cursor->cur_pos + temp % IDX_MOD,
-						cursor->reg[src_reg - 1], cursor->color);
-		if (g_vm->ver == 1 || g_vm->ver == 30)
-			ft_printf("P %4d | st r%d %d\n", cursor->cursror_id,
-											src_reg, temp);
-	}
-	else if ((codage & 0x10) == 16 && check_reg(GET_CUR_POS_BYTE(&cursor, 3)))
-	{
-		cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] =
-								cursor->reg[src_reg - 1];
-		if (g_vm->ver == 1 || g_vm->ver == 30)
-			ft_printf("P %4d | st r%d %d\n", cursor->cursror_id,
-							src_reg, GET_CUR_POS_BYTE(&cursor, 3));
+		if ((codage & 0x30) == 48)
+		{
+			temp = get_short_data(cursor->cur_pos + 3);
+			write_int_data(cursor->cur_pos + temp % IDX_MOD,
+					cursor->reg[src_reg - 1], cursor->color);
+			check_and_print_st(cursor, src_reg, temp);
+		}
+		else if ((codage & 0x10) == 16 &&
+			check_reg(GET_CUR_POS_BYTE(&cursor, 3)))
+		{
+			cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] =
+									cursor->reg[src_reg - 1];
+			check_and_print_st(cursor, src_reg, GET_CUR_POS_BYTE(&cursor, 3));
+		}
 	}
 	jump_to_next_op(cursor, codage, 4, 2);
 }

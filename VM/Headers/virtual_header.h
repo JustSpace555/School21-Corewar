@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   virtual_header.h                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/14 13:06:20 by qmebble           #+#    #+#             */
+/*   Updated: 2019/10/14 13:06:21 by qmebble          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VIRTUAL_HEADER_H
 # define VIRTUAL_HEADER_H
 
@@ -161,6 +173,10 @@ void						print_lldi(t_cursor *cursor, int f_arg,
 											int s_arg, int t_arg);
 void						check_and_print_ldi(t_cursor *cursor,
 								int f_arg, int s_arg, int t_arg);
+void						check_and_print_st(t_cursor *cursor,
+											int f_arg, int s_arg);
+void						check_and_print_lld(t_cursor *cursor,
+											int f_arg, int s_arg);
 
 /*
 **							Initialize

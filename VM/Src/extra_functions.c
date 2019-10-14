@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   extra_functions.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/14 13:05:01 by qmebble           #+#    #+#             */
+/*   Updated: 2019/10/14 13:05:02 by qmebble          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Headers/virtual_header.h"
 
 int		ft_is_strdigit(char *str)
@@ -44,8 +56,8 @@ void	vis_and_check(t_cycles_to_die *repeate)
 void	process_operation(void)
 {
 	t_cursors_list	*current;
-	current = g_cursors;
 
+	current = g_cursors;
 	while (current)
 	{
 		choose_operaion(&current->cursor, GET_BYTE(current->cursor.cur_pos));

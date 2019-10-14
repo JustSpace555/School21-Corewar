@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   virtual_machine_help.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/14 13:06:03 by qmebble           #+#    #+#             */
+/*   Updated: 2019/10/14 13:06:03 by qmebble          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Headers/virtual_header.h"
 
 void	check_alive_cursors_cycle_body(t_cursors_list **current,
@@ -6,6 +18,10 @@ void	check_alive_cursors_cycle_body(t_cursors_list **current,
 	int	i;
 
 	i = 0;
+	if (g_vm->ver == 4 || g_vm->ver == 30)
+		ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
+										(*current)->cursor.cursror_id,
+					CURRENT_CYCLE - (*current)->cursor.last_alive, CTD);
 	g_battlefield[(*current)->cursor.cur_pos].cursor = false;
 	while (PLAYER(i).identifier != (*current)->cursor.player_id)
 		i++;
@@ -45,13 +61,7 @@ void	check_alive_cursors(void)
 			alive_cursors++;
 		}
 		else
-		{
-			if (g_vm->ver == 4 || g_vm->ver == 30)
-				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
-													current->cursor.cursror_id,
-							CURRENT_CYCLE - current->cursor.last_alive, CTD);
 			check_alive_cursors_cycle_body(&current, &prev);
-		}
 	}
 	g_cursors_amount = alive_cursors;
 }
@@ -80,7 +90,8 @@ void	push_winner(t_cycles_to_die repeate)
 			}
 	}
 	else if (g_vm->vis != 1 && !VIS_QUIT)
-		ft_printf("Contestant %d, \"%s\", has won !\n", g_vm->last_live_player, PLAYER(g_vm->last_live_player - 1).name);
+		ft_printf("Contestant %d, \"%s\", has won !\n", g_vm->last_live_player,
+									PLAYER(g_vm->last_live_player - 1).name);
 }
 
 void	inc_current_cycle_and_print(void)

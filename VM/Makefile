@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/10/14 13:06:10 by qmebble           #+#    #+#              #
+#    Updated: 2019/10/14 13:06:13 by qmebble          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SRC_FOLDER = Src/
 SRC =	$(SRC_FOLDER)main.c \
 		$(SRC_FOLDER)main_additions.c \
@@ -7,7 +19,8 @@ SRC =	$(SRC_FOLDER)main.c \
 		$(SRC_FOLDER)players_parser.c \
 		$(SRC_FOLDER)print_any_pt1.c \
 		$(SRC_FOLDER)print_any_pt2.c \
-		$(SRC_FOLDER)print_cursors_help.c \
+		$(SRC_FOLDER)print_cursors_help_pt1.c \
+		$(SRC_FOLDER)print_cursors_help_pt2.c \
 		$(SRC_FOLDER)virtual_machine.c \
 		$(SRC_FOLDER)args_parser.c \
 		$(SRC_FOLDER)initializer_help.c \

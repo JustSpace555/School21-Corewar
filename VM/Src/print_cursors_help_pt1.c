@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_cursors_help_pt1.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/14 13:05:53 by qmebble           #+#    #+#             */
+/*   Updated: 2019/10/14 13:05:54 by qmebble          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Headers/virtual_header.h"
 
 void	print_sti(t_cursor *cursor, int reg, int sec_arg, int third_arg)
@@ -41,4 +53,11 @@ void	check_and_print_ldi(t_cursor *cursor, int f_arg, int s_arg, int t_arg)
 {
 	if (g_vm->ver == 1 || g_vm->ver == 30)
 		print_ldi(cursor, f_arg, s_arg, t_arg);
+}
+
+void	check_and_print_st(t_cursor *cursor, int f_arg, int s_arg)
+{
+	if (g_vm->ver == 1 || g_vm->ver == 30)
+		ft_printf("P %4d | st r%d %d\n", cursor->cursror_id,
+												f_arg, s_arg);
 }

@@ -1,35 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   print_cursors_help_pt2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/14 13:05:19 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:05:20 by qmebble          ###   ########.fr       */
+/*   Created: 2019/10/14 13:05:56 by qmebble           #+#    #+#             */
+/*   Updated: 2019/10/14 13:05:56 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/virtual_header.h"
 
-int		main(int argc, char *argv[])
+void	check_and_print_lld(t_cursor *cursor, int f_arg, int s_arg)
 {
-	if (argc < 2)
-	{
-		print_usage();
-		return (-1);
-	}
-	else
-	{
-		initialize_vm();
-<<<<<<< HEAD
-		if (parsing(argc, argv) == -1)
-			return (-1);	
-=======
-		if (!parsing(argc, argv))
-			return (-1);
->>>>>>> f27f35fcf2e6a1ef39b15068ddaf4073c6f561ca
-		virtual_machine();
-	}
-	return (1);
+	if (g_vm->ver == 1 || g_vm->ver == 30)
+		ft_printf("P %4d | lld %d r%d\n", cursor->cursror_id,
+												f_arg, s_arg);
 }
