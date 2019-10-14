@@ -22,13 +22,8 @@ int		main(int argc, char *argv[])
 	else
 	{
 		initialize_vm();
-<<<<<<< HEAD
 		if (parsing(argc, argv) == -1)
-			return (-1);	
-=======
-		if (!parsing(argc, argv))
 			return (-1);
->>>>>>> f27f35fcf2e6a1ef39b15068ddaf4073c6f561ca
 		virtual_machine();
 	}
 	return (1);

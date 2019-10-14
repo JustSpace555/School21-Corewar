@@ -48,7 +48,8 @@ int		players_parser(char **files_champions)
 	while (++i < g_vm->amount_players)
 	{
 		amount_bytes = 0;
-		if (parse_champion_file_byte(files_champions[i], i, &amount_bytes) == - 1)
+		if (parse_champion_file_byte(files_champions[i],\
+			i, &amount_bytes) == -1)
 			return (-1);
 	}
 	if (check_for_overflow() == -1)

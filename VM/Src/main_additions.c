@@ -54,12 +54,35 @@ void	set_identifiers(t_vm *vm, int argc, char **argv)
 	}
 }
 
+int		parsing_arguments(int argc, char **argv)
+{
+	int	i;
+	int res;
+
+	i = 0;
+	res = 1;
+	while (res != -1 && ++i < argc)
+	{
+		res = check_file(argv[i]);
+		if (res == 1)
+		{
+			g_vm->amount_players++;
+			continue;
+		}
+		else if (res == 0)
+			res = check_flags(argc, argv, &i);
+	}
+	if (res == -1)
+		ft_fprintf(2, "Can't read source file %s\n", argv[i]);	
+	return (res);
+}
+
 int		parsing(int argc, char **argv)
 {
 	int		i;
 	char	**player_files;
 
-	if (parsing_arguments(argc, argv, g_vm) == -1)
+	if (parsing_arguments(argc, argv) == -1)
 		return (-1);
 	if (g_vm->amount_players > MAX_PLAYERS)
 	{
@@ -71,7 +94,7 @@ int		parsing(int argc, char **argv)
 	i = -1;
 	while (++i < g_vm->amount_players)
 		player_files[i] = argv[g_vm->plr_nbr[i].index_file];
-	if (players_parser(player_files) == - 1)
+	if (players_parser(player_files) == -1)
 	{
 		free_g_players();
 		free(player_files);

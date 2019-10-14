@@ -11,7 +11,7 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/corewar",
 			//"args": ["../42-corewar/tests/vm/op/aff.cor", "-a"],
-			"args": ["errors/42.cor"],
+			"args": ["-dump", "30"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

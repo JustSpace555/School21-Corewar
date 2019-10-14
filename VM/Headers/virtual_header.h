@@ -217,6 +217,9 @@ void						vis_and_check(t_cycles_to_die *repeate);
 void						vm_check(t_cycles_to_die *repeate);
 void						zeroing_cursors_args(int *plr_id);
 void						inc_current_cycle_and_print(void);
+int							check_flags(int argc, char **ar, int *i);
+int							check_file(char *argument);
+
 
 /*
 **							Players parser help
@@ -249,7 +252,6 @@ int							check_for_overflow(void);
 
 void						*virtual_machine(void);
 int							players_parser(char **files_champions);
-int							parsing_arguments(int argc, char **argv, t_vm *vm);
 
 /*
 **							Operations
