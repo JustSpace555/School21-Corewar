@@ -60,22 +60,22 @@ int		parsing(int argc, char **argv)
 	char	**player_files;
 
 	if (parsing_arguments(argc, argv, g_vm) == -1)
-		return (0);
+		return (-1);
 	if (g_vm->amount_players > MAX_PLAYERS)
 	{
 		write(2, "Too many champions\n", 19);
-		return (0);
+		return (-1);
 	}
 	set_identifiers(g_vm, argc, argv);
 	player_files = (char **)malloc(sizeof(char *) * g_vm->amount_players);
 	i = -1;
 	while (++i < g_vm->amount_players)
 		player_files[i] = argv[g_vm->plr_nbr[i].index_file];
-	if (!players_parser(player_files))
+	if (players_parser(player_files) == - 1)
 	{
 		free_g_players();
 		free(player_files);
-		return (0);
+		return (-1);
 	}
 	free(player_files);
 	g_vm->last_live_player = g_vm->amount_players;

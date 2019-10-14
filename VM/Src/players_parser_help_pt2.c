@@ -21,7 +21,7 @@ void	make_g_player_name(int amount_bytes, uint8_t buffer[4],
 					*string_size, *string_size += 4);
 }
 
-int		make_g_player_size(int amount_bytes, uint8_t buffer[4], int i)
+int		make_g_player_size(int amount_bytes, uint8_t buffer[4], int i, char *player_file)
 {
 	if (amount_bytes > BYTES_AFTER_NAME + NULL_BYTES &&
 						amount_bytes <= BYTES_AFTER_CODE_SIZE)
@@ -30,8 +30,7 @@ int		make_g_player_size(int amount_bytes, uint8_t buffer[4], int i)
 		if (PLAYER(i).code_size > CHAMP_MAX_SIZE)
 		{
 			ft_printf("Error: File %s has too large code \
-				(%d bytes > %d bytes)\n", PLAYER(i).name,
-								PLAYER(i).code_size, CHAMP_MAX_SIZE);
+(%d bytes > %d bytes)\n", player_file, PLAYER(i).code_size, CHAMP_MAX_SIZE);
 			return (0);
 		}
 	}

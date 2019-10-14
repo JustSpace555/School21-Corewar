@@ -35,10 +35,17 @@ int		check_for_overflow(void)
 		amount_memory += PLAYER(i).code_size;
 	if (amount_memory > MEM_SIZE)
 	{
+<<<<<<< HEAD
+		ft_fprintf(2, \
+		"Virual machine error: players mem size \
+bigger than permitted (%d > %d)\n", amount_memory, MEM_SIZE);
+		return (-1);
+=======
 		ft_fprintf(2,
 		"VM error: players mem size bigger than permitted (%d > %d)\n",
 												amount_memory, MEM_SIZE);
 		return (0);
+>>>>>>> f27f35fcf2e6a1ef39b15068ddaf4073c6f561ca
 	}
 	return (1);
 }
@@ -49,7 +56,7 @@ int		check_fd(int *fd, char *champion_file)
 	if (*fd == -1)
 	{
 		ft_fprintf(2, "Failed to open file: %s\n", champion_file);
-		return (0);
+		return (-1);
 	}
 	return (1);
 }
