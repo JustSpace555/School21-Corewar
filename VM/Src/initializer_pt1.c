@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:10 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:05:10 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/14 14:14:14 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	initialize_g_players(void)
 	i = -1;
 	while (++i < g_vm->amount_players)
 	{
+		PLAYER(i).file_name = NULL;
 		PLAYER(i).start_position = 0;
 		PLAYER(i).code = NULL;
 		PLAYER(i).code_size = 0;

@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:47 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:05:47 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/14 14:26:40 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ void	print_hex_data(char *file)
 
 	count = 0;
 	fd = open(file, O_RDONLY);
+	if (fd <= 0)
+		return ;
 	ft_printf("Filename = %s\n", file);
 	while (read(fd, &buffer, 4))
 	{

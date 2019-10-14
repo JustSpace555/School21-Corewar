@@ -6,13 +6,13 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:42 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:05:42 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/14 16:34:29 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/virtual_header.h"
 
-void	zeroing_string_size(int *string_size, int amount_bytes)
+void	zeroing_string_size(int *string_size, int amount_bytes, int *sum)
 {
 	if ((amount_bytes > BYTES_AFTER_NAME &&
 		amount_bytes <= BYTES_AFTER_NAME + NULL_BYTES) ||
@@ -21,7 +21,10 @@ void	zeroing_string_size(int *string_size, int amount_bytes)
 		(amount_bytes > BYTES_AFTER_COMMENT &&
 		amount_bytes <= BYTES_AFTER_COMMENT + NULL_BYTES) ||
 		amount_bytes == BYTES_AFTER_HEADER)
+	{
 		*string_size = 0;
+		*sum = 0;
+	}
 }
 
 int		check_for_overflow(void)
@@ -35,17 +38,10 @@ int		check_for_overflow(void)
 		amount_memory += PLAYER(i).code_size;
 	if (amount_memory > MEM_SIZE)
 	{
-<<<<<<< HEAD
-		ft_fprintf(2, \
-		"Virual machine error: players mem size \
-bigger than permitted (%d > %d)\n", amount_memory, MEM_SIZE);
-		return (-1);
-=======
 		ft_fprintf(2,
 		"VM error: players mem size bigger than permitted (%d > %d)\n",
 												amount_memory, MEM_SIZE);
 		return (0);
->>>>>>> f27f35fcf2e6a1ef39b15068ddaf4073c6f561ca
 	}
 	return (1);
 }

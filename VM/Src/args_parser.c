@@ -138,7 +138,7 @@ int		parsing_arguments(int argc, char **argv, t_vm *vm)
 			{
 				ft_fprintf(2, "Can't read source file %s\n", argv[i]);
 				return (-1);
-			}	
+			}
 	}
 	return (res);
 }

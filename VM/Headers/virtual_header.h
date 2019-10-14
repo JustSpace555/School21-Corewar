@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:06:20 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:09:27 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/14 16:41:25 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct				s_player
 {
 	int						start_position;
 	unsigned int			identifier;
+	char					*file_name;
 	char					*name;
 	char					*comment;
 	char					*aff_out;
@@ -235,13 +236,13 @@ int							get_code_size(u_int8_t buffer[4]);
 int							check_fd(int *fd, char *champion_file);
 void						initialize_one_g_player(int i);
 void						zeroing_string_size(int *string_size,
-												int amount_bytes);
+										int amount_bytes, int *sum);
 int							if_header_bytes(int amount_bytes,
 											uint8_t buffer[4]);
 void						make_g_player_name(int amount_bytes,
 								uint8_t buffer[4], int i, int *string_size);
 int							make_g_player_size(int amount_bytes,
-										uint8_t buffer[4], int i, char *player_file);
+										uint8_t buffer[4], int i);
 void						make_g_player_comment(int amount_bytes,
 								uint8_t buffer[4], int i, int *string_size);
 void						make_g_player_code(int amount_bytes,
