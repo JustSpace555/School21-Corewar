@@ -40,6 +40,8 @@ int		check_file(char *argument)
 	}
 	if (flag_dot == 2)
 		return (1);
+	if (*extansion != '\0')
+		return (-1);
 	return (flag_dot == 1) ? -1 : 0;
 }
 
@@ -131,7 +133,7 @@ int		parsing_arguments(int argc, char **argv, t_vm *vm)
 		res = check_file(argv[i]);
 		if (res == -1)
 		{
-			ft_printf("%s - invalid file name\n", argv[i]);
+			ft_fprintf(2, "%s - invalid file name\n", argv[i]);
 			return (-1);
 		}
 		else if (res == 1)

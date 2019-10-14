@@ -11,7 +11,7 @@ int		main(int argc, char *argv[])
 	{
 		initialize_vm();
 		if (!parsing(argc, argv))
-			return (-1);
+			return (-1);	
 		virtual_machine();
 	}
 	return (1);

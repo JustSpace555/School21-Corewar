@@ -51,7 +51,7 @@ int		parsing(int argc, char **argv)
 		return (0);
 	if (g_vm->amount_players > MAX_PLAYERS)
 	{
-		write(1, "Too many champions\n", 19);
+		write(2, "Too many champions\n", 19);
 		return (0);
 	}
 	set_identifiers(g_vm, argc, argv);
