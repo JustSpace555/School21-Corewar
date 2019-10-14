@@ -14,7 +14,7 @@ int		handler_dots(char *argument, int *flag_dot, char **extansion, int i)
 		}
 		else if (argument[i + 1] != 0)
 			*flag_dot = 0;
-		else	
+		else
 			return (-1);
 	}
 	else if (*flag_dot == 2 && argument[i] == '/')
@@ -65,8 +65,10 @@ int		check_flags(int argc, char **argv, int *i, t_vm *vm)
 	int rtn;
 
 	rtn = -1;
-	if (ft_strcmp("-dump", argv[*i]) == 0)
+	if (ft_strcmp("-dump", argv[*i]) == 0 || ft_strcmp("-dumpc", argv[*i]) == 0)
 	{
+		if (ft_strcmp("-dumpc", argv[*i]) == 0)
+			g_vm->color_print = 1;
 		if (*i + 1 != argc)
 			if (ft_is_strdigit(argv[*i + 1]) == 1)
 			{
@@ -101,21 +103,9 @@ int		check_flags(int argc, char **argv, int *i, t_vm *vm)
 		vm->vis = 1;
 		rtn = 1;
 	}
-	else if (ft_strcmp("-a", argv[*i]))
+	else if (ft_strcmp("-a", argv[*i]) == 0)
 	{
 		vm->aff = 1;
-		rtn = 1;
-	}
-	else if (ft_strcmp("-dumpc", argv[*i]) == 0)
-	{
-		if (*i + 1 != argc)
-			if (ft_is_strdigit(argv[*i + 1]) == 1)
-			{
-				vm->dump = ft_atoi(argv[*i + 1]);
-				vm->color_print = 1;
-				rtn = 1;
-				*i += 1;
-			}
 		rtn = 1;
 	}
 	return (rtn);

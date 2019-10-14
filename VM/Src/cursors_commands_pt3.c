@@ -119,47 +119,19 @@ void	aff(t_cursor *cursor)
 {
 	unsigned char	dest_reg;
 	char			out;
-	int				i;
+	unsigned char	codage;
 
-	dest_reg = GET_CUR_POS_BYTE(&cursor, 1);
-	if (check_reg(dest_reg))
+	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	if ((codage & 0xC0) == 0x40)
 	{
-		out = (char)cursor->reg[dest_reg - 1];
-		if (g_vm->aff == 1) // Сделать отдельный флаг для aff
-			ft_printf("Aff: %c\n", out);
+		dest_reg = GET_CUR_POS_BYTE(&cursor, 2);
+		if (check_reg(dest_reg))
+		{
+			out = (char)cursor->reg[dest_reg - 1];
+			if (g_vm->aff == 1)
+				ft_printf("Aff: %c\n", out);
+		}
 	}
 	print_pc_movement(cursor, 3);
-	move_cursor(cursor, 2);
+	move_cursor(cursor, 3);
 }
-
-// void	aff(t_cursor *cursor)
-// {
-// 	unsigned char	dest_reg;
-// 	char			*temp;
-// 	char			out;
-// 	int				i;
-
-// 	temp = NULL;
-// 	dest_reg = GET_CUR_POS_BYTE(&cursor, 1);
-// 	if (check_reg(dest_reg))
-// 	{
-// 		i = -1;
-// 		while (cursor->player_id != PLAYER(++i).identifier)
-// 			;
-// 		if (!PLAYER(i).aff_out)
-// 		{
-// 			PLAYER(i).aff_out = (char *)malloc(sizeof(char) * 2);
-// 			ft_bzero(PLAYER(i).aff_out, 2);
-// 			PLAYER(i).aff_out[0] = cursor->reg[dest_reg - 1] % 256;
-// 		}
-// 		temp = PLAYER(i).aff_out;
-// 		out = cursor->reg[dest_reg - 1] % 256;
-// 		PLAYER(i).aff_out = ft_strjoin(PLAYER(i).aff_out, &out);
-// 		free(temp);
-// 		if (g_vm->vis == -1) // Сделать отдельный флаг для aff
-// 			ft_printf("Player #%u out: %s\n", cursor->cursror_id,
-// 											PLAYER(i).aff_out);
-// 	}
-// 	print_pc_movement(cursor, 3);
-// 	move_cursor(cursor, 2);
-// }

@@ -44,18 +44,10 @@ void	vis_and_check(t_cycles_to_die *repeate)
 void	process_operation(void)
 {
 	t_cursors_list	*current;
-
 	current = g_cursors;
 
 	while (current)
 	{
-		if (CURRENT_CYCLE == 24366)
-		{
-			if (current->cursor.cycle_exec == 1)
-			{
-				
-			}
-		}
 		choose_operaion(&current->cursor, GET_BYTE(current->cursor.cur_pos));
 		exec_operation(&current->cursor);
 		current = current->next;
