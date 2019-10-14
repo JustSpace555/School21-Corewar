@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:44 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:05:45 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/14 16:41:56 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,34 @@ int		parse_champion_file_byte(char *champion_file,
 	int		fd;
 	uint8_t buffer[4];
 	int		string_size;
+	int		sum;
+	int		temp;
 
 	initialize_one_g_player(i);
 	if (check_fd(&fd, champion_file) == -1)
 		return (-1);
-	while (read(fd, buffer, 4))
+	PLAYER(i).file_name = champion_file;
+	sum = 0;
+	while ((temp = read(fd, buffer, 4)))
 	{
+		sum += temp;
 		*amount_bytes += 4;
-		zeroing_string_size(&string_size, *amount_bytes);
+		zeroing_string_size(&string_size, *amount_bytes, &sum);
 		if (!if_header_bytes(*amount_bytes, buffer))
 			return (-1);
 		make_g_player_name(*amount_bytes, buffer, i, &string_size);
-		if (!make_g_player_size(*amount_bytes, buffer, i, champion_file))
+		if (!make_g_player_size(*amount_bytes, buffer, i))
 			return (-1);
 		make_g_player_comment(*amount_bytes, buffer, i, &string_size);
 		make_g_player_code(*amount_bytes, buffer, i, &string_size);
 	}
 	close(fd);
+	if (sum != PLAYER(i).code_size)
+	{
+		ft_fprintf(2, "Error: File %s has a code size \
+that differ from what its header says\n", PLAYER(i).file_name);
+		return (-1);
+	}
 	return (1);
 }
 

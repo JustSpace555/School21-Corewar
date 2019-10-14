@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:35 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:05:36 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/14 15:40:32 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		if_header_bytes(int amount_bytes, uint8_t buffer[4])
 	if (amount_bytes == BYTES_AFTER_HEADER)
 		if (!check_for_header(buffer))
 		{
-			ft_printf("Virtual Machine error: \
+			ft_fprintf(2, "Virtual Machine error: \
 No magic header in file\n");
 			return (0);
 		}

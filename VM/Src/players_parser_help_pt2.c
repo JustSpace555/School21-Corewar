@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:38 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:05:38 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/14 16:40:40 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void	make_g_player_name(int amount_bytes, uint8_t buffer[4],
 					*string_size, *string_size += 4);
 }
 
-int		make_g_player_size(int amount_bytes, uint8_t buffer[4], \
-							int i, char *player_file)
+int		make_g_player_size(int amount_bytes, uint8_t buffer[4], int i)
 {
 	if (amount_bytes > BYTES_AFTER_NAME + NULL_BYTES &&
 						amount_bytes <= BYTES_AFTER_CODE_SIZE)
@@ -30,8 +29,14 @@ int		make_g_player_size(int amount_bytes, uint8_t buffer[4], \
 		PLAYER(i).code_size = make_4_byte_int(buffer);
 		if (PLAYER(i).code_size > CHAMP_MAX_SIZE)
 		{
-			ft_printf("Error: File %s has too large code \
-(%d bytes > %d bytes)\n", player_file, PLAYER(i).code_size, CHAMP_MAX_SIZE);
+			ft_fprintf(2, "Error: File %s has too large code \
+(%d bytes > %d bytes)\n", PLAYER(i).file_name, PLAYER(i).code_size, CHAMP_MAX_SIZE);
+			return (0);
+		}
+		if (PLAYER(i).code_size == 0)
+		{
+			ft_fprintf(2, "Error: File %s is too small to be a champion\n",
+													PLAYER(i).file_name);
 			return (0);
 		}
 	}

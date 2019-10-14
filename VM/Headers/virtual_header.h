@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:06:20 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:06:21 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/14 16:41:25 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct				s_player
 {
 	int						start_position;
 	unsigned int			identifier;
+	char					*file_name;
 	char					*name;
 	char					*comment;
 	char					*aff_out;
@@ -197,17 +198,14 @@ void						initialize_all(t_cycles_to_die *repeate);
 */
 
 int							ft_is_strdigit(char *str);
-void						free_g_players(void);
 void						choose_color(t_battlefield *cell, int i);
 int							choose_reverse_color(t_battlefield *cell);
 char						choose_color_char(int i);
 void						check_alive_cursors(void);
-void						free_all(void);
 void						push_winner(t_cycles_to_die repeate);
 t_bool						check_reg(unsigned char reg);
 int							check_reg_write_arg(t_cursor *cursor,
 								unsigned char codage, int *value, int arg_num);
-void						*print_battlefield_and_free(void);
 void						exec_operation(t_cursor *cursor);
 void						choose_operaion(t_cursor *cursor,
 											unsigned char byte);
@@ -222,6 +220,14 @@ int							check_file(char *argument);
 
 
 /*
+**							Free memory
+*/
+
+void						free_all(void);
+void						free_g_players(void);
+void						*print_battlefield_and_free(void);
+
+/*
 **							Players parser help
 */
 
@@ -233,13 +239,13 @@ int							get_code_size(u_int8_t buffer[4]);
 int							check_fd(int *fd, char *champion_file);
 void						initialize_one_g_player(int i);
 void						zeroing_string_size(int *string_size,
-												int amount_bytes);
+										int amount_bytes, int *sum);
 int							if_header_bytes(int amount_bytes,
 											uint8_t buffer[4]);
 void						make_g_player_name(int amount_bytes,
 								uint8_t buffer[4], int i, int *string_size);
 int							make_g_player_size(int amount_bytes,
-										uint8_t buffer[4], int i, char *player_file);
+										uint8_t buffer[4], int i);
 void						make_g_player_comment(int amount_bytes,
 								uint8_t buffer[4], int i, int *string_size);
 void						make_g_player_code(int amount_bytes,
