@@ -49,7 +49,7 @@ void	print_pc_movement(t_cursor *cursor, int skip)
 		i = -1;
 		ft_printf("ADV %d (0x%04x -> 0x%04x) ", skip, cursor->cur_pos, cursor->cur_pos + skip);
 		while (++i < skip)
-			ft_printf("%02hhx ", g_battlefield[(cursor->cur_pos + i)].code);
+			ft_printf("%02hhx ", g_battlefield[(cursor->cur_pos + i) % MEM_SIZE].code);
 		ft_printf("\n");
 	}
 }
