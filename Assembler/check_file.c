@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eskeleto <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:21:44 by eskeleto          #+#    #+#             */
-/*   Updated: 2019/08/29 15:21:46 by eskeleto         ###   ########.fr       */
+/*   Updated: 2019/10/16 15:58:11 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_check_instructions(t_asm *assm, t_oper *oper)
 	while (assm->file[i] != NULL)
 	{
 		assm->instr[i] = ft_parse_instruction(assm, assm->file[i], oper);
-		ft_check_register(assm, assm->instr[i]);
+		ft_check_register(assm->instr[i]);
 		ft_check_counts_args(assm, &assm->instr[i], oper);
 		ft_check_arg_and_type(assm, &assm->instr[i], oper);
 		i++;

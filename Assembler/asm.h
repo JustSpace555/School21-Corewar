@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eskeleto <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/10 13:40:51 by eskeleto          #+#    #+#             */
-/*   Updated: 2019/09/10 13:40:52 by eskeleto         ###   ########.fr       */
+/*   Updated: 2019/10/16 15:57:29 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void				ft_number_to_bytes(int fd, int byte, t_instr ins);
 void				ft_number_to_two_bytes(int fd, int byte);
 void				ft_in_bytes(t_asm *assm, int fd);
 void				ft_str_errout(char *str);
-void				ft_check_register(t_asm *assm, t_instr ins);
+void				ft_check_register(t_instr ins);
 void				ft_find_name_and_comment(int fd, t_asm *assm);
 void				ft_skip_spaces_and_newline(char *allfile, t_asm *assm,
 		int *i);
@@ -99,5 +99,6 @@ void				ft_solution(int fd, char *argv);
 int					ft_find_comment(t_asm *assm, char *name);
 void				ft_skip_lines(char *allfile, t_asm *assm, int *i);
 int					ft_newlines_before_ins(char *allfile, int i);
+void				ft_check_str(int fd);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operation_code.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eskeleto <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:11:34 by eskeleto          #+#    #+#             */
-/*   Updated: 2019/08/29 17:11:36 by eskeleto         ###   ########.fr       */
+/*   Updated: 2019/10/16 16:23:51 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ char	*ft_find_opcode(char *str, t_instr *ins, t_oper *oper, t_asm *assm)
 		if (next <= (int)ft_strlen(str))
 		{
 			str_oper = ft_strsub(str, 0, next);
-			if (ft_strequ(str_oper, oper[i].name)
-				&& (ft_is_space_symb(str[next]) || str[next] == DIRECT_CHAR))
+			if (ft_strequ(str_oper, oper[i].name) && (str[next] == '-'
+				|| ft_is_space_symb(str[next]) || str[next] == DIRECT_CHAR))
 			{
 				ft_set_opcode(ins, oper, str_oper, i);
 				return (ft_sub_operation(str, next));

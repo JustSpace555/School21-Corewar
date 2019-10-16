@@ -16,6 +16,5 @@ new:
 
 debug:
 	@make -C ./VM/ debug
-	@make -C ./Assembler/ debug
 
 re: fclean all

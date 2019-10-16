@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:16 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:54:45 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 16:16:22 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int		parsing(int argc, char **argv)
 		player_files[i] = argv[g_vm->plr_nbr[i].index_file];
 	if (players_parser(player_files) == -1)
 	{
-		free_g_players();
 		free(player_files);
 		return (-1);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eskeleto <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 15:19:01 by eskeleto          #+#    #+#             */
-/*   Updated: 2019/08/29 15:19:03 by eskeleto         ###   ########.fr       */
+/*   Updated: 2019/10/16 15:57:16 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void			ft_check_arg_and_type(t_asm *assm, t_instr *ins, t_oper *oper)
 	}
 }
 
-void			ft_check_register(t_asm *assm, t_instr ins)
+void			ft_check_register(t_instr ins)
 {
 	int		i;
 	char	*numb;
@@ -92,11 +92,6 @@ void			ft_check_register(t_asm *assm, t_instr ins)
 				numb = ft_strsub(ins.args[i], 1, ft_strlen(ins.args[i]) - 1);
 				reg = ft_atoi(numb);
 				free(numb);
-				if (reg == 0 || reg > REG_NUMBER)
-				{
-					ft_free_asm(assm);
-					ft_str_errout("Not valid number of register!");
-				}
 			}
 		}
 		i++;

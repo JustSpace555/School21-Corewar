@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:19 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:54:36 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 16:10:14 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int		main(int argc, char *argv[])
 {
+	int	rtn;
+
+	rtn = 1;
 	if (argc < 2)
 	{
 		print_usage();
@@ -22,9 +25,10 @@ int		main(int argc, char *argv[])
 	else
 	{
 		initialize_vm();
-		if (parsing(argc, argv) == -1)
-			return (-1);
-		virtual_machine();
+		rtn = parsing(argc, argv);
+		if (rtn == 1)
+			virtual_machine();
+		free_all();
 	}
-	return (1);
+	return (rtn);
 }

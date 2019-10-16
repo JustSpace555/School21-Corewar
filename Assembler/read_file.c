@@ -103,7 +103,9 @@ void	ft_counts_line_file(int fd, t_asm *assm)
 	{
 		buf[1] = '\0';
 		if (buf[0] != '\n')
-			ft_str_errout("File must be end on newline");
+		{
+			ft_check_str(fd);
+		}
 	}
 	else
 		ft_str_errout("File must be end on newline!");

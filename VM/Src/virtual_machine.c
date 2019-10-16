@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:06:05 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:06:05 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 16:06:39 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,5 @@ void	*virtual_machine(void)
 	}
 	if (!VIS_QUIT)
 		push_winner(repeate);
-	free_all();
 	return (NULL);
 }
