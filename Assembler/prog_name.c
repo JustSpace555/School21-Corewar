@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prog_name.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eskeleto <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/10 14:16:12 by eskeleto          #+#    #+#             */
-/*   Updated: 2019/09/10 14:16:13 by eskeleto         ###   ########.fr       */
+/*   Updated: 2019/10/16 14:37:50 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_skip_lines(char *allfile, t_asm *assm, int *i)
 	ft_skip_spaces(allfile, i);
 	if (allfile[*i] == '.')
 		return ;
-	if (allfile[*i] == COMMENT_CHAR)
+	if (allfile[*i] == COMMENT_CHAR || allfile[*i] == ALT_COMMENT_CHAR)
 	{
 		while (allfile[*i] != '\n' && allfile[*i] != '\0')
 			(*i)++;

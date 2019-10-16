@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:44 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/16 14:34:42 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 14:42:01 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ int		parse_champion_file_byte(char *champion_file,
 		sum += temp;
 		*amount_bytes += 4;
 		zeroing_string_size(&string_size, *amount_bytes, &sum);
-		if (!if_header_bytes(*amount_bytes, buffer))
+		if (!if_header_bytes(*amount_bytes, buffer) ||
+			!make_g_player_size(*amount_bytes, buffer, i))
 			return (-1);
 		make_g_player_name(*amount_bytes, buffer, i, &string_size);
-		if (!make_g_player_size(*amount_bytes, buffer, i))
-			return (-1);
 		make_g_player_comment(*amount_bytes, buffer, i, &string_size);
 		make_g_player_code(*amount_bytes, buffer, i, &string_size);
 	}
