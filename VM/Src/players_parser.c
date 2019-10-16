@@ -6,11 +6,22 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:44 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 16:41:56 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 11:17:33 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/virtual_header.h"
+
+int		check_file_sum(int sum, int i)
+{
+	if (sum != PLAYER(i).code_size)
+	{
+		ft_fprintf(2, "Error: File %s has a code size \
+that differ from what its header says\n", PLAYER(i).file_name);
+		return (-1);
+	}
+	return (1);
+}
 
 int		parse_champion_file_byte(char *champion_file,
 								int i, int *amount_bytes)
@@ -24,7 +35,6 @@ int		parse_champion_file_byte(char *champion_file,
 	initialize_one_g_player(i);
 	if (check_fd(&fd, champion_file) == -1)
 		return (-1);
-	PLAYER(i).file_name = champion_file;
 	sum = 0;
 	while ((temp = read(fd, buffer, 4)))
 	{
@@ -40,13 +50,7 @@ int		parse_champion_file_byte(char *champion_file,
 		make_g_player_code(*amount_bytes, buffer, i, &string_size);
 	}
 	close(fd);
-	if (sum != PLAYER(i).code_size)
-	{
-		ft_fprintf(2, "Error: File %s has a code size \
-that differ from what its header says\n", PLAYER(i).file_name);
-		return (-1);
-	}
-	return (1);
+	return (check_file_sum(sum, i));
 }
 
 int		players_parser(char **files_champions)
@@ -59,6 +63,7 @@ int		players_parser(char **files_champions)
 	while (++i < g_vm->amount_players)
 	{
 		amount_bytes = 0;
+		PLAYER(i).file_name = files_champions[i];
 		if (parse_champion_file_byte(files_champions[i],\
 			i, &amount_bytes) == -1)
 			return (-1);

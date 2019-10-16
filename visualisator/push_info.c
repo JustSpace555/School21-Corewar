@@ -178,7 +178,7 @@ void	push_winner_vis(void)
 	pos.y = SCREEN_HEIGHT - 120;
 	text_surface = NULL;
 	text_texture = NULL;
-	set_sdl_color(&winner, g_vm->last_live_player);
+	set_sdl_color(&winner, g_vm->last_live_player - 1);
 	text_surface = TTF_RenderText_Solid(g_font, "Winner is: ", White);
 	text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
 	SDL_FreeSurface(text_surface);
@@ -186,10 +186,10 @@ void	push_winner_vis(void)
 	SDL_RenderCopy(g_main_render, text_texture, NULL, &pos);
 	SDL_DestroyTexture(text_texture);
 	pos.x += pos.w + 10;
-	text_surface = TTF_RenderText_Solid(g_font, PLAYER(g_vm->last_live_player).name, winner);
+	text_surface = TTF_RenderText_Solid(g_font, PLAYER(g_vm->last_live_player - 1).name, winner);
 	text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
 	SDL_FreeSurface(text_surface);
-	TTF_SizeText(g_font, PLAYER(g_vm->last_live_player).name, &pos.w, &pos.h);
+	TTF_SizeText(g_font, PLAYER(g_vm->last_live_player - 1).name, &pos.w, &pos.h);
 	SDL_RenderCopy(g_main_render, text_texture, NULL, &pos);
 	SDL_DestroyTexture(text_texture);
 }

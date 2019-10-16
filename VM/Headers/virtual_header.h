@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:06:20 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 16:41:25 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 11:12:18 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,6 @@ void						zeroing_cursors_args(int *plr_id);
 void						inc_current_cycle_and_print(void);
 int							check_flags(int argc, char **ar, int *i);
 int							check_file(char *argument);
-
 
 /*
 **							Free memory
