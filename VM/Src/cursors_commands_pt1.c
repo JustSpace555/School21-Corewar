@@ -32,7 +32,7 @@ void	live(t_cursor *cursor)
 		g_players[i].last_alive = CURRENT_CYCLE;
 		if (g_vm->ver == 3)
 			ft_printf("Player %d (%s) is said to be alive\n",
-			(arg < 0) ? -arg : arg, g_players[(arg < 0) ? -arg : arg - 1].name);
+			(arg < 0) ? -arg : arg, g_players[(arg < 0) ? -arg - 1 : arg - 1].name);
 	}
 	g_amount_live_operations++;
 	print_pc_movement(cursor, 5);
