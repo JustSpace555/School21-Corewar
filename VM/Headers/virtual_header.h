@@ -22,13 +22,6 @@
 # define NULL_BYTES 4
 # define BYTES_AFTER_CODE_SIZE BYTES_AFTER_NAME + NULL_BYTES + 4
 # define BYTES_AFTER_COMMENT BYTES_AFTER_CODE_SIZE + COMMENT_LENGTH
-
-# define CURSOR g_cursors->cursor
-# define PLAYER(i) g_players[i]
-# define GET_BYTE(pos) g_battlefield[pos].code
-# define BATTLEFIELD_CELL(i, j, l_c) g_battlefield[i + j + l_c]
-# define GET_CUR_POS_BYTE(cursor, extra) GET_BYTE((*cursor)->cur_pos + extra)
-# define GET_REG_VALUE(cursor, reg_i) cursor->reg[reg_i]
 # define CODE_PER_LINE 64
 
 # define CURRENT_CYCLE g_main_info[0]

@@ -63,12 +63,12 @@ EXEC = corewar
 all:
 	@echo Compiling virtual machine ...
 	@bash $(SRC_VIS_FOLDER)script.bash
-	@gcc -g $(SRC) $(SRC_VIS) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
+	@gcc -g $(FLAGS) $(SRC) $(SRC_VIS) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
 	@mv $(EXEC) ../$(EXEC)
 
 debug: fclean
 	@echo Compiling virtual machine for debug ...
-	@gcc -g $(SRC) $(SRC_VIS) $(SRC_FOR_DEBUG) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
+	@gcc -g $(FLAGS) $(SRC) $(SRC_VIS) $(SRC_FOR_DEBUG) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
 	@mv $(EXEC) ../$(EXEC)
 	@mv $(EXEC).dSYM ../$(EXEC).dSYM
 

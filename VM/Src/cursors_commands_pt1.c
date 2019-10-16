@@ -18,10 +18,10 @@ void	live(t_cursor *cursor)
 	int	arg;
 
 	i = 0;
-	while (PLAYER(i).identifier != cursor->player_id)
+	while (g_players[i].identifier != cursor->player_id)
 		i++;
 	arg = get_int_data(cursor->cur_pos + 1);
-	PLAYER(i).nbr_live++;
+	g_players[i].nbr_live++;
 	cursor->last_alive = CURRENT_CYCLE;
 	g_battlefield[cursor->cur_pos].write_cycles = 100;
 	if (g_vm->ver == 1 || g_vm->ver == 30)
@@ -29,10 +29,10 @@ void	live(t_cursor *cursor)
 	if (arg <= -1 && arg >= -g_vm->amount_players)
 	{
 		g_vm->last_live_player = ft_abs(arg);
-		PLAYER(i).last_alive = CURRENT_CYCLE;
+		g_players[i].last_alive = CURRENT_CYCLE;
 		if (g_vm->ver == 3)
 			ft_printf("Player %d (%s) is said to be alive\n",
-			(arg < 0) ? -arg : arg, PLAYER((arg < 0) ? -arg : arg - 1).name);
+			(arg < 0) ? -arg : arg, g_players[(arg < 0) ? -arg : arg - 1].name);
 	}
 	g_amount_live_operations++;
 	print_pc_movement(cursor, 5);
@@ -47,7 +47,7 @@ void	ld(t_cursor *cursor)
 	unsigned short	offset;
 
 	offset = 2;
-	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	codage = g_battlefield[cursor->cur_pos + 1].code;
 	if ((codage & 0xC0) == 0 || (codage & 0xC0) == 0x40
 							|| (codage & 0x30) != 0x10)
 	{
@@ -73,8 +73,8 @@ void	st(t_cursor *cursor)
 	short			temp;
 	unsigned char	codage;
 
-	codage = GET_CUR_POS_BYTE(&cursor, 1);
-	src_reg = GET_CUR_POS_BYTE(&cursor, 2);
+	codage = g_battlefield[cursor->cur_pos + 1].code;
+	src_reg = g_battlefield[cursor->cur_pos + 2].code;
 	if (check_reg(src_reg) && (codage & 0xC0) == 0x40 &&
 		(codage & 0x30) != 0 && (codage & 0x30) != 0x20)
 	{
@@ -86,11 +86,11 @@ void	st(t_cursor *cursor)
 			check_and_print_st(cursor, src_reg, temp);
 		}
 		else if ((codage & 0x10) == 16 &&
-			check_reg(GET_CUR_POS_BYTE(&cursor, 3)))
+			check_reg(g_battlefield[cursor->cur_pos + 3].code))
 		{
-			cursor->reg[GET_CUR_POS_BYTE(&cursor, 3) - 1] =
+			cursor->reg[g_battlefield[cursor->cur_pos + 3].code - 1] =
 									cursor->reg[src_reg - 1];
-			check_and_print_st(cursor, src_reg, GET_CUR_POS_BYTE(&cursor, 3));
+			check_and_print_st(cursor, src_reg, g_battlefield[cursor->cur_pos + 3].code);
 		}
 	}
 	jump_to_next_op(cursor, codage, 4, 2);
@@ -103,15 +103,15 @@ void	add(t_cursor *cursor)
 	unsigned char	dest_reg;
 	unsigned char	codage;
 
-	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	codage = g_battlefield[cursor->cur_pos + 1].code;
 	if (!(codage >= 84 && codage <= 87))
 	{
 		jump_to_next_op(cursor, codage, 4, 3);
 		return ;
 	}
-	src_reg_1 = GET_CUR_POS_BYTE(&cursor, 2);
-	src_reg_2 = GET_CUR_POS_BYTE(&cursor, 3);
-	dest_reg = GET_CUR_POS_BYTE(&cursor, 4);
+	src_reg_1 = g_battlefield[cursor->cur_pos + 2].code;
+	src_reg_2 = g_battlefield[cursor->cur_pos + 3].code;
+	dest_reg = g_battlefield[cursor->cur_pos + 4].code;
 	if (check_reg(src_reg_1) && check_reg(src_reg_2) && check_reg(dest_reg))
 	{
 		cursor->reg[dest_reg - 1] = cursor->reg[src_reg_1 - 1]
@@ -131,15 +131,15 @@ void	sub(t_cursor *cursor)
 	unsigned char	src_reg_2;
 	unsigned char	codage;
 
-	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	codage = g_battlefield[cursor->cur_pos + 1].code;
 	if (!(codage >= 84 && codage <= 87))
 	{
 		jump_to_next_op(cursor, codage, 4, 3);
 		return ;
 	}
-	src_reg_1 = GET_CUR_POS_BYTE(&cursor, 2);
-	src_reg_2 = GET_CUR_POS_BYTE(&cursor, 3);
-	dest_reg = GET_CUR_POS_BYTE(&cursor, 4);
+	src_reg_1 = g_battlefield[cursor->cur_pos + 2].code;
+	src_reg_2 = g_battlefield[cursor->cur_pos + 3].code;
+	dest_reg = g_battlefield[cursor->cur_pos + 4].code;
 	if (check_reg(src_reg_1) && check_reg(src_reg_2) && check_reg(dest_reg))
 	{
 		cursor->reg[dest_reg - 1] = cursor->reg[src_reg_1 - 1] -

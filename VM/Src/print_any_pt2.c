@@ -41,8 +41,8 @@ void	introduce(void)
 	ft_printf("Introducing contestants...\n");
 	while (++i < g_vm->amount_players)
 		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-			PLAYER(i).identifier, PLAYER(i).code_size,
-			PLAYER(i).name, PLAYER(i).comment);
+			g_players[i].identifier, g_players[i].code_size,
+			g_players[i].name, g_players[i].comment);
 }
 
 void	push_vis(t_cycles_to_die repeate, char *status)

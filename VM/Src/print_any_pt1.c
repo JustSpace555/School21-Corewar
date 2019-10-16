@@ -71,16 +71,16 @@ void	print_players(void)
 	while (++i < g_vm->amount_players)
 	{
 		j = 0;
-		ft_printf("Player number = %d\n", PLAYER(i).identifier);
-		ft_printf("Name = %s\n", PLAYER(i).name);
-		ft_printf("Comment = %s\n", PLAYER(i).comment);
-		ft_printf("Code size = %d\n", PLAYER(i).code_size);
+		ft_printf("Player number = %d\n", g_players[i].identifier);
+		ft_printf("Name = %s\n", g_players[i].name);
+		ft_printf("Comment = %s\n", g_players[i].comment);
+		ft_printf("Code size = %d\n", g_players[i].code_size);
 		printf("Code:\n");
-		while (j < PLAYER(i).code_size)
+		while (j < g_players[i].code_size)
 		{
 			if (j % 8 == 0 && j != 0)
 				printf("\n");
-			printf("%02hhx ", PLAYER(i).code[j]);
+			printf("%02hhx ", g_players[i].code[j]);
 			j += 1;
 		}
 		ft_printf("\n\n");

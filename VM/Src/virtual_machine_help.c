@@ -23,9 +23,9 @@ void	check_alive_cursors_cycle_body(t_cursors_list **current,
 										(*current)->cursor.cursror_id,
 					CURRENT_CYCLE - (*current)->cursor.last_alive, CTD);
 	g_battlefield[(*current)->cursor.cur_pos].cursor = false;
-	while (PLAYER(i).identifier != (*current)->cursor.player_id)
+	while (g_players[i].identifier != (*current)->cursor.player_id)
 		i++;
-	PLAYER(i).amount_cursors--;
+	g_players[i].amount_cursors--;
 	*current = (*current)->next;
 	if ((*prev)->next == *current)
 	{
@@ -43,7 +43,6 @@ void	check_alive_cursors_cycle_body(t_cursors_list **current,
 
 void	check_alive_cursors(void)
 {
-	int				i;
 	int				alive_cursors;
 	t_cursors_list	*current;
 	t_cursors_list	*prev;
@@ -91,7 +90,7 @@ void	push_winner(t_cycles_to_die repeate)
 	}
 	else if (g_vm->vis != 1 && !VIS_QUIT)
 		ft_printf("Contestant %d, \"%s\", has won !\n", g_vm->last_live_player,
-									PLAYER(g_vm->last_live_player - 1).name);
+									g_players[g_vm->last_live_player - 1].name);
 }
 
 void	inc_current_cycle_and_print(void)

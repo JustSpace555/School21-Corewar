@@ -35,7 +35,7 @@ int		check_for_overflow(void)
 	i = -1;
 	amount_memory = 0;
 	while (++i < g_vm->amount_players)
-		amount_memory += PLAYER(i).code_size;
+		amount_memory += g_players[i].code_size;
 	if (amount_memory > MEM_SIZE)
 	{
 		ft_fprintf(2, \

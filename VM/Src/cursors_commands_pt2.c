@@ -20,7 +20,7 @@ void	and(t_cursor *cursor)
 	int				second_arg;
 	int				third_arg;
 
-	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	codage = g_battlefield[cursor->cur_pos + 1].code;
 	if (!((codage & 0xC0) == 0 || (codage & 0x30) == 0 || (codage & 0xC) != 4))
 	{
 		offset = 2;
@@ -49,7 +49,7 @@ void	or(t_cursor *cursor)
 	int				second_arg;
 	int				third_arg;
 
-	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	codage = g_battlefield[cursor->cur_pos + 1].code;
 	if (!((codage & 0xC0) == 0 || (codage & 0x30) == 0 || (codage & 0xC) != 4))
 	{
 		offset = 2;
@@ -78,7 +78,7 @@ void	xor(t_cursor *cursor)
 	int				second_arg;
 	int				third_arg;
 
-	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	codage = g_battlefield[cursor->cur_pos + 1].code;
 	if (!((codage & 0xC0) == 0 || (codage & 0x30) == 0 || (codage & 0xC) != 4))
 	{
 		offset = 2;
@@ -129,7 +129,7 @@ void	ldi(t_cursor *cursor)
 	int				t_arg;
 	unsigned short	offset;
 
-	codage = GET_CUR_POS_BYTE(&cursor, 1);
+	codage = g_battlefield[cursor->cur_pos + 1].code;
 	if (!((codage & 0xC0) == 0 || (codage & 0x30) == 0x30 ||
 		(codage & 0x30) == 0 || (codage & 0xC) != 4))
 	{

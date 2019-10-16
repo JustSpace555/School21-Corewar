@@ -29,20 +29,20 @@ void	zeroing_cursors_args(int *plr_id)
 {
 	int	i;
 
-	CURSOR.bytes_to_next_op = 0;
-	CURSOR.carry = false;
-	CURSOR.cur_pos = PLAYER(--(*plr_id)).start_position;
-	CURSOR.cycle_exec = 0;
-	CURSOR.player_id = PLAYER(*plr_id).identifier;
-	CURSOR.cursror_id = PLAYER(*plr_id).identifier;
-	CURSOR.last_alive = 0;
-	CURSOR.operation_code = 0;
-	CURSOR.reg[0] = -PLAYER(*plr_id).identifier;
-	CURSOR.color = g_battlefield[CURSOR.cur_pos].color;
+	g_cursors->cursor.bytes_to_next_op = 0;
+	g_cursors->cursor.carry = false;
+	g_cursors->cursor.cur_pos = g_players[--(*plr_id)].start_position;
+	g_cursors->cursor.cycle_exec = 0;
+	g_cursors->cursor.player_id = g_players[*plr_id].identifier;
+	g_cursors->cursor.cursror_id = g_players[*plr_id].identifier;
+	g_cursors->cursor.last_alive = 0;
+	g_cursors->cursor.operation_code = 0;
+	g_cursors->cursor.reg[0] = -g_players[*plr_id].identifier;
+	g_cursors->cursor.color = g_battlefield[g_cursors->cursor.cur_pos].color;
 	g_vm->cursors_id_iter++;
 	i = 0;
 	while (++i < 16)
-		CURSOR.reg[i] = 0;
+		g_cursors->cursor.reg[i] = 0;
 }
 
 void	vis_and_check(t_cycles_to_die *repeate)
@@ -60,7 +60,7 @@ void	process_operation(void)
 	current = g_cursors;
 	while (current)
 	{
-		choose_operaion(&current->cursor, GET_BYTE(current->cursor.cur_pos));
+		choose_operaion(&current->cursor, g_battlefield[current->cursor.cur_pos].code);
 		exec_operation(&current->cursor);
 		current = current->next;
 	}
@@ -72,5 +72,5 @@ void	zeroing_nbr_live(void)
 
 	i = -1;
 	while (++i < g_vm->amount_players)
-		PLAYER(i).nbr_live = 0;
+		g_players[i].nbr_live = 0;
 }

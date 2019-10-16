@@ -29,9 +29,9 @@ void			fill_battlefield(void)
 		g_players[i].start_position = byte;
 		g_battlefield[byte].cursor = true;
 		j = -1;
-		while (++j < PLAYER(i).code_size)
+		while (++j < g_players[i].code_size)
 		{
-			g_battlefield[byte].code = PLAYER(i).code[j];
+			g_battlefield[byte].code = g_players[i].code[j];
 			choose_color(&g_battlefield[byte], i);
 			byte++;
 		}
