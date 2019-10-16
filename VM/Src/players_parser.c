@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:44 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/16 12:34:05 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 14:34:42 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,7 @@ int		parse_champion_file_byte(char *champion_file,
 		make_g_player_code(*amount_bytes, buffer, i, &string_size);
 	}
 	close(fd);
-	if (sum != g_players[i].code_size)
-	{
-		ft_fprintf(2, "Error: File %s has a code size \
-that differ from what its header says\n", g_players[i].file_name);
-		return (-1);
-	}
-	return (1);
+	return (check_file_sum(sum, i));
 }
 
 int		players_parser(char **files_champions)
