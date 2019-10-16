@@ -24,6 +24,7 @@ int		parse_champion_file_byte(char *champion_file,
 	initialize_one_g_player(i);
 	if (check_fd(&fd, champion_file) == -1)
 		return (-1);
+	g_players[i].file_name = champion_file;
 	sum = 0;
 	while ((temp = read(fd, buffer, 4)))
 	{
@@ -39,7 +40,13 @@ int		parse_champion_file_byte(char *champion_file,
 		make_g_player_code(*amount_bytes, buffer, i, &string_size);
 	}
 	close(fd);
-	return (check_file_sum(sum, i));
+	if (sum != g_players[i].code_size)
+	{
+		ft_fprintf(2, "Error: File %s has a code size \
+that differ from what its header says\n", g_players[i].file_name);
+		return (-1);
+	}
+	return (1);
 }
 
 int		players_parser(char **files_champions)
@@ -52,7 +59,7 @@ int		players_parser(char **files_champions)
 	while (++i < g_vm->amount_players)
 	{
 		amount_bytes = 0;
-		PLAYER(i).file_name = files_champions[i];
+		g_players[i].file_name = files_champions[i];
 		if (parse_champion_file_byte(files_champions[i],\
 			i, &amount_bytes) == -1)
 			return (-1);

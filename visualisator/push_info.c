@@ -42,7 +42,7 @@ void	push_live_breakdown(int y)
 		i = -1;
 		while (++i < g_vm->amount_players)
 		{
-			coor.w = PLAYER(i).nbr_live * k;
+			coor.w = g_players[i].nbr_live * k;
 			set_render_draw_color(choose_color_char(i));
 			SDL_RenderFillRectF(g_main_render, &coor);
 			coor.x += coor.w;
@@ -152,15 +152,15 @@ void	push_players(int start_y)
 	{
 		push_int_text(i + 1, "Player # ", pos, White);
 		set_sdl_color(&color, i);
-		push_char_text(PLAYER(i).name, pos + 20, color);
-		push_int_text(PLAYER(i).identifier, "ID: ", pos + 40, White);
-		push_int_text(PLAYER(i).last_alive, "Last alive: ", pos + 60, White);
-		push_int_text(PLAYER(i).nbr_live, "Lives in current period : ", pos + 80, White);
-		push_int_text(PLAYER(i).amount_cursors, "Amount of coaches: ", pos + 100, White);
-		if (PLAYER(i).aff_out)
+		push_char_text(g_players[i].name, pos + 20, color);
+		push_int_text(g_players[i].identifier, "ID: ", pos + 40, White);
+		push_int_text(g_players[i].last_alive, "Last alive: ", pos + 60, White);
+		push_int_text(g_players[i].nbr_live, "Lives in current period : ", pos + 80, White);
+		push_int_text(g_players[i].amount_cursors, "Amount of coaches: ", pos + 100, White);
+		if (g_players[i].aff_out)
 		{
 			push_char_text("Player aff out: ", pos + 120, White);
-			push_char_text(PLAYER(i).aff_out, pos + 140, White);
+			push_char_text(g_players[i].aff_out, pos + 140, White);
 		}
 		pos += 160;
 	}
@@ -187,10 +187,10 @@ void	push_winner_vis(void)
 	SDL_RenderCopy(g_main_render, text_texture, NULL, &pos);
 	SDL_DestroyTexture(text_texture);
 	pos.x += pos.w + 10;
-	text_surface = TTF_RenderText_Solid(g_font, PLAYER(g_vm->last_live_player - 1).name, winner);
+	text_surface = TTF_RenderText_Solid(g_font, g_players[g_vm->last_live_player - 1].name, winner);
 	text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);
 	SDL_FreeSurface(text_surface);
-	TTF_SizeText(g_font, PLAYER(g_vm->last_live_player - 1).name, &pos.w, &pos.h);
+	TTF_SizeText(g_font, g_players[g_vm->last_live_player - 1].name, &pos.w, &pos.h);
 	SDL_RenderCopy(g_main_render, text_texture, NULL, &pos);
 	SDL_DestroyTexture(text_texture);
 }

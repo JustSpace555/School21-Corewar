@@ -65,9 +65,9 @@ short			get_short_data(short addres)
 
 	addres = arena_truncation(addres);
 	res = 0;
-	res |= GET_BYTE(addres % MEM_SIZE);
+	res |= g_battlefield[addres % MEM_SIZE].code;
 	res <<= 8;
-	res |= GET_BYTE((addres + 1) % MEM_SIZE);
+	res |= g_battlefield[(addres + 1) % MEM_SIZE].code;
 	return (res);
 }
 
@@ -81,7 +81,7 @@ unsigned int	get_int_data(short addres)
 	addres = arena_truncation(addres);
 	while (++i < 4)
 	{
-		res |= GET_BYTE((addres + i) % MEM_SIZE);
+		res |= g_battlefield[(addres + i) % MEM_SIZE].code;
 		if (i <= 2)
 			res <<= 8;
 	}

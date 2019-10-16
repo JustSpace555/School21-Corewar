@@ -39,11 +39,11 @@ void	push_to_render_battlefield(void)
 			cell.x = cell.w * j;
 			cell.y = cell.h * i;
 			SDL_SetRenderDrawColor(g_main_render,
-				BATTLEFIELD_CELL(i, j, lines_count).color_r + BATTLEFIELD_CELL(i, j, lines_count).write_cycles,
-				BATTLEFIELD_CELL(i, j, lines_count).color_g + BATTLEFIELD_CELL(i, j, lines_count).write_cycles,
-				BATTLEFIELD_CELL(i, j, lines_count).color_b + BATTLEFIELD_CELL(i, j, lines_count).write_cycles, 255);
-			if (!VIS_PAUSE && BATTLEFIELD_CELL(i, j, lines_count).write_cycles > 0)
-				BATTLEFIELD_CELL(i, j, lines_count).write_cycles--;
+				g_battlefield[i + j + lines_count].color_r + g_battlefield[i + j + lines_count].write_cycles,
+				g_battlefield[i + j + lines_count].color_g + g_battlefield[i + j + lines_count].write_cycles,
+				g_battlefield[i + j + lines_count].color_b + g_battlefield[i + j + lines_count].write_cycles, 255);
+			if (!VIS_PAUSE && g_battlefield[i + j + lines_count].write_cycles > 0)
+				g_battlefield[i + j + lines_count].write_cycles--;
 			SDL_RenderFillRectF(g_main_render, &cell);
 		}
 		lines_count += j - 1;

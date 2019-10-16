@@ -10,7 +10,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/corewar",
-			"args": ["vm_champs/test_life.cor", "vm_champs/-li.cor", "-vi"],
+			"args": ["vm_champs/champs/jumper.cor", "-n", "3", "vm_champs/champs/jumper.cor"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

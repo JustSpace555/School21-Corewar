@@ -35,7 +35,7 @@ unsigned int	get_first_arg(t_cursor *cursor, unsigned char codage,
 	}
 	else if ((codage & 0x40) == 64)
 	{
-		reg_i = GET_BYTE(pos);
+		reg_i = g_battlefield[pos].code;
 		result = reg_i;
 		*offset += 1;
 	}
@@ -65,7 +65,7 @@ unsigned int	get_second_arg(t_cursor *cursor, unsigned char codage,
 	}
 	else if ((codage & 0x10) == 16)
 	{
-		reg_i = GET_BYTE(pos);
+		reg_i = g_battlefield[pos].code;
 		result = reg_i;
 		*offset += 1;
 	}
@@ -95,7 +95,7 @@ unsigned int	get_third_arg(t_cursor *cursor, unsigned char codage,
 	}
 	else if ((codage & 0x4) == 4)
 	{
-		reg_i = GET_BYTE(pos);
+		reg_i = g_battlefield[pos].code;
 		result = reg_i;
 		*offset += 1;
 	}

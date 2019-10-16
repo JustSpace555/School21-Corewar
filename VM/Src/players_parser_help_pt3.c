@@ -35,7 +35,7 @@ int		check_for_overflow(void)
 	i = -1;
 	amount_memory = 0;
 	while (++i < g_vm->amount_players)
-		amount_memory += PLAYER(i).code_size;
+		amount_memory += g_players[i].code_size;
 	if (amount_memory > MEM_SIZE)
 	{
 		ft_fprintf(2, \
@@ -59,10 +59,10 @@ int		check_fd(int *fd, char *champion_file)
 
 int		check_file_sum(int sum, int i)
 {
-	if (sum != PLAYER(i).code_size)
+	if (sum != g_players[i].code_size)
 	{
 		ft_fprintf(2, "Error: File %s has a code size \
-that differ from what its header says\n", PLAYER(i).file_name);
+that differ from what its header says\n", g_players[i].file_name);
 		return (-1);
 	}
 	return (1);

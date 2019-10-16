@@ -54,17 +54,17 @@ void	initialize_g_players(void)
 	i = -1;
 	while (++i < g_vm->amount_players)
 	{
-		PLAYER(i).file_name = NULL;
-		PLAYER(i).start_position = 0;
-		PLAYER(i).code = NULL;
-		PLAYER(i).code_size = 0;
-		PLAYER(i).comment = NULL;
-		PLAYER(i).identifier = 0;
-		PLAYER(i).name = NULL;
-		PLAYER(i).last_alive = 0;
-		PLAYER(i).nbr_live = 0;
-		PLAYER(i).amount_cursors = 1;
-		PLAYER(i).aff_out = NULL;
+		g_players[i].file_name = NULL;
+		g_players[i].start_position = 0;
+		g_players[i].code = NULL;
+		g_players[i].code_size = 0;
+		g_players[i].comment = NULL;
+		g_players[i].identifier = 0;
+		g_players[i].name = NULL;
+		g_players[i].last_alive = 0;
+		g_players[i].nbr_live = 0;
+		g_players[i].amount_cursors = 1;
+		g_players[i].aff_out = NULL;
 	}
 }
 
@@ -90,7 +90,6 @@ void	initialize_battlefield(void)
 void	initialize_cursors(void)
 {
 	int				i;
-	int				j;
 	int				plr_id;
 	t_cursors_list	*current;
 
