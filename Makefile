@@ -4,6 +4,11 @@ all:
 	@make -C ./Assembler/
 	@make -C ./VM/
 
+clean:
+	@make -C ./libft/ clean
+	@make -C ./Assembler/libft clean
+	@make -C ./Assembler/ clean
+
 fclean:
 	@make -C ./libft/ fclean
 	@make -C ./Assembler/libft fclean
