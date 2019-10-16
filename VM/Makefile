@@ -6,7 +6,7 @@
 #    By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/14 13:06:10 by qmebble           #+#    #+#              #
-#    Updated: 2019/10/16 12:36:31 by qmebble          ###   ########.fr        #
+#    Updated: 2019/10/16 13:41:03 by qmebble          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRC =	$(SRC_FOLDER)main.c \
 		$(SRC_FOLDER)free_data.c \
 		$(SRC_FOLDER)print_help.c
 
-SRC_VIS_FOLDER = ../visualisator/
+SRC_VIS_FOLDER = ../Visualisator/
 SRC_VIS =	$(SRC_VIS_FOLDER)visualisator.c \
 			$(SRC_VIS_FOLDER)push_info.c \
 			$(SRC_VIS_FOLDER)visualisator_help.c
