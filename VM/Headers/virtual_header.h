@@ -14,7 +14,7 @@
 # define VIRTUAL_HEADER_H
 
 # include "../../libft/Headers/libft.h"
-# include "../../visualisator/visualisator.h"
+# include "../../Visualisator/visualisator.h"
 # include "op.h"
 
 # define BYTES_AFTER_HEADER 4
