@@ -30,7 +30,8 @@ int		make_g_player_size(int amount_bytes, uint8_t buffer[4], int i)
 		if (g_players[i].code_size > CHAMP_MAX_SIZE)
 		{
 			ft_fprintf(2, "Error: File %s has too large code \
-(%d bytes > %d bytes)\n", g_players[i].file_name, g_players[i].code_size, CHAMP_MAX_SIZE);
+(%d bytes > %d bytes)\n", g_players[i].file_name, g_players[i].code_size, \
+				CHAMP_MAX_SIZE);
 			return (0);
 		}
 		if (g_players[i].code_size == 0)

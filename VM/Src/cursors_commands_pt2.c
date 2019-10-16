@@ -143,7 +143,7 @@ void	ldi(t_cursor *cursor)
 		{
 			cursor->reg[t_arg - 1] = get_int_data(cursor->cur_pos +
 										(f_arg + s_arg) % IDX_MOD);
-			check_and_print_ldi(cursor, f_arg, s_arg, t_arg);
+			print_ldi(cursor, f_arg, s_arg, t_arg);
 		}
 	}
 	jump_to_next_op(cursor, codage, 2, 3);

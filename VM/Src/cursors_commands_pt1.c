@@ -32,7 +32,8 @@ void	live(t_cursor *cursor)
 		g_players[i].last_alive = CURRENT_CYCLE;
 		if (g_vm->ver == 3)
 			ft_printf("Player %d (%s) is said to be alive\n",
-			(arg < 0) ? -arg : arg, g_players[(arg < 0) ? -arg - 1 : arg - 1].name);
+			(arg < 0) ? -arg : arg, \
+			g_players[(arg < 0) ? -arg - 1 : arg - 1].name);
 	}
 	g_amount_live_operations++;
 	print_pc_movement(cursor, 5);
@@ -83,14 +84,14 @@ void	st(t_cursor *cursor)
 			temp = get_short_data(cursor->cur_pos + 3);
 			write_int_data(cursor->cur_pos + temp % IDX_MOD,
 					cursor->reg[src_reg - 1], cursor->color);
-			check_and_print_st(cursor, src_reg, temp);
+			print_st(cursor, src_reg, temp);
 		}
 		else if ((codage & 0x10) == 16 &&
 			check_reg(g_battlefield[cursor->cur_pos + 3].code))
 		{
 			cursor->reg[g_battlefield[cursor->cur_pos + 3].code - 1] =
 									cursor->reg[src_reg - 1];
-			check_and_print_st(cursor, src_reg, g_battlefield[cursor->cur_pos + 3].code);
+			print_st(cursor, src_reg, g_battlefield[cursor->cur_pos + 3].code);
 		}
 	}
 	jump_to_next_op(cursor, codage, 4, 2);

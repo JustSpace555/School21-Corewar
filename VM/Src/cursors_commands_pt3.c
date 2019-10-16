@@ -62,7 +62,7 @@ void	lld(t_cursor *cursor)
 		if (check_reg(s_arg))
 		{
 			cursor->reg[s_arg - 1] = f_arg;
-			check_and_print_lld(cursor, f_arg, s_arg);
+			print_lld(cursor, f_arg, s_arg);
 			cursor->carry = (cursor->reg[s_arg - 1] == 0) ? true : false;
 		}
 	}

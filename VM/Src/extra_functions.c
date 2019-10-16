@@ -60,7 +60,8 @@ void	process_operation(void)
 	current = g_cursors;
 	while (current)
 	{
-		choose_operaion(&current->cursor, g_battlefield[current->cursor.cur_pos].code);
+		choose_operaion(&current->cursor, \
+		g_battlefield[current->cursor.cur_pos].code);
 		exec_operation(&current->cursor);
 		current = current->next;
 	}
