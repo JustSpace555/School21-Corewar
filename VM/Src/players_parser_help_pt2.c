@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:38 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 16:40:40 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 11:12:46 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int		make_g_player_size(int amount_bytes, uint8_t buffer[4], int i)
 		if (PLAYER(i).code_size > CHAMP_MAX_SIZE)
 		{
 			ft_fprintf(2, "Error: File %s has too large code \
-(%d bytes > %d bytes)\n", PLAYER(i).file_name, PLAYER(i).code_size, CHAMP_MAX_SIZE);
+(%d bytes > %d bytes)\n", PLAYER(i).file_name,
+						PLAYER(i).code_size, CHAMP_MAX_SIZE);
 			return (0);
 		}
 		if (PLAYER(i).code_size == 0)
