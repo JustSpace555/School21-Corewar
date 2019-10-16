@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:38 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 16:40:40 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 12:39:51 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	make_g_player_code(int amount_bytes, uint8_t buffer[4],
 			ft_bzero(g_players[i].code, g_players[i].code_size);
 		}
 		copy_bytes_to_string(g_players[i].code, buffer,
-					*string_size, *string_size += 4);
+					*string_size, g_players[i].code_size);
+		*string_size += 4;
 	}
 }
 

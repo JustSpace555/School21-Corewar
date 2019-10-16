@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:06:20 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 16:41:25 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 12:34:40 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,6 @@ void						inc_current_cycle_and_print(void);
 int							check_flags(int argc, char **ar, int *i);
 int							check_file(char *argument);
 
-
 /*
 **							Free memory
 */
@@ -244,6 +243,7 @@ void						make_g_player_comment(int amount_bytes,
 void						make_g_player_code(int amount_bytes,
 								uint8_t buffer[4], int i, int *string_size);
 int							check_for_overflow(void);
+int							check_file_sum(int sum, int i);
 
 /*
 **							Main funcions

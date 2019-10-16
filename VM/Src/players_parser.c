@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:44 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 16:41:56 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 12:34:05 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int		players_parser(char **files_champions)
 	while (++i < g_vm->amount_players)
 	{
 		amount_bytes = 0;
+		g_players[i].file_name = files_champions[i];
 		if (parse_champion_file_byte(files_champions[i],\
 			i, &amount_bytes) == -1)
 			return (-1);
