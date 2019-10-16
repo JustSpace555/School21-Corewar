@@ -6,7 +6,7 @@
 #    By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/14 13:06:10 by qmebble           #+#    #+#              #
-#    Updated: 2019/10/14 13:06:13 by qmebble          ###   ########.fr        #
+#    Updated: 2019/10/16 12:36:31 by qmebble          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ EXEC = corewar
 all:
 	@echo Compiling virtual machine ...
 	@bash $(SRC_VIS_FOLDER)script.bash
-	@gcc -g $(SRC) $(SRC_VIS) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
+	@gcc $(SRC) $(SRC_VIS) $(FRAMEWORKS) -I $(INCLUDE_FOLDER) ../libft.a -o $(EXEC)
 	@mv $(EXEC) ../$(EXEC)
 
 debug: fclean

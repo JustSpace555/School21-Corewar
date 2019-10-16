@@ -6,22 +6,11 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:44 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/16 11:17:33 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 12:34:05 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/virtual_header.h"
-
-int		check_file_sum(int sum, int i)
-{
-	if (sum != PLAYER(i).code_size)
-	{
-		ft_fprintf(2, "Error: File %s has a code size \
-that differ from what its header says\n", PLAYER(i).file_name);
-		return (-1);
-	}
-	return (1);
-}
 
 int		parse_champion_file_byte(char *champion_file,
 								int i, int *amount_bytes)

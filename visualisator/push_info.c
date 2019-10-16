@@ -178,6 +178,7 @@ void	push_winner_vis(void)
 	pos.y = SCREEN_HEIGHT - 120;
 	text_surface = NULL;
 	text_texture = NULL;
+	winner.a = 255;
 	set_sdl_color(&winner, g_vm->last_live_player - 1);
 	text_surface = TTF_RenderText_Solid(g_font, "Winner is: ", White);
 	text_texture = SDL_CreateTextureFromSurface(g_main_render, text_surface);

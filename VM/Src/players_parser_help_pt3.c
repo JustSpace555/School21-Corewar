@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:42 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 16:34:29 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/16 12:34:12 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,17 @@ int		check_fd(int *fd, char *champion_file)
 	if (*fd == -1)
 	{
 		ft_fprintf(2, "Failed to open file: %s\n", champion_file);
+		return (-1);
+	}
+	return (1);
+}
+
+int		check_file_sum(int sum, int i)
+{
+	if (sum != PLAYER(i).code_size)
+	{
+		ft_fprintf(2, "Error: File %s has a code size \
+that differ from what its header says\n", PLAYER(i).file_name);
 		return (-1);
 	}
 	return (1);
