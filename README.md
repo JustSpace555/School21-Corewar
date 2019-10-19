@@ -23,12 +23,12 @@ in official competitions in 2016, [2017][2017_champ] and [2018][2018_champ] year
 ## How to clone
 This repository includes submodule. So if you want to clone it, you can use the following command:
 
-	`git clone --recurse-submodules <repository url>`
+	git clone --recurse-submodules <repository url>
 
 ## Installation
 Clone repository and then go into the created directory and run the following command:
 
-	`make`
+	make
 
 ## Usage
 ### `asm`
