@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:06:20 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/16 17:06:22 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/19 23:48:12 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define VIRTUAL_HEADER_H
 
 # include "../../libft/Headers/libft.h"
-# include "../../Visualisator/visualisator.h"
+# include "../../Vizualizator/vizualizator.h"
 # include "op.h"
 
 # define BYTES_AFTER_HEADER 4

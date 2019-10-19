@@ -1,4 +1,4 @@
-#include "visualisator.h"
+#include "vizualizator.h"
 
 void	push_info(int amount_checks, char *status)
 {

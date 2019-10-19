@@ -1,5 +1,5 @@
-#ifndef VISUALISATOR_H
-# define VISUALISATOR_H
+#ifndef VIZUALIZATOR_H
+# define VIZUALIZATOR_H
 
 #include "SDL2.framework/Headers/SDL.h"
 #include "SDL2_ttf.framework/Headers/SDL_ttf.h"

@@ -1,4 +1,4 @@
-#include "visualisator.h"
+#include "vizualizator.h"
 
 void	push_distribution(float y)
 {

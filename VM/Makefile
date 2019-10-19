@@ -6,7 +6,7 @@
 #    By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/14 13:06:10 by qmebble           #+#    #+#              #
-#    Updated: 2019/10/16 15:08:39 by qmebble          ###   ########.fr        #
+#    Updated: 2019/10/19 23:49:30 by qmebble          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,15 +40,15 @@ SRC =	$(SRC_FOLDER)main.c \
 		$(SRC_FOLDER)free_data.c \
 		$(SRC_FOLDER)print_help.c
 
-SRC_VIS_FOLDER = ../Visualisator/
-SRC_VIS =	$(SRC_VIS_FOLDER)visualisator.c \
+SRC_VIS_FOLDER = ../Vizualizator/
+SRC_VIS =	$(SRC_VIS_FOLDER)vizualizator.c \
 			$(SRC_VIS_FOLDER)push_info.c \
-			$(SRC_VIS_FOLDER)visualisator_help.c
+			$(SRC_VIS_FOLDER)vizualizator_help.c
 
 INCLUDE_FOLDER = Headers/
 INCLUDE =	$(INCLUDE_FOLDER)virtual_header.h \
 			$(INCLUDE_FOLDER)op.h \
-			$(SRC_VIS_FOLDER)visualisator.h
+			$(SRC_VIS_FOLDER)vizualizator.h
 
 LIB_FOLDER = ../libft/Src/
 SRC_FOR_DEBUG = $(LIB_FOLDER)main_functions/ft_itoa.c

@@ -1,4 +1,4 @@
-#include "visualisator.h"
+#include "vizualizator.h"
 
 int			init()
 {
