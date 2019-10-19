@@ -4,13 +4,15 @@
 > two or more battle programs (called "warriors") compete for control of a virtual computer.
 > These battle programs are written in an abstract assembly language called Redcode.
 
-Project Structure
+## Project Structure
+
 This project consists of five parts:
 
 + Champion
 + Assembler
 + Virtual Machine
 + Visualizer (Bonus)
+
 Project has one developed champion: squash.s It is located at the [Champion directory][Champ_dir].
 Also you can find in the folder [vm_champs][vm_champs_dir] both standard warriors and those who participated
 in official competitions in 2016, [2017][2017_champ] and [2018][2018_champ] years
