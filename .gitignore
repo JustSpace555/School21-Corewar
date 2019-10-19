@@ -57,3 +57,4 @@ cmake-build-debug
 .vscode
 corewar
 asm
+.DS_Store
