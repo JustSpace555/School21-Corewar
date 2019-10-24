@@ -24,7 +24,7 @@ int			init()
 		ft_printf("SDL_ttf couldn't initialize. SDL error: %s\n", TTF_GetError());
 		return (0);
 	}
-	if (!(g_font = TTF_OpenFont("visualisator/InputMono-Regular.ttf", 15)))
+	if (!(g_font = TTF_OpenFont("vizualizator/InputMono-Regular.ttf", 15)))
 	{
 		ft_printf("%s\n", TTF_GetError());
 		return (0);

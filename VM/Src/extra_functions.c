@@ -6,7 +6,7 @@
 /*   By: qmebble <qmebble@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 13:05:01 by qmebble           #+#    #+#             */
-/*   Updated: 2019/10/14 13:05:02 by qmebble          ###   ########.fr       */
+/*   Updated: 2019/10/24 21:09:05 by qmebble          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	zeroing_cursors_args(int *plr_id)
 	g_cursors->cursor.color = g_battlefield[g_cursors->cursor.cur_pos].color;
 	g_vm->cursors_id_iter++;
 	i = 0;
-	while (++i < 16)
+	while (++i < REG_NUMBER)
 		g_cursors->cursor.reg[i] = 0;
 }
 
